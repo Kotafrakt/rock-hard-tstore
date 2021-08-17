@@ -7,5 +7,6 @@ namespace TStore.Business.Services
     {
         TransactionDto AddTransaction(TransactionDto dto);
         List<TransactionDto> GetAllTransactions();
+        List<TransactionDto> GetTransactionsByAccountId(int accountId);
     }
 }

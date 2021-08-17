@@ -47,5 +47,16 @@ namespace TStore.API.Controllers
             return listOutputs;
         }
 
+        // api/transaction/by-accountId/{accountId}
+        [HttpPost("transaction/by-accountId/{accountId}")]
+        [Description("Get transactions by account")]
+        public List<TransactionOutputModel> GetTransactionsByAccountId(int accountId)
+        {
+            var resultDto = _transactionService.GetTransactionsByAccountId(accountId);
+            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
+
+            return listOutputs;
+        }
+
     }
 }

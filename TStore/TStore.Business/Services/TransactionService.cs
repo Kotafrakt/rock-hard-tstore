@@ -26,5 +26,11 @@ namespace TStore.Business.Services
             var transactionListDtos = _transactionRepository.GetAllTransactions();
             return transactionListDtos;
         }
+        
+        public List<TransactionDto> GetTransactionsByAccountId(int accountId)
+        {
+            var transactionListDtos = _transactionRepository.GetTransactionsByAccountId(accountId);
+            return transactionListDtos;
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace TStore.DAL.Repositories
     {
         int AddTransaction(TransactionDto dto);
         List<TransactionDto> GetAllTransactions();
+        List<TransactionDto> GetTransactionsByAccountId(int accountId);
     }
 }
