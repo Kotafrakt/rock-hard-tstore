@@ -32,7 +32,7 @@ namespace TStore.DAL.Repositories
                 );
         }
 
-        public List<TransactionDto> GetAllTransaction()
+        public List<TransactionDto> GetAllTransactions()
         {
             return _connection.Query<TransactionDto>(
                 _transactionkSelectAll,

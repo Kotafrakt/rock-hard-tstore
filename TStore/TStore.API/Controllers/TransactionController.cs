@@ -41,7 +41,7 @@ namespace TStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public List<TransactionOutputModel> GetAllTransactions()
         {
-            var resultDto = _transactionService.GetAllTransaction();
+            var resultDto = _transactionService.GetAllTransactions();
             var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
 
             return listOutputs;

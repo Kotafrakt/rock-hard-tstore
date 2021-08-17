@@ -6,6 +6,6 @@ namespace TStore.DAL.Repositories
     public interface ITransactionRepository
     {
         int AddTransaction(TransactionDto dto);
-        List<TransactionDto> GetAllTransaction();
+        List<TransactionDto> GetAllTransactions();
     }
 }

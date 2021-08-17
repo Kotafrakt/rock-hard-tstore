@@ -21,9 +21,9 @@ namespace TStore.Business.Services
             return dto;
         }
 
-        public List<TransactionDto> GetAllTransaction()
+        public List<TransactionDto> GetAllTransactions()
         {
-            var transactionListDtos = _transactionRepository.GetAllTransaction();
+            var transactionListDtos = _transactionRepository.GetAllTransactions();
             return transactionListDtos;
         }
     }

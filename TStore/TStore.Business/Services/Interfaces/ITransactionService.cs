@@ -6,6 +6,6 @@ namespace TStore.Business.Services
     public interface ITransactionService
     {
         TransactionDto AddTransaction(TransactionDto dto);
-        List<TransactionDto> GetAllTransaction();
+        List<TransactionDto> GetAllTransactions();
     }
 }
