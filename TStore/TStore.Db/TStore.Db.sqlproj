@@ -59,8 +59,11 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="StoredProcedures\Transaction" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_Insert.sql" />
   </ItemGroup>
 </Project>
