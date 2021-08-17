@@ -7,7 +7,7 @@ using TStore.DAL.Models;
 
 namespace TStore.DAL.Repositories
 {
-    public class TransactionRepository
+    public class TransactionRepository : ITransactionRepository
     {
         protected const string _connectionString =
             @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=QQQ0817; Persist Security Info=False;";
@@ -39,8 +39,7 @@ namespace TStore.DAL.Repositories
 
         public List<TransactionDto> GetAllTransaction()
         {
-            return _connection
-                .Query<TransactionDto>(
+            return _connection.Query<TransactionDto>(
                 _transactionkSelectAll,
                     commandType: CommandType.StoredProcedure
                 )
