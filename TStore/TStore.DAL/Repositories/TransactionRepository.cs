@@ -7,19 +7,14 @@ using TStore.DAL.Models;
 
 namespace TStore.DAL.Repositories
 {
-    public class TransactionRepository : ITransactionRepository
+    public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        protected const string _connectionString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=QQQ0817; Persist Security Info=False;";
-
-        protected IDbConnection _connection;
-
         private const string _transactionkInsert = "dbo.Transaction_Insert";
         private const string _transactionkSelectAll = "dbo.Transaction_SelectAll";
 
-        protected TransactionRepository()
+        public TransactionRepository()
         {
-            _connection = new SqlConnection(_connectionString);
+
         }
 
         public int AddTransaction(TransactionDto dto)
