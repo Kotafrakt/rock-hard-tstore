@@ -65,5 +65,6 @@
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_Insert.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_SelectAll.sql" />
   </ItemGroup>
 </Project>
