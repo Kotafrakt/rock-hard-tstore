@@ -23,21 +23,15 @@ namespace TStore.API
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionService, TransactionService>();
-           // services.AddMvc();
 
             services.AddControllers();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TStore.API", Version = "v1" });
-            //});
 
-            services.AddSwaggerDocument(settings => {
-                settings.Title = "DevEdu Education API";
-                settings.Version = "v8";
+            services.AddSwaggerDocument(document => {
+                document.DocumentName = "Endpoints for TStore";
+                document.Title = "TStore API";
+                document.Version = "v8";
+                document.Description = "An interface for TStore.";
             });
-
-            // Add framework services. 
-            //services.AddOptions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,9 +50,6 @@ namespace TStore.API
 
             app.UseRouting();
 
-            //app.UseAuthorization();
-
-            //app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
