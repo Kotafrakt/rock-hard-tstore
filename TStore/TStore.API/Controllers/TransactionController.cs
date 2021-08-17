@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,18 +25,20 @@ namespace TStore.API.Controllers
         // api/transaction
         [HttpPost("transaction")]
         [Description("Add transaction")]
-        public TransactionOutputModel AddTransaction([FromBody] TransactionInputModel inputModel)
+        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
+        public ActionResult<TransactionOutputModel> AddTransaction([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
             var returnedDto = _transactionService.AddTransaction(dto);
             var output = _mapper.Map<TransactionOutputModel>(returnedDto);
 
-            return output;
+            return StatusCode(201, output);
         }
 
         // api/transaction/get-all-transactions
-        [HttpPost("transaction/get-all-transactions")]
+        [HttpGet("transaction/get-all-transactions")]
         [Description("Get all transactions")]
+        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public List<TransactionOutputModel> GetAllTransactions()
         {
             var resultDto = _transactionService.GetAllTransaction();
