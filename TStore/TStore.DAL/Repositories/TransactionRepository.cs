@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using Dapper;
 using System.Linq;
 using TStore.DAL.Models;
@@ -51,7 +50,5 @@ namespace TStore.DAL.Repositories
                 )
                 .ToList();
         }
-
-
     }
 }

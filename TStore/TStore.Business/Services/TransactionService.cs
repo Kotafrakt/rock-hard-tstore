@@ -17,7 +17,6 @@ namespace TStore.Business.Services
         {
             int transactionId = _transactionRepository.AddTransaction(dto);
             dto.Id = transactionId;
-
             return dto;
         }
 

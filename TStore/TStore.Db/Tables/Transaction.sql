@@ -6,4 +6,3 @@
     [Amount]          DECIMAL (14,3)    NOT NULL,
     CONSTRAINT [PK_TRANSACTION] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
-

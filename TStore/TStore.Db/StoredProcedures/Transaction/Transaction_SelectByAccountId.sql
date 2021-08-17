@@ -9,5 +9,5 @@ BEGIN
 		[Date],
 		Amount
 	FROM [dbo].[Transaction]
-		WHERE AccountId=@AccountId
+		WHERE AccountId = @AccountId
 END
