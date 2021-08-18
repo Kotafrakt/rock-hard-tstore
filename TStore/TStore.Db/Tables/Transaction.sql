@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [Transaction] (
-    [Id]              INT               NOT NULL IDENTITY (1, 1),
+    [Id]              BIGINT            NOT NULL IDENTITY (1, 1),
     [AccountId]       INT               NOT NULL,
     [TransactionType] INT               NOT NULL,
     [Date]            DATETIME2 (7)     NOT NULL,

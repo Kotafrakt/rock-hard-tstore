@@ -22,8 +22,8 @@ namespace TStore.API.Controllers
             _mapper = mapper;
         }
 
-        // api/transaction
-        [HttpPost("transaction")]
+        // api/transaction/add-transaction
+        [HttpPost("add-transaction")]
         [Description("Add transaction")]
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
         public ActionResult<TransactionOutputModel> AddTransaction([FromBody] TransactionInputModel inputModel)
@@ -35,8 +35,8 @@ namespace TStore.API.Controllers
             return StatusCode(201, output);
         }
 
-        // api/transaction/get-all-transactions
-        [HttpGet("transaction/get-all-transactions")]
+        // api/transaction
+        [HttpGet]
         [Description("Get all transactions")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public List<TransactionOutputModel> GetAllTransactions()
@@ -46,8 +46,8 @@ namespace TStore.API.Controllers
             return listOutputs;
         }
 
-        // api/transaction/by-accountId/{accountId}
-        [HttpPost("transaction/by-accountId/{accountId}")]
+        // api/transaction/by-account/{accountId}
+        [HttpGet("by-account/{accountId}")]
         [Description("Get transactions by account")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public List<TransactionOutputModel> GetTransactionsByAccountId(int accountId)

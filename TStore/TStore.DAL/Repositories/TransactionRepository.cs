@@ -12,20 +12,14 @@ namespace TStore.DAL.Repositories
         private const string _transactionkSelectAll = "dbo.Transaction_SelectAll";
         private const string _transactionkSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
-        public TransactionRepository()
-        {
-
-        }
-
         public int AddTransaction(TransactionDto dto)
         {
-            return _connection.QuerySingle<int>(
+            return _connection.QuerySingleOrDefault<int>(
                 _transactionkInsert,
                 new
                 {
                     dto.AccountId,
                     dto.TransactionType,
-                    dto.Date,
                     dto.Amount
                 },
                 commandType: CommandType.StoredProcedure
