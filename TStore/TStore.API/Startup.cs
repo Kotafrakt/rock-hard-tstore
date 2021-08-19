@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TStore.API.Configuration;
 using TStore.Business.Services;
 using TStore.DAL.Repositories;
 
@@ -43,6 +44,8 @@ namespace TStore.API
                 app.UseOpenApi();
                 app.UseSwaggerUi3();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
