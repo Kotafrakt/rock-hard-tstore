@@ -2,9 +2,11 @@
 using System.Data;
 using Dapper;
 using System.Linq;
-using TStore.DAL.Models;
+using TransactionStore.DAL.Models;
+using TransactionStore.Core;
+using Microsoft.Extensions.Options;
 
-namespace TStore.DAL.Repositories
+namespace TransactionStore.DAL.Repositories
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
@@ -12,6 +14,7 @@ namespace TStore.DAL.Repositories
         private const string _transactionkSelectAll = "dbo.Transaction_SelectAll";
         private const string _transactionkSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
+        public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
         public int AddTransaction(TransactionDto dto)
         {
             return _connection.QuerySingleOrDefault<int>(

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TStore.DAL.Models
+namespace TransactionStore.DAL.Models
 {
     public class TransactionDto
     {

@@ -3,16 +3,23 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TStore.Business.Services;
-using TStore.DAL.Repositories;
+using TransactionStore.Core;
+using TransactionStore.API.Extentions;
+using TransactionStore.Business.Services;
+using TransactionStore.DAL.Repositories;
 
-namespace TStore.API
+namespace TransactionStore.API
 {
     public class Startup
     {
+        private const string _pathToEnvironment = "ASPNETCORE_ENVIRONMENT";
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var currentEnvironment = configuration.GetValue<string>(_pathToEnvironment);
+            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.{currentEnvironment}.json");
+
+            Configuration = builder.Build();
+            Configuration.SetEnvironmentVariableForConfiguration();
         }
 
         public IConfiguration Configuration { get; }
@@ -21,16 +28,17 @@ namespace TStore.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
-            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddAppConfiguration(Configuration);
+            services.AddCustomServices();
+            services.AddRepositories();
 
             services.AddControllers();
 
             services.AddSwaggerDocument(document => {
-                document.DocumentName = "Endpoints for TStore";
-                document.Title = "TStore API";
+                document.DocumentName = "Endpoints for TransactionStore";
+                document.Title = "TransactionStore API";
                 document.Version = "v8";
-                document.Description = "An interface for TStore.";
+                document.Description = "An interface for TransactionStore.";
             });
         }
 

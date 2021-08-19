@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace TStore.API
+namespace TransactionStore.API
 {
     public class Program
     {

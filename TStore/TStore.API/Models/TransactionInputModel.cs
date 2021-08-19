@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TStore.API.Models
+namespace TransactionStore.API.Models
 {
     public class TransactionInputModel
     {

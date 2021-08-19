@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TransactionStore.Core\TransactionStore.Core.csproj" />
+    <ProjectReference Include="..\TStore.Business\TransactionStore.Business.csproj" />
+  </ItemGroup>
+
+</Project>

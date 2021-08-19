@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TStore.DAL.Models;
+using TransactionStore.DAL.Models;
 
-namespace TStore.DAL.Repositories
+namespace TransactionStore.DAL.Repositories
 { 
     public interface ITransactionRepository
     {

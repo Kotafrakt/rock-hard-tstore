@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TStore.DAL.Models;
+using TransactionStore.DAL.Models;
 
-namespace TStore.Business.Services
+namespace TransactionStore.Business.Services
 {
     public interface ITransactionService
     {

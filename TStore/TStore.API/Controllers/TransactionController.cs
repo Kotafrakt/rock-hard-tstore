@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel;
-using TStore.API.Models;
-using TStore.Business.Services;
-using TStore.DAL.Models;
+using TransactionStore.API.Models;
+using TransactionStore.Business.Services;
+using TransactionStore.DAL.Models;
 
-namespace TStore.API.Controllers
+namespace TransactionStore.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
