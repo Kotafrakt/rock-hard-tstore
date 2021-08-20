@@ -6,8 +6,16 @@
 AS
 BEGIN
 	BEGIN
-			INSERT INTO [dbo].[Transaction] (AccountId, Amount, Currency, TransactionType, [Date])
-			VALUES (@AccountId, @Amount, @Currency, @TransactionType, getdate())
+	IF @TransactionType = 1
+		BEGIN
+			INSERT INTO [dbo].[Transaction] (AccountId, TransactionType, [Date], Amount, Currency)
+			VALUES (@AccountId, @TransactionType, getdate(), @Amount, @Currency)
+		END
+	ELSE
+		BEGIN
+			INSERT INTO [dbo].[Transaction] (AccountId, TransactionType, [Date], Amount, Currency)
+			VALUES (@AccountId, @TransactionType, getdate(), -@Amount, @Currency)
+		END
 	END
 	SELECT @@IDENTITY
 END

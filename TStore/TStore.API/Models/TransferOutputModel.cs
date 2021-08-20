@@ -8,6 +8,5 @@ namespace TransactionStore.API.Models
         public string SenderCurrency { get; set; }
         public int RecipientAccountId { get; set; }
         public string RecipientCurrency { get; set; }
-        public decimal Amount { get; set; }
     }
 }
