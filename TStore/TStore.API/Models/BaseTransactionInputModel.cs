@@ -8,7 +8,5 @@ namespace TransactionStore.API.Models
     public class BaseTransactionInputModel
     {
         public TransactionType Type { get; set; }
-        [CustomDateFormat(ErrorMessage = WrongFormatDate)]
-        public DateTime Date { get; set; }
     }
 }

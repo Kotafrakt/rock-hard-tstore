@@ -23,8 +23,8 @@ namespace TransactionStore.API.Controllers
         }
 
         // api/transaction/add-transaction
-        [HttpPost("add-transaction")]
-        [Description("Add transaction")]
+        [HttpPost("add-deposit")]
+        [Description("Add deposit")]
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
         public ActionResult<TransactionOutputModel> AddDeposit([FromBody] TransactionInputModel inputModel)
         {
@@ -36,8 +36,8 @@ namespace TransactionStore.API.Controllers
         }
 
         // api/transaction/add-transaction
-        [HttpPost("add-transaction")]
-        [Description("Add transaction")]
+        [HttpPost("add-withdraw")]
+        [Description("Add withdraw")]
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
         public ActionResult<TransactionOutputModel> AddWithdraw([FromBody] TransactionInputModel inputModel)
         {
