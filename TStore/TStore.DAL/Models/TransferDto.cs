@@ -1,5 +1,4 @@
-﻿using System;
-using TransactionStore.Core.Enums;
+﻿using TransactionStore.Core.Enums;
 
 namespace TransactionStore.DAL.Models
 {

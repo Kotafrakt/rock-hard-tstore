@@ -10,20 +10,39 @@ namespace TransactionStore.DAL.Repositories
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private const string _transactionkInsert = "dbo.Transaction_Insert";
-        private const string _transactionkSelectAll = "dbo.Transaction_SelectAll";
-        private const string _transactionkSelectByAccountId = "dbo.Transaction_SelectByAccountId";
+        private const string _transactionDepositeOrWithdraw = "dbo.Transaction_DepositeOrWithdraw";
+        private const string _transactionTransfer = "dbo.Transaction_Transfer";
+        private const string _transactionSelectAll = "dbo.Transaction_SelectAll";
+        private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
-        public int AddTransaction(TransactionDto dto)
+        public int AddDepositeOrWithdraw(TransactionDto dto)
         {
             return _connection.QuerySingleOrDefault<int>(
-                _transactionkInsert,
+                _transactionDepositeOrWithdraw,
                 new
                 {
                     dto.AccountId,
-                    dto.TransactionType,
-                    dto.Amount
+                    dto.Type,
+                    dto.Amount,
+                    dto.Currency
+                },
+                commandType: CommandType.StoredProcedure
+                );
+        }
+
+        public (int, int) AddTransfer(TransferDto dto)
+        {
+            return _connection.QuerySingleOrDefault<(int, int)>(
+                _transactionDepositeOrWithdraw,
+                new
+                {
+                    dto.SenderAccountId,
+                    dto.RecipientAccountId,
+                    dto.SenderAmount,
+                    dto.RecipientAmount,
+                    dto.SenderCurrency,
+                    dto.RecipientCurrency,
                 },
                 commandType: CommandType.StoredProcedure
                 );
@@ -32,7 +51,7 @@ namespace TransactionStore.DAL.Repositories
         public List<TransactionDto> GetAllTransactions()
         {
             return _connection.Query<TransactionDto>(
-                _transactionkSelectAll,
+                _transactionSelectAll,
                     commandType: CommandType.StoredProcedure
                 )
                 .ToList();
@@ -41,7 +60,7 @@ namespace TransactionStore.DAL.Repositories
         public List<TransactionDto> GetTransactionsByAccountId(int accountId)
         {
             return _connection.Query<TransactionDto>(
-                _transactionkSelectByAccountId,
+                _transactionSelectByAccountId,
                 new { accountId },
                     commandType: CommandType.StoredProcedure
                 )

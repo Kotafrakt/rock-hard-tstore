@@ -13,10 +13,20 @@ namespace TransactionStore.Business.Services
             _transactionRepository = transactionRepository;
         }
 
-        public TransactionDto AddTransaction(TransactionDto dto)
+        public TransactionDto AddDepositeOrWithdraw(TransactionDto dto)
         {
-            int transactionId = _transactionRepository.AddTransaction(dto);
+            int transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
             dto.Id = transactionId;
+            return dto;
+        }
+
+        public TransferDto AddTransfer(TransferDto dto)
+        {
+            // тут надо просчитать recipient amount
+            dto.RecipientAmount = dto.SenderAmount;
+            (int, int) transactionIds = _transactionRepository.AddTransfer(dto);
+            dto.SenderAccountId = transactionIds.Item1;
+            dto.RecipientAccountId = transactionIds.Item2;
             return dto;
         }
 

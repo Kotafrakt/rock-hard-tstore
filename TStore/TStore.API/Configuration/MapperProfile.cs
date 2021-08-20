@@ -9,7 +9,9 @@ namespace TransactionStore.API.Configuration
         public MapperProfile()
         {
             CreateMap<TransactionInputModel, TransactionDto>();
+            CreateMap<TransferInputModel, TransferDto>();
             CreateMap<TransactionDto, TransactionOutputModel>();
+            CreateMap<TransferDto, TransferOutputModel>();
         }
     }
 }
