@@ -29,7 +29,7 @@ namespace TransactionStore.API.Controllers
         public ActionResult<TransactionOutputModel> AddDeposit([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var returnedDto = _transactionService.AddDepositeOrWithdraw(dto);
+            var returnedDto = _transactionService.AddDeposit(dto);
             var output = _mapper.Map<TransactionOutputModel>(returnedDto);
 
             return StatusCode(201, output);
@@ -42,7 +42,7 @@ namespace TransactionStore.API.Controllers
         public ActionResult<TransactionOutputModel> AddWithdraw([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var returnedDto = _transactionService.AddDepositeOrWithdraw(dto);
+            var returnedDto = _transactionService.AddWithdraw(dto);
             var output = _mapper.Map<TransactionOutputModel>(returnedDto);
 
             return StatusCode(201, output);

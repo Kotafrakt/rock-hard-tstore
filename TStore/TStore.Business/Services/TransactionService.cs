@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TransactionStore.Core.Enums;
 using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
 
@@ -13,9 +14,18 @@ namespace TransactionStore.Business.Services
             _transactionRepository = transactionRepository;
         }
 
-        public TransactionDto AddDepositeOrWithdraw(TransactionDto dto)
+        public TransactionDto AddDeposit(TransactionDto dto)
         {
             int transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            dto.Type = (TransactionType)1;
+            dto.Id = transactionId;
+            return dto;
+        }
+
+        public TransactionDto AddWithdraw(TransactionDto dto)
+        {
+            int transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            dto.Type = (TransactionType)2;
             dto.Id = transactionId;
             return dto;
         }
