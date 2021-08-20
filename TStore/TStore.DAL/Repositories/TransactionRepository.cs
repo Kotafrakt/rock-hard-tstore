@@ -10,15 +10,15 @@ namespace TransactionStore.DAL.Repositories
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private const string _transactionDepositeOrWithdraw = "dbo.Transaction_DepositeOrWithdraw";
+        private const string _transactionDepositeOrWithdraw = "dbo.Transaction_DepositOrWithdraw";
         private const string _transactionTransfer = "dbo.Transaction_Transfer";
         private const string _transactionSelectAll = "dbo.Transaction_SelectAll";
         private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
-        public int AddDepositeOrWithdraw(TransactionDto dto)
+        public long AddDepositeOrWithdraw(TransactionDto dto)
         {
-            return _connection.QuerySingleOrDefault<int>(
+            return _connection.QuerySingleOrDefault<long>(
                 _transactionDepositeOrWithdraw,
                 new
                 {
@@ -31,10 +31,10 @@ namespace TransactionStore.DAL.Repositories
                 );
         }
 
-        public (int, int) AddTransfer(TransferDto dto)
+        public (long, long) AddTransfer(TransferDto dto)
         {
-            return _connection.QuerySingleOrDefault<(int, int)>(
-                _transactionDepositeOrWithdraw,
+            return _connection.QuerySingleOrDefault<(long, long)>(
+                _transactionTransfer,
                 new
                 {
                     dto.SenderAccountId,

@@ -9,9 +9,12 @@ namespace TransactionStore.API.Configuration
         public MapperProfile()
         {
             CreateMap<TransactionInputModel, TransactionDto>();
-            CreateMap<TransferInputModel, TransferDto>();
+            CreateMap<TransferInputModel, TransferDto>()
+                .ForMember(dest => dest.SenderAmount, opt => opt.MapFrom(src => src.Amount));
+
             CreateMap<TransactionDto, TransactionOutputModel>();
-            CreateMap<TransferDto, TransferOutputModel>();
+            CreateMap<TransferDto, TransferOutputModel>()
+                   .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.SenderAmount));
         }
     }
 }

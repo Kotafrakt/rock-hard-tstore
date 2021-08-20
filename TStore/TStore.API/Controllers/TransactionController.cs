@@ -22,41 +22,39 @@ namespace TransactionStore.API.Controllers
             _mapper = mapper;
         }
 
-        // api/transaction/add-transaction
-        [HttpPost("add-deposit")]
+        // api/transaction/deposit
+        [HttpPost("deposit")]
         [Description("Add deposit")]
-        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<TransactionOutputModel> AddDeposit([FromBody] TransactionInputModel inputModel)
+        [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
+        public ActionResult<long> AddDeposit([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var returnedDto = _transactionService.AddDeposit(dto);
-            var output = _mapper.Map<TransactionOutputModel>(returnedDto);
+            var output = _transactionService.AddDeposit(dto);
 
             return StatusCode(201, output);
+            //created
         }
 
-        // api/transaction/add-transaction
-        [HttpPost("add-withdraw")]
+        // api/transaction/withdraw
+        [HttpPost("withdraw")]
         [Description("Add withdraw")]
-        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<TransactionOutputModel> AddWithdraw([FromBody] TransactionInputModel inputModel)
+        [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
+        public ActionResult<long> AddWithdraw([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var returnedDto = _transactionService.AddWithdraw(dto);
-            var output = _mapper.Map<TransactionOutputModel>(returnedDto);
+            var output = _transactionService.AddWithdraw(dto);
 
             return StatusCode(201, output);
         }
 
-        // api/transaction/add-transaction
-        [HttpPost("add-transfer")]
+        // api/transaction/transfer
+        [HttpPost("transfer")]
         [Description("Add transfer")]
-        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel inputModel)
+        [ProducesResponseType(typeof((long, long)), StatusCodes.Status201Created)]
+        public ActionResult<(long, long)> AddTransfer([FromBody] TransferInputModel inputModel)
         {
             var dto = _mapper.Map<TransferDto>(inputModel);
-            var returnedDto = _transactionService.AddTransfer(dto);
-            var output = _mapper.Map<TransferOutputModel>(returnedDto);
+            var output = _transactionService.AddTransfer(dto);
 
             return StatusCode(201, output);
         }

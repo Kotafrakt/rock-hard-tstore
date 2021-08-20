@@ -14,30 +14,26 @@ namespace TransactionStore.Business.Services
             _transactionRepository = transactionRepository;
         }
 
-        public TransactionDto AddDeposit(TransactionDto dto)
+        public long AddDeposit(TransactionDto dto)
         {
-            int transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
-            dto.Type = (TransactionType)1;
-            dto.Id = transactionId;
-            return dto;
+            dto.Type = TransactionType.Deposit;
+            long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            return transactionId;
         }
 
-        public TransactionDto AddWithdraw(TransactionDto dto)
+        public long AddWithdraw(TransactionDto dto)
         {
-            int transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
-            dto.Type = (TransactionType)2;
-            dto.Id = transactionId;
-            return dto;
+            dto.Type = TransactionType.Withdraw;
+            long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            return transactionId;
         }
 
-        public TransferDto AddTransfer(TransferDto dto)
+        public (long, long) AddTransfer(TransferDto dto)
         {
             // тут надо просчитать recipient amount
             dto.RecipientAmount = dto.SenderAmount;
-            (int, int) transactionIds = _transactionRepository.AddTransfer(dto);
-            dto.SenderAccountId = transactionIds.Item1;
-            dto.RecipientAccountId = transactionIds.Item2;
-            return dto;
+            (long, long) transactionIds = _transactionRepository.AddTransfer(dto);
+            return transactionIds;
         }
 
         public List<TransactionDto> GetAllTransactions()
