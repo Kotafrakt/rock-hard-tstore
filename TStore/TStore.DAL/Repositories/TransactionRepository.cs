@@ -5,6 +5,7 @@ using System.Linq;
 using TransactionStore.DAL.Models;
 using TransactionStore.Core;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace TransactionStore.DAL.Repositories
 {
@@ -24,7 +25,7 @@ namespace TransactionStore.DAL.Repositories
                 new
                 {
                     dto.AccountId,
-                    dto.Type,
+                    dto.TransactionType,
                     dto.Amount,
                     dto.Currency
                 },
@@ -38,18 +39,18 @@ namespace TransactionStore.DAL.Repositories
                 _transactionTransfer,
                 new
                 {
-                    dto.SenderAccountId,
+                    dto.AccountId,
                     dto.RecipientAccountId,
-                    dto.SenderAmount,
+                    dto.Amount,
                     dto.RecipientAmount,
-                    dto.SenderCurrency,
+                    dto.Currency,
                     dto.RecipientCurrency,
                 },
                 commandType: CommandType.StoredProcedure
                 );
         }
 
-        public List<TransactionDto> GetTransactionsByAccountId(int accountId)
+        public List<TransactionDto> GetDepositOrWithdrawByAccountId(int accountId)
         {
             return _connection.Query<TransactionDto>(
                 _transactionSelectByAccountId,
@@ -69,10 +70,16 @@ namespace TransactionStore.DAL.Repositories
                 .ToList();
         }
 
-        public List<TransactionDto> GetTransactionsByPeriod()
+        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
         {
             return _connection.Query<TransactionDto>(
                 _transactionSelectByPeriod,
+                 new 
+                 { 
+                     from,
+                     to,
+                     accountId
+                 },
                     commandType: CommandType.StoredProcedure
                 )
                 .ToList();

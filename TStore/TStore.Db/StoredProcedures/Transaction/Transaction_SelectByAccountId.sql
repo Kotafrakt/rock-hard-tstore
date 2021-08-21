@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE dbo.Transaction_SelectByAccountId
-@AccountId int
+	@AccountId int
 AS
 BEGIN
 	SELECT

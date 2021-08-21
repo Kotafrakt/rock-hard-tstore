@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TransactionStore.API.Models;
@@ -70,24 +71,13 @@ namespace TransactionStore.API.Controllers
             return listOutputs;
         }
 
-        // api/transaction/by-account/{accountId}
-        [HttpGet("by-account/{accountId}")]
-        [Description("Get transactions by account")]
-        [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
-        public List<TransferOutputModel> GetTransfersByAccountId(int accountId)
-        {
-            var resultDto = _transactionService.GetTransfersByAccountId(accountId);
-            var listOutputs = _mapper.Map<List<TransferOutputModel>>(resultDto);
-            return listOutputs;
-        }
-
         // api/transaction
         [HttpGet]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByPeriod([FromBody] TransferInputModel inputModel)
+        public List<TransactionOutputModel> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
         {
-            var resultDto = _transactionService.GetTransactionsByPeriod();
+            var resultDto = _transactionService.GetTransactionsByPeriod(from, to, accountId);
             var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
             return listOutputs;
         }

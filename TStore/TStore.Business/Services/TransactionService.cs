@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TransactionStore.Core.Enums;
 using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
@@ -16,14 +17,14 @@ namespace TransactionStore.Business.Services
 
         public long AddDeposit(TransactionDto dto)
         {
-            dto.Type = TransactionType.Deposit;
+            dto.TransactionType = TransactionType.Deposit;
             long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
             return transactionId;
         }
 
         public long AddWithdraw(TransactionDto dto)
         {
-            dto.Type = TransactionType.Withdraw;
+            dto.TransactionType = TransactionType.Withdraw;
             long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
             return transactionId;
         }
@@ -31,7 +32,7 @@ namespace TransactionStore.Business.Services
         public string AddTransfer(TransferDto dto)
         {
             // тут надо просчитать recipient amount
-            dto.RecipientAmount = dto.SenderAmount;
+            dto.RecipientAmount = dto.Amount;
             var transactionIds = _transactionRepository.AddTransfer(dto);
             string result = $"{transactionIds.Item1}, {transactionIds.Item2}";
             return result;
@@ -39,19 +40,18 @@ namespace TransactionStore.Business.Services
 
         public List<TransactionDto> GetTransactionsByAccountId(int accountId)
         {
-            var transactionListDtos = _transactionRepository.GetTransactionsByAccountId(accountId);
-            return transactionListDtos;
+            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountId(accountId);
+            var transfers = _transactionRepository.GetTransfersByAccountId(accountId);
+            var transactions = new List<TransactionDto>();
+            transactions.AddRange(depositesOrWithdraws);
+            transactions.AddRange(transfers);
+
+            return transactions;
         }
 
-        public List<TransferDto> GetTransfersByAccountId(int accountId)
+        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
         {
-            var transactionListDtos = _transactionRepository.GetTransfersByAccountId(accountId);
-            return transactionListDtos;
-        }
-
-        public List<TransactionDto> GetTransactionsByPeriod()
-        {
-            var transactionListDtos = _transactionRepository.GetTransactionsByPeriod();
+            var transactionListDtos = _transactionRepository.GetTransactionsByPeriod(from, to, accountId);
             return transactionListDtos;
         }
 

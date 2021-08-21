@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE dbo.Transaction_SelectTransferByAccountId
-@AccountId int
+	@AccountId int
 AS
 BEGIN
 	SELECT
 		t.Id,		
-		t.AccountId as SenderId,
+		t.AccountId,
 			(select tr.AccountId
 			from [dbo].[Transaction] tr
 			where tr.Date = t.Date
@@ -21,7 +21,7 @@ UNION ALL
 		(select tr.AccountId
 			from [dbo].[Transaction] tr
 			where tr.Date = t.Date
-			and tr.AccountId <> t.AccountId) as SenderId,
+			and tr.AccountId <> t.AccountId),
 		t.AccountId as RecipientId,			
 		t.Amount,
 		t.Currency,

@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE dbo.Transaction_Transfer
-	@SenderAccountId		int,
+	@AccountId		int,
 	@RecipientAccountId		int,
-	@SenderAmount			decimal (14,3),
+	@Amount			decimal (14,3),
 	@RecipientAmount		decimal (14,3),
-	@SenderCurrency			int,
+	@Currency			int,
 	@RecipientCurrency		int
 AS
 BEGIN
@@ -12,7 +12,7 @@ BEGIN
 	@TransactionType_Transfer int = 3
 
 	INSERT INTO [dbo].[Transaction] (AccountId, Amount, Currency, TransactionType, [Date])
-	VALUES (@SenderAccountId, -@SenderAmount, @SenderCurrency, @TransactionType_Transfer, @CurrentDate)
+	VALUES (@AccountId, -@Amount, @Currency, @TransactionType_Transfer, @CurrentDate)
 	DECLARE @SenderTransactionId bigint = @@IDENTITY
 	
 	INSERT INTO [dbo].[Transaction] (AccountId, Amount, Currency, TransactionType, [Date])

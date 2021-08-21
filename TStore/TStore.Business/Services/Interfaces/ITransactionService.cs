@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TransactionStore.DAL.Models;
 
 namespace TransactionStore.Business.Services
@@ -9,7 +10,6 @@ namespace TransactionStore.Business.Services
         long AddWithdraw(TransactionDto dto);
         string AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByAccountId(int accountId);
-        List<TransferDto> GetTransfersByAccountId(int accountId);
-        List<TransactionDto> GetTransactionsByPeriod();
+        List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId);
     }
 }
