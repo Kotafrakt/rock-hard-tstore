@@ -25,6 +25,8 @@ namespace TransactionStore.API.Extentions
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddSingleton<ConverterService>();
+            services.AddSingleton<CurrencyRatesService>();
 
             return services;
         }

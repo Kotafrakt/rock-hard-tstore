@@ -9,10 +9,12 @@ namespace TransactionStore.Business.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
+        private ConverterService _converterService;
 
-        public TransactionService(ITransactionRepository transactionRepository)
+        public TransactionService(ITransactionRepository transactionRepository, ConverterService converterService)
         {
             _transactionRepository = transactionRepository;
+            _converterService = converterService;
         }
 
         public long AddDeposit(TransactionDto dto)
@@ -32,7 +34,7 @@ namespace TransactionStore.Business.Services
         public string AddTransfer(TransferDto dto)
         {
             // тут надо просчитать recipient amount
-            dto.RecipientAmount = dto.Amount;
+            dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
             var transactionIds = _transactionRepository.AddTransfer(dto);
             string result = $"{transactionIds.Item1}, {transactionIds.Item2}";
             return result;
