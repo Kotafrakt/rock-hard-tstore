@@ -15,18 +15,14 @@ namespace TransactionStore.API.Extentions
                 .ValidateDataAnnotations();
         }
 
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<ITransactionRepository, TransactionRepository>();
-
-            return services;
         }
 
-        public static IServiceCollection AddCustomServices(this IServiceCollection services)
+        public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<ITransactionService, TransactionService>();
-
-            return services;
         }
     }
 }
