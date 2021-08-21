@@ -8,8 +8,7 @@ namespace TransactionStore.DAL.Repositories
     {
         long AddDepositeOrWithdraw(TransactionDto dto);
         (long, long) AddTransfer(TransferDto dto);
-        List<TransactionDto> GetDepositOrWithdrawByAccountId(int accountId);
-        List<TransferDto> GetTransfersByAccountId(int accountId);
+        List<TransactionDto> GetTransactionsByAccountId(int accountId);
         List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId);
     }
 }

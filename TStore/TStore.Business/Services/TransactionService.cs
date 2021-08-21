@@ -42,11 +42,7 @@ namespace TransactionStore.Business.Services
 
         public List<TransactionDto> GetTransactionsByAccountId(int accountId)
         {
-            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountId(accountId);
-            var transfers = _transactionRepository.GetTransfersByAccountId(accountId);
-            var transactions = new List<TransactionDto>();
-            transactions.AddRange(depositesOrWithdraws);
-            transactions.AddRange(transfers);
+            var transactions = _transactionRepository.GetTransactionsByAccountId(accountId);
 
             return transactions;
         }

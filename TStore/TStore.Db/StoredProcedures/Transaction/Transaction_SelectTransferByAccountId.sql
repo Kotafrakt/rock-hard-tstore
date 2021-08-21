@@ -3,6 +3,16 @@
 AS
 BEGIN
 	SELECT
+		Id,		
+		AccountId,
+		Amount,
+		Currency,
+		TransactionType,
+		[Date]
+	FROM [dbo].[Transaction]
+		WHERE AccountId = @AccountId and (TransactionType = 1 or TransactionType = 2)
+UNION ALL
+	SELECT
 		t.Id,		
 		t.AccountId,
 			(select tr.AccountId
