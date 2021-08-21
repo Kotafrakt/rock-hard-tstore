@@ -12,7 +12,7 @@ BEGIN
 	@TransactionType_Transfer int = 3
 
 	INSERT INTO [dbo].[Transaction] (AccountId, Amount, Currency, TransactionType, [Date])
-	VALUES (@SenderAccountId, @SenderAmount, @SenderCurrency, @TransactionType_Transfer, @CurrentDate)
+	VALUES (@SenderAccountId, -@SenderAmount, @SenderCurrency, @TransactionType_Transfer, @CurrentDate)
 	DECLARE @SenderTransactionId bigint = @@IDENTITY
 	
 	INSERT INTO [dbo].[Transaction] (AccountId, Amount, Currency, TransactionType, [Date])

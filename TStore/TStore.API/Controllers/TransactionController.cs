@@ -50,24 +50,13 @@ namespace TransactionStore.API.Controllers
         // api/transaction/transfer
         [HttpPost("transfer")]
         [Description("Add transfer")]
-        [ProducesResponseType(typeof((long, long)), StatusCodes.Status201Created)]
-        public ActionResult<(long, long)> AddTransfer([FromBody] TransferInputModel inputModel)
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        public ActionResult<string> AddTransfer([FromBody] TransferInputModel inputModel)
         {
             var dto = _mapper.Map<TransferDto>(inputModel);
             var output = _transactionService.AddTransfer(dto);
 
             return StatusCode(201, output);
-        }
-
-        // api/transaction
-        [HttpGet]
-        [Description("Get all transactions")]
-        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetAllTransactions()
-        {
-            var resultDto = _transactionService.GetAllTransactions();
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
         }
 
         // api/transaction/by-account/{accountId}
@@ -81,5 +70,26 @@ namespace TransactionStore.API.Controllers
             return listOutputs;
         }
 
+        // api/transaction/by-account/{accountId}
+        [HttpGet("by-account/{accountId}")]
+        [Description("Get transactions by account")]
+        [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
+        public List<TransferOutputModel> GetTransfersByAccountId(int accountId)
+        {
+            var resultDto = _transactionService.GetTransfersByAccountId(accountId);
+            var listOutputs = _mapper.Map<List<TransferOutputModel>>(resultDto);
+            return listOutputs;
+        }
+
+        // api/transaction
+        [HttpGet]
+        [Description("Get transactions by period")]
+        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
+        public List<TransactionOutputModel> GetTransactionsByPeriod([FromBody] TransferInputModel inputModel)
+        {
+            var resultDto = _transactionService.GetTransactionsByPeriod();
+            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
+            return listOutputs;
+        }
     }
 }

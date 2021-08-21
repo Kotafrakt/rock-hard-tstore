@@ -5,9 +5,10 @@ namespace TransactionStore.DAL.Repositories
 { 
     public interface ITransactionRepository
     {
-        public long AddDepositeOrWithdraw(TransactionDto dto);
-        public (long, long) AddTransfer(TransferDto dto);
-        List<TransactionDto> GetAllTransactions();
+        long AddDepositeOrWithdraw(TransactionDto dto);
+        (long, long) AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByAccountId(int accountId);
+        List<TransferDto> GetTransfersByAccountId(int accountId);
+        List<TransactionDto> GetTransactionsByPeriod();
     }
 }

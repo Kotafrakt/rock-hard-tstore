@@ -8,5 +8,6 @@ namespace TransactionStore.DAL.Models
         public long Id { get; set; }
         public TransactionType Type { get; set; }
         public DateTime Date { get; set; }
+
     }
 }

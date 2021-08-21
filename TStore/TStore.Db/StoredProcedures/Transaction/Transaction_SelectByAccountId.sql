@@ -4,10 +4,11 @@ AS
 BEGIN
 	SELECT
 		Id,		
-		TransactionType,
 		AccountId,
-		[Date],
-		Amount
+		Amount,
+		Currency,
+		TransactionType,
+		[Date]
 	FROM [dbo].[Transaction]
-		WHERE AccountId = @AccountId
+		WHERE AccountId = @AccountId and (TransactionType = 1 or TransactionType = 2)
 END

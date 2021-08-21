@@ -28,24 +28,32 @@ namespace TransactionStore.Business.Services
             return transactionId;
         }
 
-        public (long, long) AddTransfer(TransferDto dto)
+        public string AddTransfer(TransferDto dto)
         {
             // тут надо просчитать recipient amount
             dto.RecipientAmount = dto.SenderAmount;
-            (long, long) transactionIds = _transactionRepository.AddTransfer(dto);
-            return transactionIds;
+            var transactionIds = _transactionRepository.AddTransfer(dto);
+            string result = $"{transactionIds.Item1}, {transactionIds.Item2}";
+            return result;
         }
 
-        public List<TransactionDto> GetAllTransactions()
-        {
-            var transactionListDtos = _transactionRepository.GetAllTransactions();
-            return transactionListDtos;
-        }
-        
         public List<TransactionDto> GetTransactionsByAccountId(int accountId)
         {
             var transactionListDtos = _transactionRepository.GetTransactionsByAccountId(accountId);
             return transactionListDtos;
         }
+
+        public List<TransferDto> GetTransfersByAccountId(int accountId)
+        {
+            var transactionListDtos = _transactionRepository.GetTransfersByAccountId(accountId);
+            return transactionListDtos;
+        }
+
+        public List<TransactionDto> GetTransactionsByPeriod()
+        {
+            var transactionListDtos = _transactionRepository.GetTransactionsByPeriod();
+            return transactionListDtos;
+        }
+
     }
 }
