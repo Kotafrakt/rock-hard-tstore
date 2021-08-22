@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using TStore.API.Models;
-using TStore.Business.Services;
-using TStore.DAL.Models;
+using TransactionStore.API.Models;
+using TransactionStore.Business.Services;
+using TransactionStore.DAL.Models;
 
-namespace TStore.API.Controllers
+namespace TransactionStore.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -22,28 +23,41 @@ namespace TStore.API.Controllers
             _mapper = mapper;
         }
 
-        // api/transaction/add-transaction
-        [HttpPost("add-transaction")]
-        [Description("Add transaction")]
-        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<TransactionOutputModel> AddTransaction([FromBody] TransactionInputModel inputModel)
+        // api/transaction/deposit
+        [HttpPost("deposit")]
+        [Description("Add deposit")]
+        [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
+        public ActionResult<long> AddDeposit([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var returnedDto = _transactionService.AddTransaction(dto);
-            var output = _mapper.Map<TransactionOutputModel>(returnedDto);
+            var output = _transactionService.AddDeposit(dto);
+
+            return StatusCode(201, output);
+            //created
+        }
+
+        // api/transaction/withdraw
+        [HttpPost("withdraw")]
+        [Description("Add withdraw")]
+        [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
+        public ActionResult<long> AddWithdraw([FromBody] TransactionInputModel inputModel)
+        {
+            var dto = _mapper.Map<TransactionDto>(inputModel);
+            var output = _transactionService.AddWithdraw(dto);
 
             return StatusCode(201, output);
         }
 
-        // api/transaction
-        [HttpGet]
-        [Description("Get all transactions")]
-        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetAllTransactions()
+        // api/transaction/transfer
+        [HttpPost("transfer")]
+        [Description("Add transfer")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        public ActionResult<string> AddTransfer([FromBody] TransferInputModel inputModel)
         {
-            var resultDto = _transactionService.GetAllTransactions();
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
+            var dto = _mapper.Map<TransferDto>(inputModel);
+            var output = _transactionService.AddTransfer(dto);
+
+            return StatusCode(201, output);
         }
 
         // api/transaction/by-account/{accountId}
@@ -57,5 +71,15 @@ namespace TStore.API.Controllers
             return listOutputs;
         }
 
+        // api/transaction
+        [HttpGet("by-period")]
+        [Description("Get transactions by period")]
+        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
+        public List<TransactionOutputModel> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
+        {
+            var resultDto = _transactionService.GetTransactionsByPeriod(from, to, accountId);
+            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
+            return listOutputs;
+        }
     }
 }
