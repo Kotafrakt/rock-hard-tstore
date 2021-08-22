@@ -1,12 +1,11 @@
 ﻿using System;
+using TransactionStore.Core.Enums;
 
 namespace TransactionStore.API.Models
 {
-    public class TransactionInputModel
+    public class TransactionInputModel : BaseTransactionInputModel
     {
         public int AccountId { get; set; }
-        public int TransactionType { get; set; }
-        public DateTime Date { get; set; }
-        public decimal Amount { get; set; }
+        public string Currency { get; set; }
     }
 }
