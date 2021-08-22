@@ -10,19 +10,18 @@ BEGIN
 		t.TransactionType,
 		t.[Date]
 	FROM [dbo].[Transaction] t
-		WHERE t.AccountId = @AccountId
+	WHERE t.AccountId = @AccountId
 UNION ALL
 	SELECT
-		t.Id,
-		(select tr.AccountId
-			from [dbo].[Transaction] tr
-			where tr.Date = t.Date
-			and tr.AccountId <> t.AccountId),		
-		-t.Amount,
-		t.Currency,
-		t.TransactionType,
-		t.[Date]
+		tr.Id,
+		tr.AccountId,		
+		tr.Amount,
+		tr.Currency,
+		tr.TransactionType,
+		tr.[Date]
 	FROM [dbo].[Transaction] t
-		WHERE t.AccountId = @AccountId and t.TransactionType = 3
-		ORDER BY t.Date
+	LEFT JOIN [dbo].[Transaction] tr
+	ON t.Date = tr.Date
+	WHERE t.AccountId = @AccountId and tr.AccountId <> t.AccountId and t.TransactionType = 3
+	ORDER BY t.Id
 END

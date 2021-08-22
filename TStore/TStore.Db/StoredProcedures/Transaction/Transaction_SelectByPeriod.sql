@@ -14,7 +14,7 @@ IF @AccountId = 0
 			TransactionType,
 			[Date]
 		FROM [dbo].[Transaction]
-			WHERE [Date] BETWEEN @From and @To
+		WHERE [Date] BETWEEN @From and @To
 	END
 ELSE
 	BEGIN
@@ -26,20 +26,19 @@ ELSE
 			t.TransactionType,
 			t.[Date]
 		FROM [dbo].[Transaction] t
-			WHERE [Date] BETWEEN @From and @To and t.AccountId = @AccountId
+		WHERE [Date] BETWEEN @From and @To and t.AccountId = @AccountId
 	UNION ALL
 		SELECT
-			t.Id,
-			(select tr.AccountId
-				from [dbo].[Transaction] tr
-				where tr.Date = t.Date
-				and tr.AccountId <> t.AccountId),		
-			-t.Amount,
-			t.Currency,
-			t.TransactionType,
-			t.[Date]
+			tr.Id,
+			tr.AccountId,		
+			tr.Amount,
+			tr.Currency,
+			tr.TransactionType,
+			tr.[Date]
 		FROM [dbo].[Transaction] t
-			WHERE [Date] BETWEEN @From and @To and  t.AccountId = @AccountId and t.TransactionType = 3
-			ORDER BY t.Date
+		LEFT JOIN [dbo].[Transaction] tr
+		ON t.Date = tr.Date
+		WHERE t.[Date] BETWEEN @From and @To and t.AccountId = @AccountId and tr.AccountId <> t.AccountId and t.TransactionType = 3
+		ORDER BY t.Date
 	END
 END

@@ -68,6 +68,5 @@
     <Build Include="StoredProcedures\Transaction\Transaction_SelectByAccountId.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_DepositOrWithdraw.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_Transfer.sql" />
-    <Build Include="StoredProcedures\Transaction\Transaction_SelectTransferByAccountId.sql" />
   </ItemGroup>
 </Project>
