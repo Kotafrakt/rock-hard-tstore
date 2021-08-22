@@ -9,7 +9,6 @@ namespace TransactionStore.Business.Services
 {
     public class ConverterService
     {
-        private int _currencyLength = 3;
         private CurrencyRatesService _currencyRatesService;
         public ConverterService(CurrencyRatesService currencyRatesService)
         {
