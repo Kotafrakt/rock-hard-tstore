@@ -72,7 +72,7 @@ namespace TransactionStore.API.Controllers
         }
 
         // api/transaction
-        [HttpGet]
+        [HttpGet("by-period")]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public List<TransactionOutputModel> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
