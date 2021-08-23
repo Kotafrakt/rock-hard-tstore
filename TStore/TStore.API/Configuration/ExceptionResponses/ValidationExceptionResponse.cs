@@ -21,6 +21,7 @@ namespace DevEdu.API.Configuration
                 new ValidationError {Code = 422, Field = exception.Field, Message = exception.Message}
             };
         }
+
         public ValidationExceptionResponse(ModelStateDictionary modelState)
         {
             Code = ValidationCode;
