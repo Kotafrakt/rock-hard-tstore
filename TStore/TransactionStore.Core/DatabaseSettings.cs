@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TransactionStore.Core
+﻿namespace TransactionStore.Core
 {
     public class DatabaseSettings
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TransactionStore.API.Models
+﻿namespace TransactionStore.API.Models
 {
     public class TransactionOutputModel : BaseTransactionOutputModel
     {

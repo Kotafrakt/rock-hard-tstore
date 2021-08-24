@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TransactionStore.DAL.Models;
 
 namespace TransactionStore.DAL.Repositories
-{ 
+{
     public interface ITransactionRepository
     {
         long AddDepositeOrWithdraw(TransactionDto dto);

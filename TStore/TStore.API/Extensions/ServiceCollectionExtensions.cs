@@ -1,10 +1,10 @@
-﻿using TransactionStore.Core;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TransactionStore.DAL.Repositories;
 using TransactionStore.Business.Services;
+using TransactionStore.Core;
+using TransactionStore.DAL.Repositories;
 
-namespace TransactionStore.API.Extentions
+namespace TransactionStore.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -25,8 +25,6 @@ namespace TransactionStore.API.Extentions
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddSingleton<ConverterService>();
             services.AddSingleton<CurrencyRatesService>();
-
-            return services;
         }
     }
 }

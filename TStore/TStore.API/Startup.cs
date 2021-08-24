@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TransactionStore.API.Extensions;
 using TransactionStore.Core;
-using TransactionStore.API.Extentions;
-using TransactionStore.Business.Services;
-using TransactionStore.DAL.Repositories;
 
 namespace TransactionStore.API
 {
     public class Startup
     {
         private const string _pathToEnvironment = "ASPNETCORE_ENVIRONMENT";
+
         public Startup(IConfiguration configuration)
         {
             var currentEnvironment = configuration.GetValue<string>(_pathToEnvironment);
@@ -34,7 +33,8 @@ namespace TransactionStore.API
 
             services.AddControllers();
 
-            services.AddSwaggerDocument(document => {
+            services.AddSwaggerDocument(document =>
+            {
                 document.DocumentName = "Endpoints for TransactionStore";
                 document.Title = "TransactionStore API";
                 document.Version = "v8";

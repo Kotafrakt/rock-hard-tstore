@@ -9,7 +9,7 @@ namespace TransactionStore.Business.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
-        private ConverterService _converterService;
+        private readonly ConverterService _converterService;
 
         public TransactionService(ITransactionRepository transactionRepository, ConverterService converterService)
         {
@@ -52,6 +52,5 @@ namespace TransactionStore.Business.Services
             var transactionListDtos = _transactionRepository.GetTransactionsByPeriod(from, to, accountId);
             return transactionListDtos;
         }
-
     }
 }

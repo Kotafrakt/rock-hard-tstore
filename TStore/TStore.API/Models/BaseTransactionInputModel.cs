@@ -1,7 +1,4 @@
-﻿using System;
-using TransactionStore.Core.Enums;
-
-namespace TransactionStore.API.Models
+﻿namespace TransactionStore.API.Models
 {
     public class BaseTransactionInputModel
     {

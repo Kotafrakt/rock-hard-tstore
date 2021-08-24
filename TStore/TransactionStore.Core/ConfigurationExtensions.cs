@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace TransactionStore.Core
 {

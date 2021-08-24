@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TransactionStore.Core.Enums;
 
 namespace TransactionStore.Business.Services
 {
     public class ConverterService
     {
-        private CurrencyRatesService _currencyRatesService;
+        private readonly CurrencyRatesService _currencyRatesService;
         public ConverterService(CurrencyRatesService currencyRatesService)
         {
             _currencyRatesService = currencyRatesService;

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using Dapper;
-using System.Linq;
-using TransactionStore.DAL.Models;
-using TransactionStore.Core;
+﻿using Dapper;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using TransactionStore.Core;
+using TransactionStore.DAL.Models;
 
 namespace TransactionStore.DAL.Repositories
 {
@@ -63,8 +63,8 @@ namespace TransactionStore.DAL.Repositories
         {
             return _connection.Query<TransactionDto>(
                 _transactionSelectByPeriod,
-                 new 
-                 { 
+                 new
+                 {
                      from,
                      to,
                      accountId
