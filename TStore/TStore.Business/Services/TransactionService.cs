@@ -47,7 +47,7 @@ namespace TransactionStore.Business.Services
             return transactions;
         }
 
-        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
+        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId)
         {
             var transactionListDtos = _transactionRepository.GetTransactionsByPeriod(from, to, accountId);
             return transactionListDtos;

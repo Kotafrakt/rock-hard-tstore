@@ -71,13 +71,13 @@ namespace TransactionStore.API.Controllers
             return listOutputs;
         }
 
-        // api/transaction
-        [HttpGet("by-period")]
+        // api/transaction/by-period
+        [HttpPost("by-period")]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
+        public List<TransactionOutputModel> GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
-            var resultDto = _transactionService.GetTransactionsByPeriod(from, to, accountId);
+            var resultDto = _transactionService.GetTransactionsByPeriod(inputModel.From, inputModel.To, inputModel.AccountId);
             var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
             return listOutputs;
         }

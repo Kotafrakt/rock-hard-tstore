@@ -59,7 +59,7 @@ namespace TransactionStore.DAL.Repositories
                 .ToList();
         }
 
-        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int accountId)
+        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId)
         {
             return _connection.Query<TransactionDto>(
                 _transactionSelectByPeriod,

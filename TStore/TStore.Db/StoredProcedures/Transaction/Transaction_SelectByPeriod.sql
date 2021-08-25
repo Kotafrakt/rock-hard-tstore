@@ -4,7 +4,7 @@
 	@AccountId			int
 AS
 BEGIN
-IF @AccountId = 0
+IF @AccountId = null
 	BEGIN
 		SELECT
 			Id,
