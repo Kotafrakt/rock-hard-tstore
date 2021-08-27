@@ -1,7 +1,9 @@
-﻿using System.Data;
+﻿using Microsoft.Extensions.Options;
+using System.Data;
 using System.Data.SqlClient;
+using TransactionStore.Core;
 
-namespace TStore.DAL.Repositories
+namespace TransactionStore.DAL.Repositories
 {
     public class BaseRepository
     {
@@ -10,9 +12,9 @@ namespace TStore.DAL.Repositories
 
         protected IDbConnection _connection;
 
-        protected BaseRepository()
+        protected BaseRepository(IOptions<DatabaseSettings> options)
         {
-            _connection = new SqlConnection(_connectionString);
+            _connection = new SqlConnection(options.Value.ConnectionString);
         }
     }
 }

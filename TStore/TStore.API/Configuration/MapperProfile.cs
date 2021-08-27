@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
-using TStore.API.Models;
-using TStore.DAL.Models;
+using TransactionStore.API.Models;
+using TransactionStore.DAL.Models;
 
-namespace TStore.API.Configuration
+namespace TransactionStore.API.Configuration
 {
     public class MapperProfile : Profile
     {
         public MapperProfile()
         {
             CreateMap<TransactionInputModel, TransactionDto>();
+            CreateMap<TransferInputModel, TransferDto>();
+
             CreateMap<TransactionDto, TransactionOutputModel>();
+            CreateMap<TransferDto, TransferOutputModel>();
         }
     }
 }

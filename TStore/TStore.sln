@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31313.79
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TStore.Business", "TStore.Business\TStore.Business.csproj", "{66C3EA15-9E9E-4592-8088-80473B89379E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.Business", "TStore.Business\TransactionStore.Business.csproj", "{66C3EA15-9E9E-4592-8088-80473B89379E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TStore.DAL", "TStore.DAL\TStore.DAL.csproj", "{AB4EDE7E-F9F3-4E06-A1A0-F6BD3988B572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.DAL", "TStore.DAL\TransactionStore.DAL.csproj", "{AB4EDE7E-F9F3-4E06-A1A0-F6BD3988B572}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TStore.Db", "TStore.Db\TStore.Db.sqlproj", "{EEBA5037-9A88-48F7-BDA6-EF0A7C4D6461}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TransactionStore.Db", "TStore.Db\TransactionStore.Db.sqlproj", "{EEBA5037-9A88-48F7-BDA6-EF0A7C4D6461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TStore.API", "TStore.API\TStore.API.csproj", "{EF9359C8-5761-45A7-8D5B-401B6928F437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.API", "TStore.API\TransactionStore.API.csproj", "{EF9359C8-5761-45A7-8D5B-401B6928F437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionStore.Core", "TransactionStore.Core\TransactionStore.Core.csproj", "{DF57B566-756C-4712-9A03-240AE2654D75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{EF9359C8-5761-45A7-8D5B-401B6928F437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF9359C8-5761-45A7-8D5B-401B6928F437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF9359C8-5761-45A7-8D5B-401B6928F437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF57B566-756C-4712-9A03-240AE2654D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF57B566-756C-4712-9A03-240AE2654D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF57B566-756C-4712-9A03-240AE2654D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF57B566-756C-4712-9A03-240AE2654D75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

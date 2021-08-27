@@ -5,18 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TransactionStore.API.Extensions;
+using TransactionStore.Core;
 using System.Text.Json.Serialization;
-using TStore.API.Configuration;
-using TStore.Business.Services;
-using TStore.DAL.Repositories;
 
-namespace TStore.API
+namespace TransactionStore.API
 {
     public class Startup
     {
+        private const string _pathToEnvironment = "ASPNETCORE_ENVIRONMENT";
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var currentEnvironment = configuration.GetValue<string>(_pathToEnvironment);
+            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.{currentEnvironment}.json");
+
+            Configuration = builder.Build();
+            Configuration.SetEnvironmentVariableForConfiguration();
         }
 
         public IConfiguration Configuration { get; }
@@ -25,8 +30,9 @@ namespace TStore.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
-            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddAppConfiguration(Configuration);
+            services.AddCustomServices();
+            services.AddRepositories();
 
             services
                 .AddControllers()
@@ -43,11 +49,12 @@ namespace TStore.API
                     };
                 });
 
-            services.AddSwaggerDocument(document => {
-                document.DocumentName = "Endpoints for TStore";
-                document.Title = "TStore API";
+            services.AddSwaggerDocument(document =>
+            {
+                document.DocumentName = "Endpoints for TransactionStore";
+                document.Title = "TransactionStore API";
                 document.Version = "v8";
-                document.Description = "An interface for TStore.";
+                document.Description = "An interface for TransactionStore.";
             });
         }
 

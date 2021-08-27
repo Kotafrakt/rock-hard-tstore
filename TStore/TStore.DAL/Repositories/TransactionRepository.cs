@@ -1,45 +1,74 @@
-﻿using System.Collections.Generic;
+﻿using Dapper;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using Dapper;
 using System.Linq;
-using TStore.DAL.Models;
+using TransactionStore.Core;
+using TransactionStore.DAL.Models;
 
-namespace TStore.DAL.Repositories
+namespace TransactionStore.DAL.Repositories
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private const string _transactionkInsert = "dbo.Transaction_Insert";
-        private const string _transactionkSelectAll = "dbo.Transaction_SelectAll";
-        private const string _transactionkSelectByAccountId = "dbo.Transaction_SelectByAccountId";
+        private const string _transactionDepositOrWithdraw = "dbo.Transaction_DepositOrWithdraw";
+        private const string _transactionTransfer = "dbo.Transaction_Transfer";
+        private const string _transactionSelectByPeriod = "dbo.Transaction_SelectByPeriod";
+        private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
-        public int AddTransaction(TransactionDto dto)
+        public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
+        public long AddDepositeOrWithdraw(TransactionDto dto)
         {
-            return _connection.QuerySingleOrDefault<int>(
-                _transactionkInsert,
+            return _connection.QuerySingleOrDefault<long>(
+                _transactionDepositOrWithdraw,
                 new
                 {
                     dto.AccountId,
                     dto.TransactionType,
-                    dto.Amount
+                    dto.Amount,
+                    dto.Currency
                 },
                 commandType: CommandType.StoredProcedure
                 );
         }
 
-        public List<TransactionDto> GetAllTransactions()
+        public (long, long) AddTransfer(TransferDto dto)
         {
-            return _connection.Query<TransactionDto>(
-                _transactionkSelectAll,
-                    commandType: CommandType.StoredProcedure
-                )
-                .ToList();
+            return _connection.QuerySingleOrDefault<(long, long)>(
+                _transactionTransfer,
+                new
+                {
+                    dto.AccountId,
+                    dto.RecipientAccountId,
+                    dto.Amount,
+                    dto.RecipientAmount,
+                    dto.Currency,
+                    dto.RecipientCurrency,
+                },
+                commandType: CommandType.StoredProcedure
+                );
         }
 
         public List<TransactionDto> GetTransactionsByAccountId(int accountId)
         {
             return _connection.Query<TransactionDto>(
-                _transactionkSelectByAccountId,
+                _transactionSelectByAccountId,
                 new { accountId },
+                    commandType: CommandType.StoredProcedure
+                )
+                .ToList();
+        }
+
+        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId)
+        {
+            return _connection.Query<TransactionDto>(
+                _transactionSelectByPeriod,
+                 new
+                 {
+                     from,
+                     to,
+                     accountId
+                 },
                     commandType: CommandType.StoredProcedure
                 )
                 .ToList();

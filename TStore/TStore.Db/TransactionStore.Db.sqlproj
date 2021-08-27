@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>TStore.Db</Name>
+    <Name>TransactionStore.Db</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{eeba5037-9a88-48f7-bda6-ef0a7c4d6461}</ProjectGuid>
@@ -64,8 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
-    <Build Include="StoredProcedures\Transaction\Transaction_Insert.sql" />
-    <Build Include="StoredProcedures\Transaction\Transaction_SelectAll.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_SelectByPeriod.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_SelectByAccountId.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_DepositOrWithdraw.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_Transfer.sql" />
   </ItemGroup>
 </Project>
