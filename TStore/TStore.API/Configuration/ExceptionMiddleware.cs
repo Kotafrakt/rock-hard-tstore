@@ -6,17 +6,18 @@ using System.Net;
 using System.Threading.Tasks;
 using TStore.Business.Exceptions;
 
-namespace TStore.API.Configuration
+namespace TransactionStore.API.Configuration
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private const string MessageAuthorization = "Authorization exception";
-        private const string MessageValidation = "Validation exception";
-        private const string MessageEntity = "Entity not found exception";
-        private const int AuthorizationCode = 1000;
-        private const int ValidationCode = 1001;
-        private const int EntityCode = 1002;
+        private const string _messageAuthorization = "Authorization exception";
+        private const string _messageValidation = "Validation exception";
+        private const string _messageEntity = "Entity not found exception";
+        private const string _messageUnknown = "Unknown error";
+        private const int _authorizationCode = 2000;
+        private const int _entityCode = 400;
+        private const int _unknownCode = 3000;
 
         public ExceptionMiddleware(RequestDelegate next)
         {
@@ -31,15 +32,15 @@ namespace TStore.API.Configuration
             }
             catch (AuthorizationException ex)
             {
-                await HandlerExceptionMessageAsync(context, ex, AuthorizationCode, MessageAuthorization);
+                await HandlerExceptionMessageAsync(context, ex, HttpStatusCode.Forbidden);
             }
-            catch (ValidationException ex) //422
+            catch (EntityNotFoundException ex)
             {
-                await HandleValidationExceptionMessageAsync(context, ex, ValidationCode, MessageValidation);
+                await HandlerExceptionMessageAsync(context, ex, HttpStatusCode.NotFound);
             }
-            catch (EntityNotFoundException ex) //404
+            catch (ValidationException ex)
             {
-                await HandlerExceptionMessageAsync(context, ex, EntityCode, MessageEntity);
+                await HandleValidationExceptionMessageAsync(context, ex, _messageValidation);
             }
             catch (Exception ex)
             {
@@ -47,8 +48,12 @@ namespace TStore.API.Configuration
             }
         }
 
-        private static Task HandlerExceptionMessageAsync(HttpContext context, Exception exception, int code, string message)
+        private static Task HandlerExceptionMessageAsync(HttpContext context, Exception exception, HttpStatusCode statusCode)
         {
+
+            var code = statusCode == HttpStatusCode.Forbidden ? _authorizationCode : _entityCode;
+            var message = statusCode == HttpStatusCode.Forbidden ? _messageAuthorization : _messageEntity;
+
             context.Response.ContentType = "application/json";
             var result = JsonConvert.SerializeObject(
                 new ExceptionResponse
@@ -58,16 +63,15 @@ namespace TStore.API.Configuration
                     Description = exception.Message
                 }
             );
-            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            context.Response.StatusCode = (int)statusCode;
             return context.Response.WriteAsync(result);
         }
 
-        private static Task HandleValidationExceptionMessageAsync(HttpContext context, ValidationException exception, int code, string message)
+        private static Task HandleValidationExceptionMessageAsync(HttpContext context, ValidationException exception, string message)
         {
             context.Response.ContentType = "application/json";
             var result = JsonConvert.SerializeObject(new ValidationExceptionResponse(exception)
             {
-                Code = code,
                 Message = message
             });
             context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
@@ -79,8 +83,8 @@ namespace TStore.API.Configuration
             context.Response.ContentType = "application/json";
             var result = JsonConvert.SerializeObject(new
             {
-                code = 1003,
-                message = "Unknown error",
+                code = _unknownCode,
+                message = _messageUnknown,
                 description = exception.Message
             });
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

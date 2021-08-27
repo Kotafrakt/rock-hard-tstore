@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Extensions;
 using TransactionStore.Core;
 using System.Text.Json.Serialization;
+using TransactionStore.API.Configuration;
 
 namespace TransactionStore.API
 {
