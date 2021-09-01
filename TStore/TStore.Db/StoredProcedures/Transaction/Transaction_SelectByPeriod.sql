@@ -26,7 +26,7 @@ ELSE
 			t.TransactionType,
 			t.[Date]
 		FROM [dbo].[Transaction] t
-		WHERE [Date] BETWEEN @From and @To and t.AccountId = @AccountId
+		WHERE t.[Date] BETWEEN @From and @To and t.AccountId = @AccountId
 	UNION ALL
 		SELECT
 			tr.Id,

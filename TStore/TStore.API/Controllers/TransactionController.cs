@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,11 +65,10 @@ namespace TransactionStore.API.Controllers
         [HttpGet("by-account/{accountId}")]
         [Description("Get transactions by account")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByAccountId(int accountId)
+        public string GetTransactionsByAccountId(int accountId)
         {
             var resultDto = _transactionService.GetTransactionsByAccountId(accountId);
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
+            return JsonConvert.SerializeObject(resultDto);
         }
 
         // api/transaction/by-period
