@@ -11,7 +11,9 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TransactionStore.Db", "TSto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.API", "TStore.API\TransactionStore.API.csproj", "{EF9359C8-5761-45A7-8D5B-401B6928F437}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionStore.Core", "TransactionStore.Core\TransactionStore.Core.csproj", "{DF57B566-756C-4712-9A03-240AE2654D75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.Core", "TransactionStore.Core\TransactionStore.Core.csproj", "{DF57B566-756C-4712-9A03-240AE2654D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionStore.Business.Tests", "TransactionStore.Business.Tests\TransactionStore.Business.Tests.csproj", "{ED754A6A-A1C4-4313-B7B9-86A9F078CA15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{DF57B566-756C-4712-9A03-240AE2654D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF57B566-756C-4712-9A03-240AE2654D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF57B566-756C-4712-9A03-240AE2654D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED754A6A-A1C4-4313-B7B9-86A9F078CA15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED754A6A-A1C4-4313-B7B9-86A9F078CA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED754A6A-A1C4-4313-B7B9-86A9F078CA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED754A6A-A1C4-4313-B7B9-86A9F078CA15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

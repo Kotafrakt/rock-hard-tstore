@@ -8,7 +8,7 @@ namespace TransactionStore.API.Configuration
 {
     public class MapperProfile : Profile
     {
-        private const string _dateFormat = "dd.MM.yyyy";
+        private const string _dateFormat = "dd.MM.yyyy HH:mm";
         public MapperProfile()
         {
             CreateMap<TransactionInputModel, TransactionDto>();

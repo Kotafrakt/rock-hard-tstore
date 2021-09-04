@@ -34,7 +34,6 @@ namespace TransactionStore.API.Controllers
             var output = _transactionService.AddDeposit(dto);
 
             return StatusCode(201, output);
-            //created
         }
 
         // api/transaction/withdraw
