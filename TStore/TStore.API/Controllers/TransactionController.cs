@@ -75,11 +75,11 @@ namespace TransactionStore.API.Controllers
         [HttpPost("by-period")]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
+        public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
-            var resultDto = _transactionService.GetTransactionsByPeriod(inputModel.From, inputModel.To, inputModel.AccountId);
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
+            var dto = _mapper.Map<GetByPeriodDto>(inputModel);
+            var resultDto = _transactionService.GetTransactionsByPeriod(dto);
+            return JsonConvert.SerializeObject(resultDto);
         }
     }
 }

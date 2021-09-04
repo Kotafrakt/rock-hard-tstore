@@ -9,10 +9,10 @@ namespace TransactionStore.API.Models
     {
         [Required(ErrorMessage = FromDateRequired)]
         [CustomDateFormatAttribute(ErrorMessage = WrongFormatDate)]
-        public DateTime From { get; set; }
+        public string From { get; set; }
         [Required(ErrorMessage = ToDateRequired)]
         [CustomDateFormatAttribute(ErrorMessage = WrongFormatDate)]
-        public DateTime To { get; set; }
+        public string To { get; set; }
         public int? AccountId { get; set; }
     }
 }
