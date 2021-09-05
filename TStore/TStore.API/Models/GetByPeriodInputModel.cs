@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using TransactionStore.API.Common;
+﻿using TransactionStore.API.Common;
 using static TransactionStore.API.Common.ValidationMessage;
 
 namespace TransactionStore.API.Models

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using TransactionStore.Core.Enums;
 
 namespace TransactionStore.API.Common
