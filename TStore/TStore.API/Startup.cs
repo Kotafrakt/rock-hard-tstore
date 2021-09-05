@@ -35,8 +35,10 @@ namespace TransactionStore.API
             services.AddCustomServices();
             services.AddRepositories();
 
+            services.AddControllers();
+
             services
-                .AddControllers()
+                .AddMvc()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -57,6 +59,7 @@ namespace TransactionStore.API
                 document.Version = "v8";
                 document.Description = "An interface for TransactionStore.";
             });
+            services.AddOptions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +76,7 @@ namespace TransactionStore.API
 
             app.UseHttpsRedirection();
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 

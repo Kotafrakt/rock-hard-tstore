@@ -49,6 +49,11 @@ namespace DevEdu.API.Configuration
                 ValidationMessage.WrongFormatDate => 1001,
                 ValidationMessage.FromDateRequired => 1002,
                 ValidationMessage.ToDateRequired => 1003,
+                ValidationMessage.AmountRequired => 1004,
+                ValidationMessage.AccountIdRequired => 1005,
+                ValidationMessage.CurrencyRequired => 1006,
+                ValidationMessage.RecipientAccountIdRequired => 1007,
+                ValidationMessage.RecipientCurrencyRequired => 1008,
                 _ => 1500
             };
         }
