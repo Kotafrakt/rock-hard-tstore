@@ -1,5 +1,4 @@
-﻿using DevEdu.API.Configuration;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -61,4 +60,3 @@ namespace TransactionStore.API.Configuration
         }
     }
 }
-

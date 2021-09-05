@@ -1,10 +1,9 @@
-﻿using DevEdu.Business.Exceptions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using TransactionStore.API.Common;
 using TStore.Business.Exceptions;
 
-namespace DevEdu.API.Configuration
+namespace TransactionStore.API.Configuration
 {
     public class ValidationExceptionResponse
     {
@@ -48,7 +47,7 @@ namespace DevEdu.API.Configuration
             {
                 ValidationMessage.WrongFormatDate => 1001,
                 ValidationMessage.FromDateRequired => 1002,
-                ValidationMessage.ToDateRequired => 1003,
+                ValidationMessage.DateRequired => 1003,
                 ValidationMessage.AmountRequired => 1004,
                 ValidationMessage.AccountIdRequired => 1005,
                 ValidationMessage.CurrencyRequired => 1006,

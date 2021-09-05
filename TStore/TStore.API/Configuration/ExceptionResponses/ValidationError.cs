@@ -1,4 +1,4 @@
-﻿namespace DevEdu.Business.Exceptions
+﻿namespace TransactionStore.API.Configuration
 {
     public class ValidationError
     {
