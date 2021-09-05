@@ -72,6 +72,8 @@ namespace TransactionStore.API
                 app.UseSwaggerUi3();
             }
 
+            app.UseSwaggerUi3(settings => { settings.ValidateSpecification = true; });
+
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();

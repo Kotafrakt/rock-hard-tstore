@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TransactionStore.API.Common;
 using TransactionStore.Core.Enums;
 using static TransactionStore.API.Common.ValidationMessage;
 
@@ -6,11 +7,11 @@ namespace TransactionStore.API.Models
 {
     public class TransactionInputModel
     {
-        [Required(ErrorMessage = AmountRequired)]
+        [CustomRequired(ErrorMessage = AmountRequired)]
         public decimal Amount { get; set; }
-        [Required(ErrorMessage = AccountIdRequired)]
+        [CustomRequired(ErrorMessage = AccountIdRequired)]
         public int AccountId { get; set; }
-        [Required(ErrorMessage = CurrencyRequired)]
+        [CustomRequired(ErrorMessage = CurrencyRequired)]
         public Currency Currency { get; set; }
     }
 }

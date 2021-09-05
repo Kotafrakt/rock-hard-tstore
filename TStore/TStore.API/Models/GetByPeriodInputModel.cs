@@ -8,10 +8,10 @@ namespace TransactionStore.API.Models
 {
     public class GetByPeriodInputModel
     {
-        [Required(ErrorMessage = FromDateRequired)]
+        [CustomRequired(ErrorMessage = FromDateRequired)]
         [CustomDateFormat(ErrorMessage = WrongFormatDate)]
         public string From { get; set; }
-        [Required(ErrorMessage = ToDateRequired)]
+        [CustomRequired(ErrorMessage = DateRequired)]
         [CustomDateFormat(ErrorMessage = WrongFormatDate)]
         public string To { get; set; }
         public int? AccountId { get; set; }
