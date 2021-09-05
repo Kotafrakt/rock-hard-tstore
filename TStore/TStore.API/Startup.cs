@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Extensions;
 using TransactionStore.Core;
+using System.Text.Json.Serialization;
+using TransactionStore.API.Configuration;
 
 namespace TransactionStore.API
 {
@@ -33,6 +36,21 @@ namespace TransactionStore.API
 
             services.AddControllers();
 
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var exc = new ValidationExceptionResponse(context.ModelState);
+                        return new UnprocessableEntityObjectResult(exc);
+                    };
+                });
+
             services.AddSwaggerDocument(document =>
             {
                 document.DocumentName = "Endpoints for TransactionStore";
@@ -40,6 +58,7 @@ namespace TransactionStore.API
                 document.Version = "v8";
                 document.Description = "An interface for TransactionStore.";
             });
+            services.AddOptions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,9 +71,13 @@ namespace TransactionStore.API
                 app.UseSwaggerUi3();
             }
 
+            app.UseSwaggerUi3(settings => { settings.ValidateSpecification = true; });
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseHttpsRedirection();
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
