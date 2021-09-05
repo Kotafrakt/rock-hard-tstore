@@ -10,6 +10,6 @@ namespace TransactionStore.Business.Services
         long AddWithdraw(TransactionDto dto);
         string AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByAccountId(int accountId);
-        List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId);
+        List<TransactionDto> GetTransactionsByPeriod(GetByPeriodDto dto);
     }
 }

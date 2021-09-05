@@ -12,15 +12,22 @@ namespace TransactionStore.Business.Services
 
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
+            decimal SenderCurrencyValue, RecipientCurrencyValue;
             if (senderCurrency == recipientCurrency) return Decimal.Round(amount, 3);
             if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
-            _currencyRatesService.CurrencyPair.TryGetValue(senderCurrency + _currencyRatesService.BaseCurrency, out decimal SenderCurrencyValue);
-            _currencyRatesService.CurrencyPair.TryGetValue(recipientCurrency + _currencyRatesService.BaseCurrency, out decimal RecipientCurrencyValue);
+            _currencyRatesService.CurrencyPair.TryGetValue(senderCurrency + _currencyRatesService.BaseCurrency, out SenderCurrencyValue);
+            _currencyRatesService.CurrencyPair.TryGetValue(recipientCurrency + _currencyRatesService.BaseCurrency, out RecipientCurrencyValue);
+            if (senderCurrency == "RUB")
+                SenderCurrencyValue = 1m;
+            if (recipientCurrency == "RUB")
+                RecipientCurrencyValue = 1m;
             return Decimal.Round((SenderCurrencyValue / RecipientCurrencyValue * amount), 3);
         }
 
         private bool IsValid(string currency)
         {
+            if(currency == "RUB")
+                return true;
             return _currencyRatesService.CurrencyPair.ContainsKey(currency + _currencyRatesService.BaseCurrency);
         }
     }

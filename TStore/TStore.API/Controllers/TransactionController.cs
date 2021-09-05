@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +34,6 @@ namespace TransactionStore.API.Controllers
             var output = _transactionService.AddDeposit(dto);
 
             return StatusCode(201, output);
-            //created
         }
 
         // api/transaction/withdraw
@@ -64,22 +64,21 @@ namespace TransactionStore.API.Controllers
         [HttpGet("by-account/{accountId}")]
         [Description("Get transactions by account")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByAccountId(int accountId)
+        public string GetTransactionsByAccountId(int accountId)
         {
             var resultDto = _transactionService.GetTransactionsByAccountId(accountId);
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
+            return JsonConvert.SerializeObject(resultDto);
         }
 
         // api/transaction/by-period
         [HttpPost("by-period")]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public List<TransactionOutputModel> GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
+        public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
-            var resultDto = _transactionService.GetTransactionsByPeriod(inputModel.From, inputModel.To, inputModel.AccountId);
-            var listOutputs = _mapper.Map<List<TransactionOutputModel>>(resultDto);
-            return listOutputs;
+            var dto = _mapper.Map<GetByPeriodDto>(inputModel);
+            var resultDto = _transactionService.GetTransactionsByPeriod(dto);
+            return JsonConvert.SerializeObject(resultDto);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TransactionStore.API.Common
     [AttributeUsage(AttributeTargets.Property)]
     public class CustomDateFormatAttribute : ValidationAttribute
     {
-        private const string _dateFormat = "dd.MM.yyyy";
+        private const string _dateFormat = "dd.MM.yyyy HH:mm";
         public override bool IsValid(object value)
         {
             CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("ru-RU");
