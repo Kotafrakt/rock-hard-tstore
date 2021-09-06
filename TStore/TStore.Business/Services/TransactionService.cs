@@ -32,11 +32,13 @@ namespace TransactionStore.Business.Services
             return transactionId;
         }
 
-        public string AddTransfer(TransferDto dto)
+        public List<long> AddTransfer(TransferDto dto)
         {
             dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
             var transactionIds = _transactionRepository.AddTransfer(dto);
-            string result = $"{transactionIds.Item1}, {transactionIds.Item2}";
+            var result = new List<long>();
+            result.Add(transactionIds.Item1);
+            result.Add(transactionIds.Item2);
             return result;
         }
 

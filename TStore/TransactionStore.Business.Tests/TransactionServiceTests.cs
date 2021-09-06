@@ -3,6 +3,7 @@ using NUnit.Framework;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Repositories;
 using FluentAssertions;
+using System.Collections.Generic;
 
 namespace TransactionStore.Business.Tests
 {
@@ -56,7 +57,9 @@ namespace TransactionStore.Business.Tests
             //Given
             var dto = TransactionStoreData.GetTransfer();
             var ids = (dto.AccountId, dto.RecipientAccountId);
-            var returnedString = $"{dto.AccountId}, {dto.RecipientAccountId}";
+            var expectedList = new List<long>();
+            expectedList.Add(dto.AccountId);
+            expectedList.Add(dto.RecipientAccountId);
 
             _transactionRepoMock.Setup(x => x.AddTransfer(dto)).Returns(ids);
 
@@ -64,7 +67,7 @@ namespace TransactionStore.Business.Tests
             var actual = _sut.AddTransfer(dto);
 
             //Than
-            returnedString.Should().BeEquivalentTo(actual);
+            expectedList.Should().BeEquivalentTo(actual);
             _transactionRepoMock.Verify(x => x.AddTransfer(dto), Times.Once);
         }
 

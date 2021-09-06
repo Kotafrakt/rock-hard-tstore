@@ -52,7 +52,7 @@ namespace TransactionStore.API.Controllers
         [HttpPost("transfer")]
         [Description("Add transfer")]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-        public ActionResult<string> AddTransfer([FromBody] TransferInputModel inputModel)
+        public ActionResult<List<long>> AddTransfer([FromBody] TransferInputModel inputModel)
         {
             var dto = _mapper.Map<TransferDto>(inputModel);
             var output = _transactionService.AddTransfer(dto);

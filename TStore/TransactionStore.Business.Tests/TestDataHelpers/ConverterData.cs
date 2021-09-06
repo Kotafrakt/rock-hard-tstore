@@ -9,10 +9,19 @@ namespace TransactionStore.Business.Tests
     public static class ConverterData
     {
         private static CurrencyRatesService _currencyRatesService = new CurrencyRatesService();
-        public static List<decimal> GetValidListOfRubsAmounts { get; } = new List<decimal> {
-            _currencyRatesService.CurrencyPair.GetValueOrDefault("USDRUB") * 10,
-            _currencyRatesService.CurrencyPair.GetValueOrDefault("EURRUB") * 10,
-            _currencyRatesService.CurrencyPair.GetValueOrDefault("JPYRUB") * 10
-            };
+
+        private static decimal usd = 1m;
+        private static decimal rub = _currencyRatesService.CurrencyPair.GetValueOrDefault("RUBUSD");
+        private static decimal eur = _currencyRatesService.CurrencyPair.GetValueOrDefault("EURUSD");
+        private static decimal jpy = _currencyRatesService.CurrencyPair.GetValueOrDefault("JPYUSD");
+
+        public static List<decimal> GetValidListOfRecipientAmount(string currency, decimal amount)
+        {
+            if (currency == "USD")
+            {
+                //return new List<decimal> { Decimal.Round((currency / GetValidListOfCurrencies[0] * amount), 3) }
+            }
+            return default;
+        }
     }
 }

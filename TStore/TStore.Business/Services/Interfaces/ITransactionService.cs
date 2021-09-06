@@ -8,7 +8,7 @@ namespace TransactionStore.Business.Services
     {
         long AddDeposit(TransactionDto dto);
         long AddWithdraw(TransactionDto dto);
-        string AddTransfer(TransferDto dto);
+        public List<long> AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByAccountId(int accountId);
         List<TransactionDto> GetTransactionsByPeriod(GetByPeriodDto dto);
     }
