@@ -20,22 +20,28 @@ namespace TransactionStore.Business.Tests
             _sut = new ConverterService(new CurrencyRatesService());
         }
 
-        [Test]
-        public void ConvertAmount_Currencies_RecipientAmount()
+        [TestCase("USD")]
+        [TestCase("RUB")]
+        [TestCase("EUR")]
+        [TestCase("JPY")]
+        public void ConvertAmount_Currencies_RecipientAmount(string currency)
         {
             //Given
             var amount = 10m;
-            var currencies = new List<string>() { "RUB", "EUR", "JPY" };
-            var recipientCurrency = "USD";
-           // var expectedAmounts = ConverterData.GetValidListOfRubsAmounts;
+            var currencies = new List<string>() { "USD", "RUB", "EUR", "JPY" };
+            currencies.Remove(currency);
+            var expectedAmounts = new List<decimal>();
+            expectedAmounts = ConverterData.GetValidListOfRecipientAmount(currency, amount);
 
             //When
             List<decimal> actualAmounts = new ();
-            foreach (var currency in currencies)
+            foreach (var recipientCurrency in currencies)
+            {
                 actualAmounts.Add(_sut.ConvertAmount(currency, recipientCurrency, amount));
-
+            }
+               
             //Than
-           // actualAmounts.Should().BeEquivalentTo(expectedAmounts);
+            actualAmounts.Should().BeEquivalentTo(expectedAmounts);
         }
     }
 }

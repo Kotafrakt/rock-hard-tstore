@@ -19,7 +19,39 @@ namespace TransactionStore.Business.Tests
         {
             if (currency == "USD")
             {
-                //return new List<decimal> { Decimal.Round((currency / GetValidListOfCurrencies[0] * amount), 3) }
+                return new List<decimal> 
+                {
+                    Decimal.Round((usd / rub * amount), 3) ,
+                    Decimal.Round((usd / eur * amount), 3) ,
+                    Decimal.Round((usd / jpy * amount), 3) 
+                };
+            }
+            if (currency == "RUB")
+            {
+                return new List<decimal>
+                {
+                    Decimal.Round((rub / usd * amount), 3) ,
+                    Decimal.Round((rub / eur * amount), 3) ,
+                    Decimal.Round((rub / jpy * amount), 3)
+                };
+            }
+            if (currency == "EUR")
+            {
+                return new List<decimal>
+                {
+                    Decimal.Round((eur / usd * amount), 3) ,
+                    Decimal.Round((eur / rub * amount), 3) ,
+                    Decimal.Round((eur / jpy * amount), 3)
+                };
+            }
+            if (currency == "JPY")
+            {
+                return new List<decimal>
+                {
+                    Decimal.Round((jpy / usd * amount), 3) ,
+                    Decimal.Round((jpy / rub * amount), 3) ,
+                    Decimal.Round((jpy / eur * amount), 3)
+                };
             }
             return default;
         }
