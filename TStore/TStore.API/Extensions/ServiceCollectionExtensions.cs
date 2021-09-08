@@ -40,15 +40,7 @@ namespace TransactionStore.API.Extensions
                 {
                     cfg.ReceiveEndpoint("rates-queue", e =>
                     {
-                        e.ConfigureConsumeTopology = false;
                         e.ConfigureConsumer<RatesConsumer>(context);
-                        e.Bind("rates-exchange", x =>
-                        {
-                            //x.Durable = true;
-                            //x.AutoDelete = false;
-                            x.ExchangeType = ExchangeType.Direct;
-                            x.RoutingKey = "currentRates";
-                        });
                     });
                 });
             });
