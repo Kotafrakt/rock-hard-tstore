@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.2.3-develop.226" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TStore.DAL\TransactionStore.DAL.csproj" />
   </ItemGroup>
 

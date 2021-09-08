@@ -3,7 +3,7 @@ using System;
 
 namespace TransactionStore.Business.Services
 {
-    public class ConverterService
+    public class ConverterService : IConverterService
     {
         private readonly CurrencyRatesService _currencyRatesService;
         public ConverterService(CurrencyRatesService currencyRatesService)
@@ -27,7 +27,7 @@ namespace TransactionStore.Business.Services
 
         private bool IsValid(string currency)
         {
-            if(currency == "USD")
+            if (currency == "USD")
                 return true;
             return _currencyRatesService.CurrencyPair.ContainsKey(currency + _currencyRatesService.BaseCurrency);
         }

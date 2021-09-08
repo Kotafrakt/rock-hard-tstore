@@ -8,6 +8,14 @@ using TransactionStore.API.Extensions;
 using TransactionStore.Core;
 using System.Text.Json.Serialization;
 using TransactionStore.API.Configuration;
+using Microsoft.Extensions.Logging;
+using RatesApi.Models;
+using System.Threading;
+using System.Threading.Tasks;
+using MassTransit;
+using TransactionStore.Business.Services;
+using RabbitMQ.Client;
+using TransactionStore.API.Common;
 
 namespace TransactionStore.API
 {
@@ -33,8 +41,8 @@ namespace TransactionStore.API
             services.AddAppConfiguration(Configuration);
             services.AddCustomServices();
             services.AddRepositories();
-
             services.AddControllers();
+            services.AddMassTransitService();
 
             services
                 .AddMvc()

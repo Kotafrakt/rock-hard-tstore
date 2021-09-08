@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MassTransit;
+using RatesApi.Models;
 
 namespace TransactionStore.Business.Services
 {
-    public class CurrencyRatesService
+    public class CurrencyRatesService : ICurrencyRatesService
     {
-        public string BaseCurrency { get; } = "USD";
+        public string BaseCurrency { get; set; } = "USD";
         public Dictionary<string, decimal> CurrencyPair { get; set; }
 
         public CurrencyRatesService()
         {
-            CurrencyPair = new() { { "RUBUSD", 0.014m }, { "EURUSD", 1.1862m }, { "JPYUSD", 0.0091m } };
         }
     }
 }
