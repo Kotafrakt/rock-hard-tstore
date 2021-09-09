@@ -10,9 +10,9 @@ namespace TransactionStore.Business.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly ConverterService _converterService;
+        private readonly IConverterService _converterService;
 
-        public TransactionService(ITransactionRepository transactionRepository, ConverterService converterService)
+        public TransactionService(ITransactionRepository transactionRepository, IConverterService converterService)
         {
             _transactionRepository = transactionRepository;
             _converterService = converterService;

@@ -9,7 +9,6 @@ using TransactionStore.Core;
 using System.Text.Json.Serialization;
 using TransactionStore.API.Configuration;
 using Microsoft.Extensions.Logging;
-using RatesApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;

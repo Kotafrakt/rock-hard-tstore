@@ -1,24 +1,24 @@
 ﻿using MassTransit;
-using RatesApi.Models;
+using Exchange;
 using System.Threading.Tasks;
 using TransactionStore.Business.Services;
 
 namespace TransactionStore.API.Common
 {
     public class RatesConsumer :
-        IConsumer<RatesOutputModel>
+        IConsumer<RatesExchangeModel>
     {
-        private readonly CurrencyRatesService _currencyRatesService;
+        private readonly ICurrencyRatesService _currencyRatesService;
 
-        public RatesConsumer(CurrencyRatesService currencyRatesService)
+        public RatesConsumer(ICurrencyRatesService currencyRatesService)
         {
             _currencyRatesService = currencyRatesService;
         }
 
-        public async Task Consume(ConsumeContext<RatesOutputModel> context)
+        public async Task Consume(ConsumeContext<RatesExchangeModel> context)
         {
-            _currencyRatesService.BaseCurrency = context.Message.BaseCurrency;
-            _currencyRatesService.CurrencyPair = context.Message.Rates;
+            _currencyRatesService.RatesModel = context.Message;
+            _currencyRatesService.SaveCurrencyRates(context.Message);
         }
     }
 }

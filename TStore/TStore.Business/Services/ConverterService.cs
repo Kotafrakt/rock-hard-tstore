@@ -5,8 +5,8 @@ namespace TransactionStore.Business.Services
 {
     public class ConverterService : IConverterService
     {
-        private readonly CurrencyRatesService _currencyRatesService;
-        public ConverterService(CurrencyRatesService currencyRatesService)
+        private readonly ICurrencyRatesService _currencyRatesService;
+        public ConverterService(ICurrencyRatesService currencyRatesService)
         {
             _currencyRatesService = currencyRatesService;
         }
@@ -16,8 +16,8 @@ namespace TransactionStore.Business.Services
             decimal SenderCurrencyValue, RecipientCurrencyValue;
             if (senderCurrency == recipientCurrency) return Decimal.Round(amount, 3);
             if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
-            _currencyRatesService.CurrencyPair.TryGetValue(senderCurrency + _currencyRatesService.BaseCurrency, out SenderCurrencyValue);
-            _currencyRatesService.CurrencyPair.TryGetValue(recipientCurrency + _currencyRatesService.BaseCurrency, out RecipientCurrencyValue);
+            _currencyRatesService.RatesModel.Rates.TryGetValue(senderCurrency + _currencyRatesService.RatesModel.BaseCurrency, out SenderCurrencyValue);
+            _currencyRatesService.RatesModel.Rates.TryGetValue(recipientCurrency + _currencyRatesService.RatesModel.BaseCurrency, out RecipientCurrencyValue);
             if (senderCurrency == "USD")
                 SenderCurrencyValue = 1m;
             if (recipientCurrency == "USD")
@@ -29,7 +29,7 @@ namespace TransactionStore.Business.Services
         {
             if (currency == "USD")
                 return true;
-            return _currencyRatesService.CurrencyPair.ContainsKey(currency + _currencyRatesService.BaseCurrency);
+            return _currencyRatesService.RatesModel.Rates.ContainsKey(currency + _currencyRatesService.RatesModel.BaseCurrency);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace TransactionStore.Business.Tests
         private static CurrencyRatesService _currencyRatesService = new CurrencyRatesService();
 
         private static decimal usd = 1m;
-        private static decimal rub = _currencyRatesService.CurrencyPair.GetValueOrDefault("RUBUSD");
-        private static decimal eur = _currencyRatesService.CurrencyPair.GetValueOrDefault("EURUSD");
-        private static decimal jpy = _currencyRatesService.CurrencyPair.GetValueOrDefault("JPYUSD");
+        private static decimal rub = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("RUBUSD");
+        private static decimal eur = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("EURUSD");
+        private static decimal jpy = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("JPYUSD");
 
         public static List<decimal> GetValidListOfRecipientAmount(string currency, decimal amount)
         {
