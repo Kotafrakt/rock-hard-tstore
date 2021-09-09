@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Exchange;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,11 +17,13 @@ namespace TransactionStore.API.Controllers
     public class TransactionController : Controller
     {
         private readonly ITransactionService _transactionService;
+        private readonly ICurrencyRatesService _currencyRatesService;
         private readonly IMapper _mapper;
 
-        public TransactionController(ITransactionService transactionService, IMapper mapper)
+        public TransactionController(ITransactionService transactionService, ICurrencyRatesService currencyRatesService, IMapper mapper)
         {
             _transactionService = transactionService;
+            _currencyRatesService = currencyRatesService;
             _mapper = mapper;
         }
 
@@ -79,6 +82,15 @@ namespace TransactionStore.API.Controllers
             var dto = _mapper.Map<GetByPeriodDto>(inputModel);
             var resultDto = _transactionService.GetTransactionsByPeriod(dto);
             return JsonConvert.SerializeObject(resultDto);
+        }
+
+        // api/transaction/currency-rates
+        [HttpGet("currency-rates")]
+        [Description("Get current currency rates")]
+        [ProducesResponseType(typeof(RatesExchangeModel), StatusCodes.Status200OK)]
+        public RatesExchangeModel GetCurrencyRates()
+        {
+            return _currencyRatesService.RatesModel;
         }
     }
 }
