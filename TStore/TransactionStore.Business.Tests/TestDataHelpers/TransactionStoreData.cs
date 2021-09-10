@@ -16,6 +16,10 @@ namespace TransactionStore.Business.Tests
 
         private static CurrencyRatesService _currencyRatesService = new CurrencyRatesService();
 
+        private static decimal usd = 1m;
+        private static decimal rub = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("RUBUSD");
+        private static decimal eur = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("EURUSD");
+        private static decimal jpy = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("JPYUSD");
         public static TransactionDto GetDeposit()
         {
             return new TransactionDto { Id = 1, AccountId = 1, Amount = 100m, Currency = Currency.RUB, Date = date1, TransactionType = TransactionType.Deposit };
@@ -28,11 +32,6 @@ namespace TransactionStore.Business.Tests
 
         public static TransferDto GetTransfer()
         {
-            _currencyRatesService.LoadCurrencyRates();
-            decimal usd = 1m;
-            decimal rub = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("RUBUSD");
-            decimal eur = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("EURUSD");
-            decimal jpy = _currencyRatesService.RatesModel.Rates.GetValueOrDefault("JPYUSD");
             return new TransferDto { Id = 3, AccountId = 3, Amount = -100m, Currency = Currency.USD, Date = date3, TransactionType = TransactionType.Transfer,
                 RecipientAccountId = 4, RecipientAmount = Decimal.Round(usd / rub * 100m, 3), RecipientCurrency = Currency.RUB};
         }

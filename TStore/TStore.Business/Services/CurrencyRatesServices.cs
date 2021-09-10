@@ -27,19 +27,17 @@ namespace TransactionStore.Business.Services
 
         public void LoadCurrencyRates()
         {
-            if (RatesModel == null)
-            {
-                var rates = ReadCurrencyQuotes(_fullPath);
-                RatesModel = rates;
-            }
+            var rates = ReadCurrencyRates(_fullPath);
+            RatesModel = rates;
         }
 
         public void SaveCurrencyRates(RatesExchangeModel rates)
         {
-            WriteCurrencyQuotes(rates, _apDir, _fullPath);
+            RatesModel = rates;
+            WriteCurrencyRates(rates, _apDir, _fullPath);
         }
 
-        private void WriteCurrencyQuotes(RatesExchangeModel currencyRates, string directoryPath, string filePath)
+        private void WriteCurrencyRates(RatesExchangeModel currencyRates, string directoryPath, string filePath)
         {
             var json = SerializeCurrency(currencyRates);
             if (!CheckDirectory(directoryPath))
@@ -55,7 +53,7 @@ namespace TransactionStore.Business.Services
             }
         }
 
-        private RatesExchangeModel ReadCurrencyQuotes(string filePath)
+        private RatesExchangeModel ReadCurrencyRates(string filePath)
         {
             var dataCurrency = new RatesExchangeModel();
             var json = ReadFile(filePath);

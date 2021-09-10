@@ -17,7 +17,6 @@ namespace TransactionStore.API.Common
 
         public async Task Consume(ConsumeContext<RatesExchangeModel> context)
         {
-            _currencyRatesService.RatesModel = context.Message;
             _currencyRatesService.SaveCurrencyRates(context.Message);
         }
     }
