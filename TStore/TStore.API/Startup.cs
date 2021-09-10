@@ -44,19 +44,19 @@ namespace TransactionStore.API
             services.AddMassTransitService();
 
             services
-                .AddMvc()
-                .AddJsonOptions(options =>
+            .AddMvc()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
                 {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                })
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    options.InvalidModelStateResponseFactory = context =>
-                    {
-                        var exc = new ValidationExceptionResponse(context.ModelState);
-                        return new UnprocessableEntityObjectResult(exc);
-                    };
-                });
+                    var exc = new ValidationExceptionResponse(context.ModelState);
+                    return new UnprocessableEntityObjectResult(exc);
+                };
+            });
 
             services.AddSwaggerDocument(document =>
             {

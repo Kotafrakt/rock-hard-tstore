@@ -7,13 +7,14 @@ using Newtonsoft.Json;
 using Exchange;
 using System;
 using System.Globalization;
+using TransactionStore.Business.Constants;
 
 namespace TransactionStore.Business.Services
 {
     public class CurrencyRatesService : ICurrencyRatesService
     {
         private const string _dateFormat = "dd.MM.yyyy HH:mm";
-        private const string _apDir = "./";
+        private string _apDir = "./";
         private const string _fileName = "CurrencyRates.json";
         private string _fullPath;
 
@@ -43,14 +44,14 @@ namespace TransactionStore.Business.Services
             var json = SerializeCurrency(currencyRates);
             if (!CheckDirectory(directoryPath))
             {
-                if (CreateDirectory(directoryPath))
+                if (!CreateDirectory(directoryPath))
                 {
-                    //Ошибка не возможно создать директорию по той или иной причине
+                    throw new Exception(string.Format(ServiceMessages.CannotCreateDirectoryMessage, json, filePath));
                 }
             }
             if (!WriteFile(filePath, json))
             {
-                //не удалось записать файл
+                throw new Exception(string.Format(ServiceMessages.CannotWriteFileMessage, json, filePath));
             }
         }
 
@@ -61,6 +62,10 @@ namespace TransactionStore.Business.Services
             if (json != null)
             {
                 dataCurrency = DeserializeCurrency(json);
+            }
+            else
+            {
+                throw new Exception(string.Format(ServiceMessages.CannotReadFileMessage, filePath));
             }
             return dataCurrency;
         }

@@ -9,6 +9,8 @@ namespace TransactionStore.Business.Services
         public ConverterService(ICurrencyRatesService currencyRatesService)
         {
             _currencyRatesService = currencyRatesService;
+            if(_currencyRatesService.RatesModel == null)
+                _currencyRatesService.LoadCurrencyRates();
         }
 
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)

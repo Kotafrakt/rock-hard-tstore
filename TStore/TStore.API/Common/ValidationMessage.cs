@@ -10,6 +10,5 @@
         public const string CurrencyRequired = "Currency must be provided";
         public const string RecipientAccountIdRequired = "RecipientAccountId must be provided";
         public const string RecipientCurrencyRequired = "RecipientCurrency must be provided";
-
     }
 }
