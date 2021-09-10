@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TransactionStore.API.Models;
+using TransactionStore.Business;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Models;
 
@@ -79,9 +80,24 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
-            var dto = _mapper.Map<GetByPeriodDto>(inputModel);
-            var resultDto = _transactionService.GetTransactionsByPeriod(dto);
-            return JsonConvert.SerializeObject(resultDto);
+            Transactions transactions;
+            string userName = HttpContext.User.Identity?.Name;
+            if (!Transactions.CheckDictionaryByUserName(userName))
+            {
+                var dto = _mapper.Map<GetByPeriodDto>(inputModel);
+                transactions = new Transactions(_transactionService.GetTransactionsByPeriod(dto));
+                if (!transactions.CheckAllowedSize())
+                {
+                    transactions.SetListToDictionary(userName);
+                    transactions = Transactions.GetPart(userName);
+                }
+            }
+            else
+            {
+                transactions = Transactions.GetPart(userName);
+            }
+
+            return JsonConvert.SerializeObject(transactions);
         }
 
         // api/transaction/currency-rates
