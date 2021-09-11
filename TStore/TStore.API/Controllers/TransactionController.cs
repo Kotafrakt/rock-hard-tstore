@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Security.Claims;
 using TransactionStore.API.Models;
 using TransactionStore.Business;
 using TransactionStore.Business.Services;
@@ -81,20 +83,22 @@ namespace TransactionStore.API.Controllers
         public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
             Transactions transactions;
-            string userName = HttpContext.User.Identity?.Name;
-            if (!Transactions.CheckDictionaryByUserName(userName))
+            var leadId = Request.Headers["LeadId"];
+            if (!Transactions.CheckDictionaryByUserName(leadId))
             {
                 var dto = _mapper.Map<GetByPeriodDto>(inputModel);
                 transactions = new Transactions(_transactionService.GetTransactionsByPeriod(dto));
+
+
                 if (!transactions.CheckAllowedSize())
                 {
-                    transactions.SetListToDictionary(userName);
-                    transactions = Transactions.GetPart(userName);
+                    transactions.SetListToDictionary(leadId);
+                    transactions = Transactions.GetPart(leadId);
                 }
             }
             else
             {
-                transactions = Transactions.GetPart(userName);
+                transactions = Transactions.GetPart(leadId);
             }
 
             return JsonConvert.SerializeObject(transactions);
