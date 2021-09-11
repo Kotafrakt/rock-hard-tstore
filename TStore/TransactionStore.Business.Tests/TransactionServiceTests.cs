@@ -11,12 +11,17 @@ namespace TransactionStore.Business.Tests
     {
         private TransactionService _sut;
         private Mock<ITransactionRepository> _transactionRepoMock;
+        private Mock<ICurrencyRatesService> _currencyRatesServiceMock;
+        private Mock<IConverterService> _converterRatesServicMock;
+
 
         [SetUp]
         public void Setup()
         {
             _transactionRepoMock = new Mock<ITransactionRepository>();
-            _sut = new TransactionService(_transactionRepoMock.Object, new ConverterService(new CurrencyRatesService()));
+            _currencyRatesServiceMock = new Mock<ICurrencyRatesService>();
+            _converterRatesServicMock = new Mock<IConverterService>();
+            _sut = new TransactionService(_transactionRepoMock.Object, _converterRatesServicMock.Object);
         }
 
         [Test]

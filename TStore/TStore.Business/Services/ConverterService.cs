@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Exchange;
 using System;
 
 namespace TransactionStore.Business.Services
@@ -7,17 +7,18 @@ namespace TransactionStore.Business.Services
     {
         private readonly ICurrencyRatesService _currencyRatesService;
         private readonly string _baseCurrency;
+        private readonly RatesExchangeModel _ratesModel;
         public ConverterService(ICurrencyRatesService currencyRatesService)
         {
-            _currencyRatesService = currencyRatesService;
-            _baseCurrency = _currencyRatesService.RatesModel.BaseCurrency;
+            _ratesModel = currencyRatesService.RatesModel;
+            _baseCurrency = _ratesModel.BaseCurrency;
         }
 
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
             if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
-            _currencyRatesService.RatesModel.Rates.TryGetValue(senderCurrency + _baseCurrency, out var senderCurrencyValue);
-            _currencyRatesService.RatesModel.Rates.TryGetValue(recipientCurrency + _baseCurrency, out var recipientCurrencyValue);
+            _ratesModel.Rates.TryGetValue(_baseCurrency + senderCurrency, out var senderCurrencyValue);
+            _ratesModel.Rates.TryGetValue(_baseCurrency + recipientCurrency, out var recipientCurrencyValue);
             if (senderCurrency == _baseCurrency)
                 senderCurrencyValue = 1m;
             if (recipientCurrency == _baseCurrency)
@@ -29,7 +30,7 @@ namespace TransactionStore.Business.Services
         {
             if (currency == _baseCurrency)
                 return true;
-            return _currencyRatesService.RatesModel.Rates.ContainsKey(currency + _currencyRatesService.RatesModel.BaseCurrency);
+            return _ratesModel.Rates.ContainsKey(_baseCurrency + currency);
         }
     }
 }

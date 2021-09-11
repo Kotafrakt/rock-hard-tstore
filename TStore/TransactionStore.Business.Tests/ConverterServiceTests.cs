@@ -1,10 +1,7 @@
 using Moq;
 using NUnit.Framework;
 using TransactionStore.Business.Services;
-using TransactionStore.DAL.Repositories;
 using FluentAssertions;
-using TransactionStore.Core.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace TransactionStore.Business.Tests
@@ -12,12 +9,33 @@ namespace TransactionStore.Business.Tests
     public class ConverterServiceTests
     {
         private ConverterService _sut;
-
+        private Mock<ICurrencyRatesService> _currencyRatesServiceMock;
 
         [SetUp]
         public void Setup()
         {
-            _sut = new ConverterService(new CurrencyRatesService());
+            _currencyRatesServiceMock = new Mock<ICurrencyRatesService>();
+
+            _currencyRatesServiceMock.SetupGet(a => a.RatesModel).Returns(new Exchange.RatesExchangeModel()
+            {
+                Updated = "11.09.2021 20:00:09",
+                BaseCurrency = "USD",
+                Rates = new Dictionary<string, decimal> {
+                { "USDRUB", 73.1519m },
+                { "USDEUR", 0.84645m },
+                { "USDJPY", 109.885m }  }
+            });
+            _currencyRatesServiceMock.Setup(a => a.LoadCurrencyRates()).Returns(new Exchange.RatesExchangeModel()
+            {
+                Updated = "11.09.2021 20:00:09",
+                BaseCurrency = "USD",
+                Rates = new Dictionary<string, decimal> {
+                { "USDRUB", 73.1519m },
+                { "USDEUR", 0.84645m },
+                { "USDJPY", 109.885m }  }
+            });
+
+            _sut = new ConverterService(_currencyRatesServiceMock.Object);
         }
 
         [TestCase("USD")]
@@ -27,11 +45,11 @@ namespace TransactionStore.Business.Tests
         public void ConvertAmount_Currencies_RecipientAmount(string currency)
         {
             //Given
+            var baseCurrency = "USD";
             var amount = 10m;
             var currencies = new List<string>() { "USD", "RUB", "EUR", "JPY" };
             currencies.Remove(currency);
-            var expectedAmounts = new List<decimal>();
-            expectedAmounts = ConverterData.GetValidListOfRecipientAmount(currency, amount);
+            var expectedAmounts  = ConverterData.GetValidListOfRecipientAmount(currency, amount);
 
             //When
             List<decimal> actualAmounts = new ();

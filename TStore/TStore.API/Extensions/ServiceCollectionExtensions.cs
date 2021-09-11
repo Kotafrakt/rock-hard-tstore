@@ -1,8 +1,10 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
+using System.Text.Json.Serialization;
 using TransactionStore.API.Common;
+using TransactionStore.API.Configuration;
 using TransactionStore.Business.Services;
 using TransactionStore.Core;
 using TransactionStore.DAL.Repositories;
@@ -46,6 +48,35 @@ namespace TransactionStore.API.Extensions
             });
 
             services.AddMassTransitHostedService();
+        }
+
+        public static void AddOtherOptions(this IServiceCollection services)
+        {
+            services
+            .AddMvc()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var exc = new ValidationExceptionResponse(context.ModelState);
+                    return new UnprocessableEntityObjectResult(exc);
+                };
+            });
+        }
+
+        public static void AddSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerDocument(document =>
+            {
+                document.DocumentName = "Endpoints for TransactionStore";
+                document.Title = "TransactionStore API";
+                document.Version = "v8";
+                document.Description = "An interface for TransactionStore.";
+            });
         }
     }
 }
