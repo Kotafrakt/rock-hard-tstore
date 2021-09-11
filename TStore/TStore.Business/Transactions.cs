@@ -5,17 +5,15 @@ namespace TransactionStore.Business
 {
     public class Transactions
     {
-        private const string Finish = "Finish";
-        private const string Part = "Part";
         public List<TransactionDto> List { get; set; }
-        private string Status { get; set; }
+        private bool Status { get; set; }
 
         public Transactions(List<TransactionDto> transaction)
         {
             List = transaction;
         }
 
-        private Transactions(List<TransactionDto> transaction, string status)
+        private Transactions(List<TransactionDto> transaction, bool status)
         {
             List = transaction;
             Status = status;
@@ -34,7 +32,7 @@ namespace TransactionStore.Business
             {
                 TransactionsExtensions.Dictionary[userName].RemoveAt(i);
             }
-            string status = count == TransactionsExtensions.MaxSize ? Finish : Part;
+            bool status = count == TransactionsExtensions.MaxSize ? false : true;
             return new Transactions(tmpTransactions, status);
         }
     }
