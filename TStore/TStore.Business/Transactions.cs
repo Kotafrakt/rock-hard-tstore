@@ -27,8 +27,8 @@ namespace TransactionStore.Business
 
         public static Transactions GetPart(string userName)
         {
-            var count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize ?
-                TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
+            int count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize
+                ? TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
 
             var tmpTransactions = TransactionsExtensions.Dictionary[userName].GetRange(0, count);
             for (var i = 0; i < count; i++)
@@ -36,11 +36,13 @@ namespace TransactionStore.Business
                 TransactionsExtensions.Dictionary[userName].RemoveAt(0);
             }
 
-            if (count< TransactionsExtensions.MaxSize)
+            bool status = true;
+            if (TransactionsExtensions.Dictionary[userName].Count == 0)
             {
-                
+                TransactionsExtensions.Dictionary.Remove(userName);
+                status = false;
             }
-            var status = count == TransactionsExtensions.MaxSize;
+            
             return new Transactions(tmpTransactions, status);
         }
     }
