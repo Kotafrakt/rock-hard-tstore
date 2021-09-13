@@ -3,6 +3,6 @@
     public class DatabaseSettings
     {
         public string ConnectionString { get; set; }
-        public string AllowedIpAdress { get; set; }
+        public string AllowedIpAddress { get; set; }
     }
 }

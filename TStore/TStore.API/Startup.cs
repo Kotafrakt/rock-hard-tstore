@@ -44,9 +44,9 @@ namespace TransactionStore.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseOpenApi();
-                app.UseSwaggerUi3();
             }
+
+            app.UseOpenApi();
 
             app.UseSwaggerUi3(settings => { settings.ValidateSpecification = true; });
 

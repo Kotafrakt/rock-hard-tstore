@@ -22,16 +22,16 @@ namespace TransactionStore.API.Configuration
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var ipAddress = httpContext.Connection.RemoteIpAddress;
-            string whiteListIPAddress = _options.AllowedIpAdress;
+            string whiteListIPAddress = _options.AllowedIpAddress;
 
-            if (!ipAddress.Equals(whiteListIPAddress))
+            if (ipAddress.ToString() != whiteListIPAddress)
             {
                 httpContext.Response.ContentType = MediaTypeNames.Application.Json;
                 var errorResponse = JsonSerializer.Serialize(
                     new
                     {
                         Code = (int)HttpStatusCode.Forbidden,
-                        Message = "Incorrect IP Address, Access denied."
+                        Message = $"{ipAddress} is Incorrect IP Address, Access denied."
                     });
                 await httpContext.Response.WriteAsync(errorResponse);
                 return;

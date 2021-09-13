@@ -1,5 +1,6 @@
 ﻿using Exchange;
 using System;
+using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Services
 {
@@ -9,13 +10,15 @@ namespace TransactionStore.Business.Services
         private readonly RatesExchangeModel _ratesModel;
         public ConverterService(ICurrencyRatesService currencyRatesService)
         {
-            _ratesModel = currencyRatesService.RatesModel;
+            _ratesModel = currencyRatesService.LoadCurrencyRates();
             _baseCurrency = _ratesModel.BaseCurrency;
         }
 
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
-            if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
+            if (_ratesModel.Rates?.Count == 0) throw new CurrencyRatesNotFoundException("There are no current Currency Rates");
+            if (!IsValid(senderCurrency))  throw new CurrencyNotValidException($"Sender currency is not valid");
+            if (!IsValid(recipientCurrency)) throw new CurrencyNotValidException($"Recipient currency is not valid");
             _ratesModel.Rates.TryGetValue($"{_baseCurrency}{senderCurrency}", out var senderCurrencyValue);
             _ratesModel.Rates.TryGetValue($"{_baseCurrency}{recipientCurrency}", out var recipientCurrencyValue);
             if (senderCurrency == _baseCurrency)

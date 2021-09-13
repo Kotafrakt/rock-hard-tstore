@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using Exchange;
 using TransactionStore.Business.Helpers;
+using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Services
 {
     public class CurrencyRatesService : ICurrencyRatesService
     {
-        private const string _dateFormat = "dd.MM.yyyy HH:mm";
         private const string _fileName = "CurrencyRates.json";
         private string _apDir = "./";
         private string _fullPath;

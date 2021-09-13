@@ -29,7 +29,7 @@ namespace TransactionStore.API.Extensions
         {
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IConverterService, ConverterService>();
-            services.AddSingleton<ICurrencyRatesService, CurrencyRatesService>();
+            services.AddScoped<ICurrencyRatesService, CurrencyRatesService>();
         }
 
         public static void AddMassTransitService(this IServiceCollection services)
@@ -72,7 +72,7 @@ namespace TransactionStore.API.Extensions
         {
             services.AddSwaggerDocument(document =>
             {
-                document.DocumentName = "Endpoints for TransactionStore";
+                document.DocumentName = "EndpointsForTransactionStore";
                 document.Title = "TransactionStore API";
                 document.Version = "v8";
                 document.Description = "An interface for TransactionStore.";
