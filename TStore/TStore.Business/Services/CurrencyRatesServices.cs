@@ -8,19 +8,20 @@ namespace TransactionStore.Business.Services
     public class CurrencyRatesService : ICurrencyRatesService
     {
         private const string _fileName = "CurrencyRates.json";
-        private string _apDir = "./";
+        private const string _apDir = "./CurrencyRates/";
         private string _fullPath;
 
         public RatesExchangeModel RatesModel { get; set; }
         public CurrencyRatesService()
         {
             _fullPath = Path.Combine(_apDir, _fileName);
-            RatesModel = LoadCurrencyRates();
         }
 
         public RatesExchangeModel LoadCurrencyRates()
         {
-            return CurrencyRatesHelper.ReadCurrencyRates(_fullPath);
+            if(RatesModel == default)
+            RatesModel =  CurrencyRatesHelper.ReadCurrencyRates(_fullPath);
+            return RatesModel;
         }
 
         public void SaveCurrencyRates(RatesExchangeModel rates)

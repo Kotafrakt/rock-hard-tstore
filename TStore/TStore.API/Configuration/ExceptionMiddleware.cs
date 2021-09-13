@@ -12,12 +12,10 @@ namespace TransactionStore.API.Configuration
     {
         private readonly RequestDelegate _next;
         private const string _messageValidation = "Validation exception";
-        private const string _messageFileNotFound = "File Not Found exception";
         private const string _messageCurrencyRatesNotFound = "Currency Rates Not Found exception";
         private const string _messageCurrencyRatesNotValid = "Currency Rates Not Valid exception";
         private const string _messageUnknown = "Unknown error";
         private const int _unknownCode = 3000;
-        private const int _fileNotFoundCode = 4004;
         private const int _currencyNotValidCode = 5000;
         private const int _currencyRatesNotFoundCode = 6000;
 
@@ -78,19 +76,6 @@ namespace TransactionStore.API.Configuration
                 Description = exception.Message
             });
             context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
-            return context.Response.WriteAsync(result);
-        }
-
-        private static Task HandleFileNotFoundExceptionMessageAsync(HttpContext context, FileNotFoundException exception, string message)
-        {
-            context.Response.ContentType = "application/json";
-            var result = JsonConvert.SerializeObject(new ExceptionResponse
-            {
-                Code = _fileNotFoundCode,
-                Message = message,
-                Description =  $"There are no current Currency Rates"
-            });
-            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             return context.Response.WriteAsync(result);
         }
 
