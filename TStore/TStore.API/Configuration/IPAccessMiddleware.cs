@@ -21,7 +21,6 @@ namespace TransactionStore.API.Configuration
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-
             var ipAddress = httpContext.Connection.RemoteIpAddress;
             string whiteListIPAddress = _options.AllowedIpAdress;
 

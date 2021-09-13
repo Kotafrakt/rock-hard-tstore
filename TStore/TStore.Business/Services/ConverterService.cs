@@ -5,7 +5,6 @@ namespace TransactionStore.Business.Services
 {
     public class ConverterService : IConverterService
     {
-        private readonly ICurrencyRatesService _currencyRatesService;
         private readonly string _baseCurrency;
         private readonly RatesExchangeModel _ratesModel;
         public ConverterService(ICurrencyRatesService currencyRatesService)
@@ -17,8 +16,8 @@ namespace TransactionStore.Business.Services
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
             if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
-            _ratesModel.Rates.TryGetValue(_baseCurrency + senderCurrency, out var senderCurrencyValue);
-            _ratesModel.Rates.TryGetValue(_baseCurrency + recipientCurrency, out var recipientCurrencyValue);
+            _ratesModel.Rates.TryGetValue($"{_baseCurrency}{senderCurrency}", out var senderCurrencyValue);
+            _ratesModel.Rates.TryGetValue($"{_baseCurrency}{recipientCurrency}", out var recipientCurrencyValue);
             if (senderCurrency == _baseCurrency)
                 senderCurrencyValue = 1m;
             if (recipientCurrency == _baseCurrency)
@@ -30,7 +29,7 @@ namespace TransactionStore.Business.Services
         {
             if (currency == _baseCurrency)
                 return true;
-            return _ratesModel.Rates.ContainsKey(_baseCurrency + currency);
+            return _ratesModel.Rates.ContainsKey($"{_baseCurrency}{currency}");
         }
     }
 }

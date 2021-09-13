@@ -49,7 +49,7 @@ namespace TransactionStore.API.Configuration
             {
                 Code = _fileNotFoundCode,
                 Message = message,
-                Description = exception.Message
+                Description =  $"Transaction Store can't load currency rates, {exception.Message}"
             });
             context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
             return context.Response.WriteAsync(result);
