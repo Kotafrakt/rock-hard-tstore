@@ -67,7 +67,6 @@ namespace TransactionStore.API.Extensions
                 options.InvalidModelStateResponseFactory = context =>
                 {
                     var exc = new ValidationExceptionResponse(context.ModelState);
-                    Log.Error($"error: {exc.Message}");
                     return new UnprocessableEntityObjectResult(exc);
                 };
             });

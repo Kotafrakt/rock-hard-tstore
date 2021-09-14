@@ -33,34 +33,34 @@ namespace TransactionStore.API.Configuration
             }
             catch (CurrencyRatesNotFoundException ex)
             {
-                Log.Error($"error: {ex.Message}");
+                Log.Error($"error: {ex.Message} targetsite:{ex.TargetSite}");
                 await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, ex, _messageCurrencyRatesNotFound);
             }
             catch (CurrencyNotValidException ex)
             {
-                Log.Error($"error: {ex.Message}");
+                Log.Error($"error: {ex.Message} targetsite:{ex.TargetSite}");
                 await HandleCurrencyNotValidExceptionMessageAsync(context, ex, _messageCurrencyRatesNotValid);
             }
             catch (FileNotFoundException ex)
             {
                 var exc = new CurrencyRatesNotFoundException("There are no current Currency Rates");
-                Log.Error($"error: {exc.Message}");
+                Log.Error($"error: {exc.Message} targetsite:{ex.TargetSite}"); ;
                 await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound); 
             }
             catch (DirectoryNotFoundException ex)
             {
                 var exc = new CurrencyRatesNotFoundException("There are no current Currency Rates");
-                Log.Error($"error: {exc.Message}");
+                Log.Error($"error: {exc.Message} targetsite:{ex.TargetSite}");
                 await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound);
             }
             catch (ValidationException ex)
             {
-                Log.Error($"error: {ex.Message}");
+                Log.Error($"error: {ex.Message} targetsite:{ex.TargetSite}");
                 await HandleValidationExceptionMessageAsync(context, ex, _messageValidation);
             }
             catch (Exception ex)
             {
-                Log.Error($"error: {ex.Message}");
+                Log.Error($"error: {ex.Message} targetsite:{ex.TargetSite}");
                 await HandleExceptionMessageAsync(context, ex);  
             }
         }
