@@ -71,6 +71,7 @@ namespace TransactionStore.Business.Services
             if (!Transactions.CheckDictionaryByUserName(leadId))
             {
                 transactions = new Transactions(GetTransactionsDto(dto));
+
                 if (transactions.List.Count == 0)
                 {
                     return string.Empty;
@@ -86,7 +87,6 @@ namespace TransactionStore.Business.Services
             {
                 transactions = Transactions.GetPart(leadId);
             }
-
 
             return JsonConvert.SerializeObject(transactions);
         }

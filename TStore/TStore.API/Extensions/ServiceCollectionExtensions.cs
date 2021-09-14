@@ -34,25 +34,6 @@ namespace TransactionStore.API.Extensions
 
         public static void AddMassTransitService(this IServiceCollection services)
         {
-            services.AddOptions<DatabaseSettings>()
-                .Bind(configuration.GetSection(nameof(DatabaseSettings)))
-                .ValidateDataAnnotations();
-        }
-
-        public static void AddRepositories(this IServiceCollection services)
-        {
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
-        }
-
-        public static void AddCustomServices(this IServiceCollection services)
-        {
-            services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<IConverterService, ConverterService>();
-            services.AddSingleton<ICurrencyRatesService, CurrencyRatesService>();
-        }
-
-        public static void AddMassTransitService(this IServiceCollection services)
-        {
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<RatesConsumer>();
