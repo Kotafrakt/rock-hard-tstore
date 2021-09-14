@@ -72,8 +72,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public string GetTransactionsByAccountId(int accountId)
         {
-            var resultDto = _transactionService.GetTransactionsByAccountId(accountId);
-            return JsonConvert.SerializeObject(resultDto);
+            return _transactionService.GetTransactionsByAccountId(accountId);
         }
 
         // api/transaction/by-period
@@ -82,26 +81,9 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
-            Transactions transactions;
             var leadId = Request.Headers["LeadId"];
-            if (!Transactions.CheckDictionaryByUserName(leadId))
-            {
-                var dto = _mapper.Map<GetByPeriodDto>(inputModel);
-                transactions = new Transactions(_transactionService.GetTransactionsByPeriod(dto));
-
-
-                if (!transactions.CheckAllowedSize())
-                {
-                    transactions.SetListToDictionary(leadId);
-                    transactions = Transactions.GetPart(leadId);
-                }
-            }
-            else
-            {
-                transactions = Transactions.GetPart(leadId);
-            }
-
-            return JsonConvert.SerializeObject(transactions);
+            var dto = _mapper.Map<GetByPeriodDto>(inputModel);
+            return _transactionService.GetTransactionsByPeriod(dto, leadId);
         }
 
         // api/transaction/currency-rates

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MassTransit.Futures.Endpoints;
 using TransactionStore.DAL.Models;
 
 namespace TransactionStore.Business
@@ -27,7 +26,7 @@ namespace TransactionStore.Business
 
         public static Transactions GetPart(string userName)
         {
-            int count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize
+            var count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize
                 ? TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
 
             var tmpTransactions = TransactionsExtensions.Dictionary[userName].GetRange(0, count);
@@ -36,7 +35,7 @@ namespace TransactionStore.Business
                 TransactionsExtensions.Dictionary[userName].RemoveAt(0);
             }
 
-            bool status = true;
+            var status = true;
             if (TransactionsExtensions.Dictionary[userName].Count == 0)
             {
                 TransactionsExtensions.Dictionary.Remove(userName);

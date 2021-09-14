@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TransactionStore.Core.Enums;
 using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace TransactionStore.Business.Services
 {
@@ -42,7 +42,7 @@ namespace TransactionStore.Business.Services
             return result;
         }
 
-        public List<TransactionDto> GetTransactionsByAccountId(int accountId)
+        public string GetTransactionsByAccountId(int accountId)
         {
             var transactions = _transactionRepository.GetTransactionsByAccountId(accountId);
             var result = transactions.FindAll(t => t.TransactionType != TransactionType.Transfer).ToList();
@@ -60,10 +60,38 @@ namespace TransactionStore.Business.Services
                         Currency = group[0].Amount < 0 ? group[0].Currency : group[1].Currency,
                         RecipientCurrency = group[0].Amount > 0 ? group[0].Currency : group[1].Currency
                     }));
-            return result.OrderBy(t => t.Date).ToList();
+
+            var output= result.OrderBy(t => t.Date).ToList();
+            return JsonConvert.SerializeObject(output);
         }
 
-        public List<TransactionDto> GetTransactionsByPeriod(GetByPeriodDto dto)
+        public string GetTransactionsByPeriod(GetByPeriodDto dto, string leadId)
+        {
+            Transactions transactions;
+            if (!Transactions.CheckDictionaryByUserName(leadId))
+            {
+                transactions = new Transactions(GetTransactionsDto(dto));
+                if (transactions.List.Count == 0)
+                {
+                    return string.Empty;
+                }
+
+                if (!transactions.CheckAllowedSize())
+                {
+                    transactions.SetListToDictionary(leadId);
+                    transactions = Transactions.GetPart(leadId);
+                }
+            }
+            else
+            {
+                transactions = Transactions.GetPart(leadId);
+            }
+
+
+            return JsonConvert.SerializeObject(transactions);
+        }
+
+        private List<TransactionDto> GetTransactionsDto(GetByPeriodDto dto)
         {
             var transactions = _transactionRepository.GetTransactionsByPeriod(dto.From, dto.To, dto.AccountId);
             var result = transactions.FindAll(t => t.TransactionType != TransactionType.Transfer).ToList();

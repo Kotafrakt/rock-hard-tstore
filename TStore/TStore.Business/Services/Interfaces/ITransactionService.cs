@@ -9,7 +9,7 @@ namespace TransactionStore.Business.Services
         long AddDeposit(TransactionDto dto);
         long AddWithdraw(TransactionDto dto);
         public List<long> AddTransfer(TransferDto dto);
-        List<TransactionDto> GetTransactionsByAccountId(int accountId);
-        List<TransactionDto> GetTransactionsByPeriod(GetByPeriodDto dto);
+        string GetTransactionsByAccountId(int accountId);
+        string GetTransactionsByPeriod(GetByPeriodDto dto, string leadId);
     }
 }
