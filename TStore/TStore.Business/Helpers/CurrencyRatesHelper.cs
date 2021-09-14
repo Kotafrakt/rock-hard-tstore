@@ -81,6 +81,10 @@ namespace TransactionStore.Business.Helpers
             {
                 throw ex;
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                throw ex;
+            }
             return json;
         }
 

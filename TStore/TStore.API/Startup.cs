@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Extensions;
 using TransactionStore.Core;
 using TransactionStore.API.Configuration;
+using Serilog;
 
 namespace TransactionStore.API
 {
@@ -20,6 +21,11 @@ namespace TransactionStore.API
 
             Configuration = builder.Build();
             Configuration.SetEnvironmentVariableForConfiguration();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File("SerilogBusiness")
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }

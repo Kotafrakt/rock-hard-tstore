@@ -94,40 +94,40 @@ namespace TransactionStore.Business.Tests
             _transactionRepoMock.Verify(x => x.GetTransactionsByAccountId(accountId), Times.Once);
         }
 
-        [Test]
-        public void GetTransactionsByPeriod_AccountIdIsNull_ReturnedTransactionDtos()
-        {
-            //Given
-            var dtos = TransactionStoreData.GetListOfTransactions();
-            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdIsNull();
-            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
+        //[Test]
+        //public void GetTransactionsByPeriod_AccountIdIsNull_ReturnedTransactionDtos()
+        //{
+        //    //Given
+        //    var dtos = TransactionStoreData.GetListOfTransactions();
+        //    var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdIsNull();
+        //    var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
 
-            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
+        //    _transactionRepoMock.Setup(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
 
-            //When
-            var actual = _sut.GetTransactionsByPeriod(getByPeriodDto);
+        //    //When
+        //    var actual = _sut.GetTransactionsByPeriod(getByPeriodDto);
 
-            //Than
-            resultDtos.Should().BeEquivalentTo(actual);
-            _transactionRepoMock.Verify(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId), Times.Once);
-        }
+        //    //Than
+        //    resultDtos.Should().BeEquivalentTo(actual);
+        //    _transactionRepoMock.Verify(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId), Times.Once);
+        //}
 
-        [Test]
-        public void GetTransactionsByPeriod_AccountId_ReturnedTransactionDtos()
-        {
-            //Given
-            var dtos = TransactionStoreData.GetListOfTransactions();
-            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
-            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
+        //[Test]
+        //public void GetTransactionsByPeriod_AccountId_ReturnedTransactionDtos()
+        //{
+        //    //Given
+        //    var dtos = TransactionStoreData.GetListOfTransactions();
+        //    var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
+        //    var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
 
-            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
+        //    _transactionRepoMock.Setup(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
 
-            //When
-            var actual = _sut.GetTransactionsByPeriod(getByPeriodDto);
+        //    //When
+        //    var actual = _sut.GetTransactionsByPeriod(getByPeriodDto);
 
-            //Than
-            resultDtos.Should().BeEquivalentTo(actual);
-            _transactionRepoMock.Verify(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId), Times.Once);
-        }
+        //    //Than
+        //    resultDtos.Should().BeEquivalentTo(actual);
+        //    _transactionRepoMock.Verify(x => x.GetTransactionsByPeriod(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId), Times.Once);
+        //}
     }
 }

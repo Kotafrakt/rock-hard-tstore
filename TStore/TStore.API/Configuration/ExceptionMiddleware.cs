@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.IO;
 using System.Net;
@@ -32,24 +33,35 @@ namespace TransactionStore.API.Configuration
             }
             catch (CurrencyRatesNotFoundException ex)
             {
+                Log.Error($"error: {ex.Message}");
                 await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, ex, _messageCurrencyRatesNotFound);
             }
             catch (CurrencyNotValidException ex)
             {
+                Log.Error($"error: {ex.Message}");
                 await HandleCurrencyNotValidExceptionMessageAsync(context, ex, _messageCurrencyRatesNotValid);
             }
             catch (FileNotFoundException ex)
             {
                 var exc = new CurrencyRatesNotFoundException("There are no current Currency Rates");
+                Log.Error($"error: {exc.Message}");
+                await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound); 
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                var exc = new CurrencyRatesNotFoundException("There are no current Currency Rates");
+                Log.Error($"error: {exc.Message}");
                 await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound);
             }
             catch (ValidationException ex)
             {
+                Log.Error($"error: {ex.Message}");
                 await HandleValidationExceptionMessageAsync(context, ex, _messageValidation);
             }
             catch (Exception ex)
             {
-                await HandleExceptionMessageAsync(context, ex);
+                Log.Error($"error: {ex.Message}");
+                await HandleExceptionMessageAsync(context, ex);  
             }
         }
 

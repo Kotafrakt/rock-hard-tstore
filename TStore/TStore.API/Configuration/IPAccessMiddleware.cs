@@ -11,9 +11,9 @@ namespace TransactionStore.API.Configuration
     public class CheckIPMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly DatabaseSettings _options;
+        private readonly AppSettings _options;
 
-        public CheckIPMiddleware(RequestDelegate next, IOptions<DatabaseSettings> options)
+        public CheckIPMiddleware(RequestDelegate next, IOptions<AppSettings> options)
         {
             _next = next;
             _options = options.Value;

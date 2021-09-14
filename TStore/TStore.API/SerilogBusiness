@@ -1,0 +1,12 @@
+2021-09-14 20:01:32.753 +03:00 [INF] Logger Create
+2021-09-14 20:08:40.102 +03:00 [INF] Logger Create
+2021-09-14 20:13:29.907 +03:00 [INF] Logger Create
+2021-09-14 20:14:33.956 +03:00 [ERR] 14.09.2021 20:14:33: error Could not find a part of the path 'D:\Programming\Projects\tstore\TStore\TStore.API\CurrencyRates\CurrencyRates.json'.
+2021-09-14 20:15:41.021 +03:00 [INF] Logger Create
+2021-09-14 20:18:04.069 +03:00 [INF] Logger Create
+2021-09-14 20:29:31.835 +03:00 [INF] Logger Create
+2021-09-14 20:31:56.666 +03:00 [ERR] 14.09.2021 20:31:56: error Could not find a part of the path 'D:\Programming\Projects\tstore\TStore\TStore.API\CurrencyRates\CurrencyRates.json'.
+2021-09-14 20:33:01.802 +03:00 [INF] Logger Create
+2021-09-14 20:48:26.631 +03:00 [INF] Logger Create
+2021-09-14 20:49:03.577 +03:00 [ERR] 14.09.2021 20:49:03: error There are no current Currency Rates
+2021-09-14 21:14:17.461 +03:00 [ERR] error: Validation exception

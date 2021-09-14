@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System.Text.Json.Serialization;
 using TransactionStore.API.Common;
 using TransactionStore.API.Configuration;
@@ -18,6 +19,9 @@ namespace TransactionStore.API.Extensions
             services.AddOptions<DatabaseSettings>()
                 .Bind(configuration.GetSection(nameof(DatabaseSettings)))
                 .ValidateDataAnnotations();
+            services.AddOptions<AppSettings>()
+               .Bind(configuration.GetSection(nameof(AppSettings)))
+               .ValidateDataAnnotations();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -63,6 +67,7 @@ namespace TransactionStore.API.Extensions
                 options.InvalidModelStateResponseFactory = context =>
                 {
                     var exc = new ValidationExceptionResponse(context.ModelState);
+                    Log.Error($"error: {exc.Message}");
                     return new UnprocessableEntityObjectResult(exc);
                 };
             });
