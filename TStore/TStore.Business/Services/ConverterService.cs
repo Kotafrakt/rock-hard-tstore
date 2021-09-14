@@ -1,11 +1,14 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Exchange;
 using System;
+using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Services
 {
     public class ConverterService : IConverterService
     {
-        private readonly ICurrencyRatesService _currencyRatesService;
+        public string BaseCurrency { get; private set; }
+        public RatesExchangeModel RatesModel { get; private set; }
+        private ICurrencyRatesService _currencyRatesService;
         public ConverterService(ICurrencyRatesService currencyRatesService)
         {
             _currencyRatesService = currencyRatesService;
@@ -13,23 +16,25 @@ namespace TransactionStore.Business.Services
 
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
-            decimal SenderCurrencyValue, RecipientCurrencyValue;
-            if (senderCurrency == recipientCurrency) return Decimal.Round(amount, 3);
-            if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
-            _currencyRatesService.RatesModel.Rates.TryGetValue(senderCurrency + _currencyRatesService.RatesModel.BaseCurrency, out SenderCurrencyValue);
-            _currencyRatesService.RatesModel.Rates.TryGetValue(recipientCurrency + _currencyRatesService.RatesModel.BaseCurrency, out RecipientCurrencyValue);
-            if (senderCurrency == "USD")
-                SenderCurrencyValue = 1m;
-            if (recipientCurrency == "USD")
-                RecipientCurrencyValue = 1m;
-            return Decimal.Round((SenderCurrencyValue / RecipientCurrencyValue * amount), 3);
+            RatesModel = _currencyRatesService.LoadCurrencyRates();
+            BaseCurrency = RatesModel.BaseCurrency;
+            if (RatesModel.Rates?.Count == 0) throw new CurrencyRatesNotFoundException("There are no current Currency Rates");
+            if (!IsValid(senderCurrency)) throw new CurrencyNotValidException($"Sender currency is not valid");
+            if (!IsValid(recipientCurrency)) throw new CurrencyNotValidException($"Recipient currency is not valid");
+            RatesModel.Rates.TryGetValue($"{BaseCurrency}{senderCurrency}", out var senderCurrencyValue);
+            RatesModel.Rates.TryGetValue($"{BaseCurrency}{recipientCurrency}", out var recipientCurrencyValue);
+            if (senderCurrency == BaseCurrency)
+                senderCurrencyValue = 1m;
+            if (recipientCurrency == BaseCurrency)
+                recipientCurrencyValue = 1m;
+            return Decimal.Round((senderCurrencyValue / recipientCurrencyValue * amount), 3);
         }
 
         private bool IsValid(string currency)
         {
-            if (currency == "USD")
+            if (currency == BaseCurrency)
                 return true;
-            return _currencyRatesService.RatesModel.Rates.ContainsKey(currency + _currencyRatesService.RatesModel.BaseCurrency);
+            return RatesModel.Rates.ContainsKey($"{BaseCurrency}{currency}");
         }
     }
 }

@@ -1,133 +1,33 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using MassTransit;
-using Newtonsoft.Json;
+﻿using System.IO;
 using Exchange;
-using System;
-using System.Globalization;
+using TransactionStore.Business.Helpers;
+using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Services
 {
     public class CurrencyRatesService : ICurrencyRatesService
     {
-        private const string _dateFormat = "dd.MM.yyyy HH:mm";
-        private const string _apDir = "./";
         private const string _fileName = "CurrencyRates.json";
+        private const string _apDir = "./CurrencyRates/";
         private string _fullPath;
 
         public RatesExchangeModel RatesModel { get; set; }
         public CurrencyRatesService()
         {
             _fullPath = Path.Combine(_apDir, _fileName);
-            LoadCurrencyRates();
         }
 
-        public void LoadCurrencyRates()
+        public RatesExchangeModel LoadCurrencyRates()
         {
-            if (RatesModel == null)
-            {
-                var rates = ReadCurrencyQuotes(_fullPath);
-                RatesModel = rates;
-            }
+            if(RatesModel == default)
+            RatesModel =  CurrencyRatesHelper.ReadCurrencyRates(_fullPath);
+            return RatesModel;
         }
 
         public void SaveCurrencyRates(RatesExchangeModel rates)
         {
-            WriteCurrencyQuotes(rates, _apDir, _fullPath);
-        }
-
-        private void WriteCurrencyQuotes(RatesExchangeModel currencyRates, string directoryPath, string filePath)
-        {
-            var json = SerializeCurrency(currencyRates);
-            if (!CheckDirectory(directoryPath))
-            {
-                if (CreateDirectory(directoryPath))
-                {
-                    //Ошибка не возможно создать директорию по той или иной причине
-                }
-            }
-            if (!WriteFile(filePath, json))
-            {
-                //не удалось записать файл
-            }
-        }
-
-        private RatesExchangeModel ReadCurrencyQuotes(string filePath)
-        {
-            var dataCurrency = new RatesExchangeModel();
-            var json = ReadFile(filePath);
-            if (json != null)
-            {
-                dataCurrency = DeserializeCurrency(json);
-            }
-            return dataCurrency;
-        }
-
-        private string SerializeCurrency(RatesExchangeModel currency)
-        {
-            return JsonConvert.SerializeObject(currency);
-        }
-
-        private RatesExchangeModel DeserializeCurrency(string json)
-        {
-            return JsonConvert.DeserializeObject<RatesExchangeModel>(json);
-        }
-
-        private bool WriteFile(string path, string json)
-        {
-            var isOk = false;
-            try
-            {
-                using (var sWriter = new StreamWriter(path))
-                {
-                    sWriter.WriteLine(json);
-                    isOk = true;
-                }
-            }
-            catch
-            {
-                //ignore
-            }
-            return isOk;
-        }
-
-        private string ReadFile(string path)
-        {
-            var json = string.Empty;
-            try
-            {
-                using (var sReader = new StreamReader(path))
-                {
-                    json = sReader.ReadToEnd();
-                }
-            }
-            catch
-            {
-                //ignore
-            }
-            return json;
-        }
-
-        private bool CheckDirectory(string path)
-        {
-            return Directory.Exists(path);
-        }
-
-        private bool CreateDirectory(string path)
-        {
-            var isOk = false;
-            try
-            {
-                Directory.CreateDirectory(path);
-                isOk = true;
-            }
-            catch
-            {
-                //ignore
-            }
-            return isOk;
+            RatesModel = rates;
+            CurrencyRatesHelper.WriteCurrencyRates(rates, _apDir, _fullPath);
         }
     }
 }

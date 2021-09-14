@@ -1,20 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Extensions;
 using TransactionStore.Core;
-using System.Text.Json.Serialization;
 using TransactionStore.API.Configuration;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
-using MassTransit;
-using TransactionStore.Business.Services;
-using RabbitMQ.Client;
-using TransactionStore.API.Common;
 
 namespace TransactionStore.API
 {
@@ -42,29 +33,8 @@ namespace TransactionStore.API
             services.AddRepositories();
             services.AddControllers();
             services.AddMassTransitService();
-
-            services
-                .AddMvc()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                })
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    options.InvalidModelStateResponseFactory = context =>
-                    {
-                        var exc = new ValidationExceptionResponse(context.ModelState);
-                        return new UnprocessableEntityObjectResult(exc);
-                    };
-                });
-
-            services.AddSwaggerDocument(document =>
-            {
-                document.DocumentName = "Endpoints for TransactionStore";
-                document.Title = "TransactionStore API";
-                document.Version = "v8";
-                document.Description = "An interface for TransactionStore.";
-            });
+            services.AddOtherOptions();
+            services.AddSwagger();
             services.AddOptions();
         }
 
@@ -74,11 +44,16 @@ namespace TransactionStore.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseOpenApi();
-                app.UseSwaggerUi3();
             }
 
+            app.UseOpenApi();
+
             app.UseSwaggerUi3(settings => { settings.ValidateSpecification = true; });
+
+            if (env.IsProduction())
+            {
+                app.UseMiddleware<CheckIPMiddleware>();
+            }
 
             app.UseMiddleware<ExceptionMiddleware>();
 
