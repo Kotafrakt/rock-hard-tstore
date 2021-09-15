@@ -3,7 +3,6 @@ using TransactionStore.Core.Enums;
 using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
 using System.Linq;
-
 namespace TransactionStore.Business.Services
 {
     public class TransactionService : ITransactionService
