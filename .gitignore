@@ -351,3 +351,4 @@ MigrationBackup/
 .ionide/
 
 /TStore.API/TStore.API/Properties/launchSettings.json													 
+TStore/TStore.API/CurrencyRates/
