@@ -30,10 +30,7 @@ namespace TransactionStore.Business
                 ? TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
 
             var tmpTransactions = TransactionsExtensions.Dictionary[userName].GetRange(0, count);
-            for (var i = 0; i < count; i++)
-            {
-                TransactionsExtensions.Dictionary[userName].RemoveAt(0);
-            }
+            TransactionsExtensions.Dictionary[userName].RemoveRange(0, count);
 
             var status = true;
             if (TransactionsExtensions.Dictionary[userName].Count == 0)
@@ -41,7 +38,6 @@ namespace TransactionStore.Business
                 TransactionsExtensions.Dictionary.Remove(userName);
                 status = false;
             }
-            
             return new Transactions(tmpTransactions, status);
         }
     }

@@ -5,7 +5,7 @@ namespace TransactionStore.Business
 {
     public static class TransactionsExtensions
     {
-        public static int MaxSize = 5000;
+        public static int MaxSize = 50000;
         public static Dictionary<string, List<TransactionDto>> Dictionary = new();
         
         public static bool CheckAllowedSize(this Transactions transactions)
