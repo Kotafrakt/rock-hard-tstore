@@ -73,25 +73,19 @@ namespace TransactionStore.Business.Services
 
         public string GetTransactionsByPeriod(GetByPeriodDto dto, string leadId)
         {
-            Transactions transactions;
+            List<TransactionDto> transactions;
             if (!Transactions.CheckDictionaryByUserName(leadId))
             {
-                transactions = new Transactions(GetTransactionsDto(dto));
+                transactions = new List<TransactionDto>(GetTransactionsDto(dto));
 
-                if (transactions.List.Count == 0)
-                {
-                    return string.Empty;
-                }
-
-                if (!transactions.CheckAllowedSize())
-                {
-                    transactions.SetListToDictionary(leadId);
-                    transactions = Transactions.GetPart(leadId);
-                }
+                transactions.SetListToDictionary(leadId);
+                
+                Transactions.GetPart(leadId, out transactions);
+                
             }
             else
             {
-                transactions = Transactions.GetPart(leadId);
+                Transactions.GetPart(leadId, out transactions);
             }
 
             if (dto.AccountId == null)
