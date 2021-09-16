@@ -23,8 +23,8 @@ namespace TransactionStore.API
             Configuration.SetEnvironmentVariableForConfiguration();
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File("SerilogBusiness")
+                .MinimumLevel.Information()
+                .WriteTo.File("SerilogBusiness.log")
                 .CreateLogger();
         }
 

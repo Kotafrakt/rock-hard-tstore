@@ -4,6 +4,7 @@ using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
 using System.Linq;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace TransactionStore.Business.Services
 {
@@ -22,6 +23,7 @@ namespace TransactionStore.Business.Services
         {
             dto.TransactionType = TransactionType.Deposit;
             long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            Log.Information(string.Format("Add {0} {1} {2} to account with Id {3} at {4}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId, dto.Date));
             return transactionId;
         }
 
@@ -29,6 +31,7 @@ namespace TransactionStore.Business.Services
         {
             dto.TransactionType = TransactionType.Withdraw;
             long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            Log.Information(string.Format("Add {0} {1} {2} to account with Id {3} at {4}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId));
             return transactionId;
         }
 
@@ -39,6 +42,8 @@ namespace TransactionStore.Business.Services
             var result = new List<long>();
             result.Add(transactionIds.Item1);
             result.Add(transactionIds.Item2);
+            Log.Information(string.Format("Add {0} {1} {2} from account with Id {3} to account with Id{4} {5} {6} at {7}",
+                dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId, dto.RecipientAccountId, dto.RecipientAmount, dto.RecipientCurrency));
             return result;
         }
 

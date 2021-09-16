@@ -27,7 +27,7 @@ namespace TransactionStore.Business.Services
                 senderCurrencyValue = 1m;
             if (recipientCurrency == BaseCurrency)
                 recipientCurrencyValue = 1m;
-            return Decimal.Round((senderCurrencyValue / recipientCurrencyValue * amount), 3);
+            return Decimal.Round((recipientCurrencyValue / senderCurrencyValue * amount), 3);
         }
 
         private bool IsValid(string currency)
