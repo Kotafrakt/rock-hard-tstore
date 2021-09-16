@@ -94,10 +94,11 @@ namespace TransactionStore.Business.Services
                 transactions = Transactions.GetPart(leadId);
             }
 
-            if(dto.AccountId == null)
+            if (dto.AccountId == null)
                 Log.Information("Get all transaction by period from {0} to {1}", dto.From, dto.To);
             else
                 Log.Information("Get all transaction by period from {0} to {1} by Id = {2}", dto.From, dto.To, dto.AccountId);
+
             return JsonConvert.SerializeObject(transactions);
         }
 

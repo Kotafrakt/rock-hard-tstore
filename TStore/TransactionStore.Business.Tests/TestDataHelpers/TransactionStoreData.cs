@@ -17,7 +17,7 @@ namespace TransactionStore.Business.Tests
         private static decimal rub = 73.1519m;
         private static decimal eur = 0.84645m;
         private static decimal jpy = 109.885m;
-        private static decimal recipientAmount = Decimal.Round(usd / rub * 100m, 3);
+        private static decimal recipientAmount = Decimal.Round(rub / usd * 100m, 3);
 
         public static TransactionDto GetDeposit()
         {
