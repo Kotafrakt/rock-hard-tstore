@@ -3,6 +3,7 @@ using NUnit.Framework;
 using TransactionStore.Business.Services;
 using FluentAssertions;
 using System.Collections.Generic;
+using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Tests
 {
@@ -60,6 +61,32 @@ namespace TransactionStore.Business.Tests
                
             //Than
             actualAmounts.Should().BeEquivalentTo(expectedAmounts);
+        }
+
+        [Test]
+        public void ConvertAmount_NotValidSenderCurrency_CurrencyNotValidException()
+        {
+            //Given
+            var amount = 10m;
+            var senderCurrency = "ZZZ";
+            var recipientCurrency = "USD";
+
+            Assert.Throws(Is.TypeOf<CurrencyNotValidException>()
+               .And.Message.EqualTo("Sender currency is not valid"),
+               () => _sut.ConvertAmount(senderCurrency, recipientCurrency, amount));
+        }
+
+        [Test]
+        public void ConvertAmount_NotValidRecipientCurrency_CurrencyNotValidException()
+        {
+            //Given
+            var amount = 10m;
+            var senderCurrency = "USD";
+            var recipientCurrency = "ZZZ";
+
+            Assert.Throws(Is.TypeOf<CurrencyNotValidException>()
+               .And.Message.EqualTo("Recipient currency is not valid"),
+               () => _sut.ConvertAmount(senderCurrency, recipientCurrency, amount));
         }
     }
 }
