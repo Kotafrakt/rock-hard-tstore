@@ -24,7 +24,7 @@ namespace TransactionStore.API
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.File("SerilogBusiness.log")
+                .WriteTo.File("logs/TransactionStore.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
         }
 
