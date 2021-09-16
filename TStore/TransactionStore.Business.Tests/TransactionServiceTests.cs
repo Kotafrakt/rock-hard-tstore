@@ -102,9 +102,7 @@ namespace TransactionStore.Business.Tests
             //Given
             var dtos = TransactionStoreData.GetListOfTransactions();
             var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdIsNull();
-            Transactions result = new Transactions(resultDtos);
-            result.Status = false;
-            var jsonResultDtos = JsonConvert.SerializeObject(result);
+            var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
             var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
             var leadId = "1";
 
@@ -124,9 +122,7 @@ namespace TransactionStore.Business.Tests
             //Given
             var dtos = TransactionStoreData.GetListOfTransactions();
             var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
-            Transactions result = new Transactions(resultDtos);
-            result.Status = false;
-            var jsonResultDtos = JsonConvert.SerializeObject(result);
+            var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
             var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
             var leadId = "1";
 
