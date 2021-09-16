@@ -62,14 +62,15 @@ namespace TransactionStore.DAL.Repositories
         public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId)
         {
             return _connection.Query<TransactionDto>(
-                _transactionSelectByPeriod,
-                 new
-                 {
-                     from,
-                     to,
-                     accountId
-                 },
-                    commandType: CommandType.StoredProcedure
+                    _transactionSelectByPeriod,
+                    new
+                    {
+                        from,
+                        to,
+                        accountId
+                    },
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: 300
                 )
                 .ToList();
         }

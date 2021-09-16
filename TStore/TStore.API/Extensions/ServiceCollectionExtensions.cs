@@ -18,9 +18,6 @@ namespace TransactionStore.API.Extensions
             services.AddOptions<DatabaseSettings>()
                 .Bind(configuration.GetSection(nameof(DatabaseSettings)))
                 .ValidateDataAnnotations();
-            services.AddOptions<AppSettings>()
-               .Bind(configuration.GetSection(nameof(AppSettings)))
-               .ValidateDataAnnotations();
         }
 
         public static void AddRepositories(this IServiceCollection services)

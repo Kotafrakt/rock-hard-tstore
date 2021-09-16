@@ -1,0 +1,44 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:49271",
+      "sslPort": 44386
+    }
+  },
+
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "TSTORE_CONNECTION_STRING": "Data Source=151.248.118.251;Initial Catalog = TransactionStore.Db; Persist Security Info=True;User ID = student;Password=qwe!23;",
+        "TSTORE_ALLOWED_IPADDRESS": "http://localhost:44374",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+
+    "IIS Express(test)": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "TSTORE_CONNECTION_STRING": "Data Source=151.248.118.251;Initial Catalog = TransactionStore.Test; Persist Security Info=True;User ID = student;Password=qwe!23;",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+
+    "IIS Express(local)": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "TSTORE_CONNECTION_STRING": "Data Source=(localdb)\\ProjectsV13;Initial Catalog=TransactionStore.Db;",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

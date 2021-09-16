@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Security.Claims;
 using TransactionStore.API.Models;
+using TransactionStore.Business;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Models;
 
@@ -68,8 +71,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public string GetTransactionsByAccountId(int accountId)
         {
-            var resultDto = _transactionService.GetTransactionsByAccountId(accountId);
-            return JsonConvert.SerializeObject(resultDto);
+            return _transactionService.GetTransactionsByAccountId(accountId);
         }
 
         // api/transaction/by-period
@@ -78,9 +80,9 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
         {
+            var leadId = Request.Headers["LeadId"];
             var dto = _mapper.Map<GetByPeriodDto>(inputModel);
-            var resultDto = _transactionService.GetTransactionsByPeriod(dto);
-            return JsonConvert.SerializeObject(resultDto);
+            return _transactionService.GetTransactionsByPeriod(dto, leadId);
         }
 
         // api/transaction/currency-rates
