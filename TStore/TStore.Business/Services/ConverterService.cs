@@ -17,8 +17,9 @@ namespace TransactionStore.Business.Services
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
             RatesModel = _currencyRatesService.LoadCurrencyRates();
+            if(RatesModel != default)
             BaseCurrency = RatesModel.BaseCurrency;
-            if (RatesModel.Rates?.Count == 0) throw new CurrencyRatesNotFoundException("There are no current Currency Rates");
+            if (RatesModel == default) throw new CurrencyRatesNotFoundException("There are no current Currency Rates");
             if (!IsValid(senderCurrency)) throw new CurrencyNotValidException($"Sender currency is not valid");
             if (!IsValid(recipientCurrency)) throw new CurrencyNotValidException($"Recipient currency is not valid");
             RatesModel.Rates.TryGetValue($"{BaseCurrency}{senderCurrency}", out var senderCurrencyValue);

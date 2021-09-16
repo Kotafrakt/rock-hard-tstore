@@ -4,6 +4,8 @@ using TransactionStore.Business.Services;
 using FluentAssertions;
 using System.Collections.Generic;
 using TStore.Business.Exceptions;
+using TransactionStore.Business.Helpers;
+using Exchange;
 
 namespace TransactionStore.Business.Tests
 {
@@ -86,6 +88,21 @@ namespace TransactionStore.Business.Tests
 
             Assert.Throws(Is.TypeOf<CurrencyNotValidException>()
                .And.Message.EqualTo("Recipient currency is not valid"),
+               () => _sut.ConvertAmount(senderCurrency, recipientCurrency, amount));
+        }
+
+        [Test]
+        public void ConvertAmount_NotCurrencyRates_CurrencyNotValidException()
+        {
+            //Given
+            var amount = 10m;
+            var senderCurrency = "USD";
+            var recipientCurrency = "RUB";
+
+            _currencyRatesServiceMock.Setup(a => a.LoadCurrencyRates()).Returns<RatesExchangeModel>(default);
+
+            Assert.Throws(Is.TypeOf<CurrencyRatesNotFoundException>()
+               .And.Message.EqualTo("There are no current Currency Rates"),
                () => _sut.ConvertAmount(senderCurrency, recipientCurrency, amount));
         }
     }
