@@ -76,12 +76,11 @@ namespace TransactionStore.Business.Services
             List<TransactionDto> transactions;
             if (!Transactions.CheckDictionaryByUserName(leadId))
             {
-                transactions = new List<TransactionDto>(GetTransactionsDto(dto));
+                transactions = GetTransactionsDto(dto);
 
                 transactions.SetListToDictionary(leadId);
                 
                 Transactions.GetPart(leadId, out transactions);
-                
             }
             else
             {
