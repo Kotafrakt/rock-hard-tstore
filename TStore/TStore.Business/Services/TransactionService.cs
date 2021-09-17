@@ -103,7 +103,7 @@ namespace TransactionStore.Business.Services
                 .GroupBy(t => t.Date).Select(grp => grp.ToList()).Select(group =>
                     new TransferDto
                     {
-                        Id = dto.AccountId == null ? group[0].Amount < 0 ? group[0].AccountId : group[1].AccountId : group[0].AccountId == dto.AccountId ? group[0].Id : group[1].Id,
+                        Id = dto.AccountId == null ? group[0].Amount < 0 ? group[0].Id : group[1].Id : group[0].AccountId == dto.AccountId ? group[0].Id : group[1].Id,
                         AccountId = group[0].Amount < 0 ? group[0].AccountId : group[1].AccountId,
                         RecipientAccountId = group[0].Amount > 0 ? group[0].AccountId : group[1].AccountId,
                         Amount = group[0].Amount < 0 ? group[0].Amount : group[1].Amount,
