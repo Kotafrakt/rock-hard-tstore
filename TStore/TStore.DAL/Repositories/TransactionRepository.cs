@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using TransactionStore.Core;
 using TransactionStore.DAL.Models;
 
@@ -17,9 +18,9 @@ namespace TransactionStore.DAL.Repositories
         private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
-        public long AddDepositeOrWithdraw(TransactionDto dto)
+        public async Task<long> AddDepositeOrWithdrawAsync(TransactionDto dto)
         {
-            return _connection.QuerySingleOrDefault<long>(
+            return await _connection.QuerySingleOrDefaultAsync<long>(
                 _transactionDepositOrWithdraw,
                 new
                 {
@@ -32,9 +33,9 @@ namespace TransactionStore.DAL.Repositories
                 );
         }
 
-        public (long, long) AddTransfer(TransferDto dto)
+        public async Task<(long, long)> AddTransferAsync(TransferDto dto)
         {
-            return _connection.QuerySingleOrDefault<(long, long)>(
+            return await _connection.QuerySingleOrDefaultAsync<(long, long)>(
                 _transactionTransfer,
                 new
                 {
@@ -49,29 +50,29 @@ namespace TransactionStore.DAL.Repositories
                 );
         }
 
-        public List<TransactionDto> GetTransactionsByAccountId(int accountId)
+        public async Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(int accountId)
         {
-            return _connection.Query<TransactionDto>(
+            return (await _connection.QueryAsync<TransactionDto>(
                 _transactionSelectByAccountId,
                 new { accountId },
                     commandType: CommandType.StoredProcedure
-                )
+                ))
                 .ToList();
         }
 
-        public List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId)
+        public async Task<List<TransactionDto>> GetTransactionsByPeriodAsync(DateTime from, DateTime to, int? accountId)
         {
-            return _connection.Query<TransactionDto>(
-                    _transactionSelectByPeriod,
-                    new
-                    {
+                return (await _connection.QueryAsync<TransactionDto>(
+                        _transactionSelectByPeriod,
+                        new
+                        {
                         from,
                         to,
                         accountId
                     },
                     commandType: CommandType.StoredProcedure,
                     commandTimeout: 300
-                )
+                ))
                 .ToList();
         }
     }

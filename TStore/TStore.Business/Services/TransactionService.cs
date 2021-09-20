@@ -5,6 +5,7 @@ using TransactionStore.DAL.Repositories;
 using System.Linq;
 using Newtonsoft.Json;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace TransactionStore.Business.Services
 {
@@ -19,26 +20,26 @@ namespace TransactionStore.Business.Services
             _converterService = converterService;
         }
 
-        public long AddDeposit(TransactionDto dto)
+        public async Task<long> AddDepositAsync(TransactionDto dto)
         {
             dto.TransactionType = TransactionType.Deposit;
-            long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            long transactionId = await _transactionRepository.AddDepositeOrWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
         }
 
-        public long AddWithdraw(TransactionDto dto)
+        public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
             dto.TransactionType = TransactionType.Withdraw;
-            long transactionId = _transactionRepository.AddDepositeOrWithdraw(dto);
+            long transactionId = await _transactionRepository.AddDepositeOrWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
         }
 
-        public List<long> AddTransfer(TransferDto dto)
+        public async Task<List<long>> AddTransferAsync(TransferDto dto)
         {
             dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
-            var transactionIds = _transactionRepository.AddTransfer(dto);
+            var transactionIds = await _transactionRepository.AddTransferAsync(dto);
             var result = new List<long>();
             result.Add(transactionIds.Item1);
             result.Add(transactionIds.Item2);
@@ -47,9 +48,9 @@ namespace TransactionStore.Business.Services
             return result;
         }
 
-        public string GetTransactionsByAccountId(int accountId)
+        public async Task<string> GetTransactionsByAccountIdAsync(int accountId)
         {
-            var transactions = _transactionRepository.GetTransactionsByAccountId(accountId);
+            var transactions = await _transactionRepository.GetTransactionsByAccountIdAsync(accountId);
             var result = transactions.FindAll(t => t.TransactionType != TransactionType.Transfer).ToList();
             result.AddRange(transactions.FindAll(t => t.TransactionType == TransactionType.Transfer)
                 .GroupBy(t => t.Date).Select(grp => grp.ToList()).Select(group =>
@@ -71,12 +72,12 @@ namespace TransactionStore.Business.Services
             return JsonConvert.SerializeObject(output);
         }
 
-        public string GetTransactionsByPeriod(GetByPeriodDto dto, string leadId)
+        public async Task<string> GetTransactionsByPeriodAsync(GetByPeriodDto dto, string leadId)
         {
             List<TransactionDto> transactions;
             if (!Transactions.CheckDictionaryByUserName(leadId))
             {
-                transactions = GetTransactionsDto(dto);
+                transactions = await GetTransactionsDtoAsync(dto);
 
                 transactions.SetListToDictionary(leadId);
                 
@@ -95,9 +96,9 @@ namespace TransactionStore.Business.Services
             return JsonConvert.SerializeObject(transactions);
         }
 
-        private List<TransactionDto> GetTransactionsDto(GetByPeriodDto dto)
+        private async Task<List<TransactionDto>> GetTransactionsDtoAsync(GetByPeriodDto dto)
         {
-            var transactions = _transactionRepository.GetTransactionsByPeriod(dto.From, dto.To, dto.AccountId);
+            var transactions = await _transactionRepository.GetTransactionsByPeriodAsync(dto.From, dto.To, dto.AccountId);
             var result = transactions.FindAll(t => t.TransactionType != TransactionType.Transfer).ToList();
             result.AddRange(transactions.FindAll(t => t.TransactionType == TransactionType.Transfer)
                 .GroupBy(t => t.Date).Select(grp => grp.ToList()).Select(group =>

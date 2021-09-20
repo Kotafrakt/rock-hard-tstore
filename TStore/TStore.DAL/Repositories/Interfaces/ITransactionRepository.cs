@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TransactionStore.DAL.Models;
 
 namespace TransactionStore.DAL.Repositories
 {
     public interface ITransactionRepository
     {
-        long AddDepositeOrWithdraw(TransactionDto dto);
-        (long, long) AddTransfer(TransferDto dto);
-        List<TransactionDto> GetTransactionsByAccountId(int accountId);
-        List<TransactionDto> GetTransactionsByPeriod(DateTime from, DateTime to, int? accountId);
+        Task<long> AddDepositeOrWithdrawAsync(TransactionDto dto);
+        Task<(long, long)> AddTransferAsync(TransferDto dto);
+        Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(int accountId);
+        Task<List<TransactionDto>> GetTransactionsByPeriodAsync(DateTime from, DateTime to, int? accountId);
     }
 }

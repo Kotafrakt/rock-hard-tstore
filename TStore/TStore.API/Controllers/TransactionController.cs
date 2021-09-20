@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using TransactionStore.API.Models;
 using TransactionStore.Business;
 using TransactionStore.Business.Services;
@@ -33,10 +34,10 @@ namespace TransactionStore.API.Controllers
         [HttpPost("deposit")]
         [Description("Add deposit")]
         [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
-        public ActionResult<long> AddDeposit([FromBody] TransactionInputModel inputModel)
+        public async Task<ActionResult<long>> AddDepositAsync([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var output = _transactionService.AddDeposit(dto);
+            var output = await _transactionService.AddDepositAsync(dto);
 
             return StatusCode(201, output);
         }
@@ -45,10 +46,10 @@ namespace TransactionStore.API.Controllers
         [HttpPost("withdraw")]
         [Description("Add withdraw")]
         [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
-        public ActionResult<long> AddWithdraw([FromBody] TransactionInputModel inputModel)
+        public async Task<ActionResult<long>> AddWithdrawAsync([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var output = _transactionService.AddWithdraw(dto);
+            var output = await _transactionService.AddWithdrawAsync(dto);
 
             return StatusCode(201, output);
         }
@@ -57,10 +58,10 @@ namespace TransactionStore.API.Controllers
         [HttpPost("transfer")]
         [Description("Add transfer")]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-        public ActionResult<List<long>> AddTransfer([FromBody] TransferInputModel inputModel)
+        public async Task<ActionResult<List<long>>> AddTransferAsync([FromBody] TransferInputModel inputModel)
         {
             var dto = _mapper.Map<TransferDto>(inputModel);
-            var output = _transactionService.AddTransfer(dto);
+            var output = await _transactionService.AddTransferAsync(dto);
 
             return StatusCode(201, output);
         }
@@ -69,20 +70,20 @@ namespace TransactionStore.API.Controllers
         [HttpGet("by-account/{accountId}")]
         [Description("Get transactions by account")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public string GetTransactionsByAccountId(int accountId)
+        public async Task<string> GetTransactionsByAccountIdAsync(int accountId)
         {
-            return _transactionService.GetTransactionsByAccountId(accountId);
+            return await _transactionService.GetTransactionsByAccountIdAsync(accountId);
         }
 
         // api/transaction/by-period
         [HttpPost("by-period")]
         [Description("Get transactions by period")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public string GetTransactionsByPeriod([FromBody] GetByPeriodInputModel inputModel)
+        public async Task<string> GetTransactionsByPeriodAsync([FromBody] GetByPeriodInputModel inputModel)
         {
             var leadId = Request.Headers["LeadId"];
             var dto = _mapper.Map<GetByPeriodDto>(inputModel);
-            return _transactionService.GetTransactionsByPeriod(dto, leadId);
+            return await _transactionService.GetTransactionsByPeriodAsync(dto, leadId);
         }
 
         // api/transaction/currency-rates
