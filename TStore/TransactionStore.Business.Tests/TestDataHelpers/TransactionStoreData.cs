@@ -64,7 +64,7 @@ namespace TransactionStore.Business.Tests
             return new List<TransactionDto> {
                 new TransactionDto { Id = 4, AccountId = 1, Amount = 76m, Currency = Currency.RUB, Date = date1, TransactionType = TransactionType.Deposit },
                 new TransactionDto { Id = 5, AccountId = 1, Amount = 54m, Currency = Currency.USD, Date = date2, TransactionType = TransactionType.Withdraw },
-                new TransferDto { Id = 1, AccountId = 1, Amount = -100m, Currency = Currency.USD, Date = date3, TransactionType = TransactionType.Transfer,
+                new TransferDto { Id = 6, AccountId = 1, Amount = -100m, Currency = Currency.USD, Date = date3, TransactionType = TransactionType.Transfer,
                     RecipientAccountId = 2, RecipientAmount = recipientAmount, RecipientCurrency = Currency.RUB },
                 new TransactionDto { Id = 8, AccountId = 1, Amount = 72m, Currency = Currency.EUR, Date = date4, TransactionType = TransactionType.Withdraw },
                 new TransactionDto { Id = 9, AccountId = 1, Amount = 88m, Currency = Currency.JPY, Date = date5, TransactionType = TransactionType.Deposit }
