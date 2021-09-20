@@ -23,10 +23,7 @@ namespace TransactionStore.Business
                 ? TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
 
             transactions = TransactionsExtensions.Dictionary[userName].GetRange(0, count);
-            for (var i = 0; i < count; i++)
-            {
-                TransactionsExtensions.Dictionary[userName].RemoveAt(0);
-            }
+            TransactionsExtensions.Dictionary[userName].RemoveRange(0, count);
         }
     }
 }
