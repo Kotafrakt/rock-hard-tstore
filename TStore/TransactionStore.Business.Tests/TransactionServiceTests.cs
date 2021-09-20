@@ -31,10 +31,10 @@ namespace TransactionStore.Business.Tests
             //Given
             var dto = TransactionStoreData.GetDeposit();
 
-            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).Returns(dto.Id);
+            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).ReturnsAsync(dto.Id);
 
             //When
-            var actual = _sut.AddDepositAsync(dto);
+            var actual = _sut.AddDepositAsync(dto).Result;
 
             //Than
             dto.Id.Should().Be(actual);
@@ -47,10 +47,10 @@ namespace TransactionStore.Business.Tests
             //Given
             var dto = TransactionStoreData.GetWithdraw();
 
-            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).Returns(dto.Id);
+            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).ReturnsAsync(dto.Id);
 
             //When
-            var actual = _sut.AddWithdrawAsync(dto);
+            var actual = _sut.AddWithdrawAsync(dto).Result;
 
             //Than
             dto.Id.Should().Be(actual);
@@ -67,10 +67,10 @@ namespace TransactionStore.Business.Tests
             expectedList.Add(dto.AccountId);
             expectedList.Add(dto.RecipientAccountId);
 
-            _transactionRepoMock.Setup(x => x.AddTransferAsync(dto)).Returns(ids);
+            _transactionRepoMock.Setup(x => x.AddTransferAsync(dto)).ReturnsAsync(ids);
 
             //When
-            var actual = _sut.AddTransferAsync(dto);
+            var actual = _sut.AddTransferAsync(dto).Result;
 
             //Than
             expectedList.Should().BeEquivalentTo(actual);
@@ -86,10 +86,10 @@ namespace TransactionStore.Business.Tests
             var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
             var jsonResultDtos= JsonConvert.SerializeObject(resultDtos);
 
-            _transactionRepoMock.Setup(x => x.GetTransactionsByAccountIdAsync(accountId)).Returns(dtos);
+            _transactionRepoMock.Setup(x => x.GetTransactionsByAccountIdAsync(accountId)).ReturnsAsync(dtos);
 
             //When
-            var actual = _sut.GetTransactionsByAccountIdAsync(accountId);
+            var actual = _sut.GetTransactionsByAccountIdAsync(accountId).Result;
 
             //Than
             jsonResultDtos.Should().BeEquivalentTo(actual);
@@ -106,10 +106,10 @@ namespace TransactionStore.Business.Tests
             var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
             var leadId = "1";
 
-            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
+            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).ReturnsAsync(dtos);
 
             //When
-            var actual = _sut.GetTransactionsByPeriodAsync(getByPeriodDto, leadId);
+            var actual = _sut.GetTransactionsByPeriodAsync(getByPeriodDto, leadId).Result;
 
             //Than
             jsonResultDtos.Should().BeEquivalentTo(actual);
@@ -126,10 +126,10 @@ namespace TransactionStore.Business.Tests
             var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
             var leadId = "1";
 
-            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).Returns(dtos);
+            _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).ReturnsAsync(dtos);
 
             //When
-            var actual = _sut.GetTransactionsByPeriodAsync(getByPeriodDto, leadId);
+            var actual = _sut.GetTransactionsByPeriodAsync(getByPeriodDto, leadId).Result;
 
             //Than
             jsonResultDtos.Should().BeEquivalentTo(actual);
