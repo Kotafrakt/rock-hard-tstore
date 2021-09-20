@@ -97,13 +97,13 @@ namespace TransactionStore.Business.Tests
         }
 
         [Test]
-        public void GetTransactionsByPeriod_AccountIdIsNull_ReturnedTransactionDtos()
+        public void GetTransactionsByPeriod_AccountId_ReturnedTransactionDtos()
         {
             //Given
             var dtos = TransactionStoreData.GetListOfTransactions();
-            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdIsNull();
+            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
             var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
-            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
+            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
             var leadId = "1";
 
             _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).ReturnsAsync(dtos);
@@ -117,13 +117,13 @@ namespace TransactionStore.Business.Tests
         }
 
         [Test]
-        public void GetTransactionsByPeriod_AccountId_ReturnedTransactionDtos()
+        public void GetTransactionsByPeriod_AccountIdIsNull_ReturnedTransactionDtos()
         {
             //Given
             var dtos = TransactionStoreData.GetListOfTransactions();
-            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
+            var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdIsNull();
             var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
-            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualOne();
+            var getByPeriodDto = TransactionStoreData.GetByPeriodDtoWithAccountIdEqualNull();
             var leadId = "1";
 
             _transactionRepoMock.Setup(x => x.GetTransactionsByPeriodAsync(getByPeriodDto.From, getByPeriodDto.To, getByPeriodDto.AccountId)).ReturnsAsync(dtos);
