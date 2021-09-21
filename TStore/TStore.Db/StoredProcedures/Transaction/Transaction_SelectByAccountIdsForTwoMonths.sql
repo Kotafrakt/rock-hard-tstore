@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [[dbo].[Transaction_SelectByAccountIdsForTwoMonths]
+﻿CREATE PROCEDURE [dbo].[Transaction_SelectByAccountIdsForTwoMonths]
   @tblIds [dbo].[TransactionsByLeadType] readonly
 AS
 BEGIN
@@ -22,6 +22,8 @@ BEGIN
 	t.[Date]
   FROM [dbo].[Transaction] t
 	inner join @tblIds ids on t.AccountId=ids.accountIds
+	LEFT JOIN [dbo].[Transaction] tr
+	ON t.Date = tr.Date
   WHERE t.[Date] BETWEEN DATEADD(month, -2, GETDATE())  and getdate() AND t.TransactionType = 3
   AND t.Amount < 0
   End
