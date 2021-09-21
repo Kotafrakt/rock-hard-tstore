@@ -11,5 +11,6 @@ namespace TransactionStore.DAL.Repositories
         Task<(long, long)> AddTransferAsync(TransferDto dto);
         Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(int accountId);
         Task<List<TransactionDto>> GetTransactionsByPeriodAsync(DateTime from, DateTime to, int? accountId);
+        Task<List<TransactionDto>> GetTransactionsByAccountIdsForTwoMonthsAsync(List<int> accountIds);
     }
 }

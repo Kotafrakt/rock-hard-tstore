@@ -96,9 +96,9 @@ namespace TransactionStore.Business.Services
             return JsonConvert.SerializeObject(transactions);
         }
 
-        public string GetTransactionsByAccountIdsForTwoMonths(List<int> accountIds)
+        public async Task<string> GetTransactionsByAccountIdsForTwoMonthsAsync(List<int> accountIds)
         {
-            var transactions = _transactionRepository.GetTransactionsByAccountIdsForTwoMonths(accountIds);
+            var transactions = await _transactionRepository.GetTransactionsByAccountIdsForTwoMonthsAsync(accountIds);
             Log.Information("Get all transactions by accounts");
             return JsonConvert.SerializeObject(transactions);
         }

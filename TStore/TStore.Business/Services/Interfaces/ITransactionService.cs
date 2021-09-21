@@ -12,6 +12,6 @@ namespace TransactionStore.Business.Services
         Task<List<long>> AddTransferAsync(TransferDto dto);
         Task<string> GetTransactionsByAccountIdAsync(int accountId);
         Task<string> GetTransactionsByPeriodAsync(GetByPeriodDto dto, string leadId);
-        string GetTransactionsByAccountIdsForTwoMonths(List<int> accountIds);
+        Task<string> GetTransactionsByAccountIdsForTwoMonthsAsync(List<int> accountIds);
     }
 }

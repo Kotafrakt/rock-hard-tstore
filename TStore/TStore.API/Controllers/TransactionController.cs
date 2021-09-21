@@ -90,9 +90,9 @@ namespace TransactionStore.API.Controllers
         [HttpPost("by-accountIds")]
         [Description("Get transactions by accountIds for two months")]
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
-        public string GetTransactionsByAccountIdsForTwoMonths([FromBody] List<int> accountIds)
+        public async Task<string> GetTransactionsByAccountIdsForTwoMonths([FromBody] List<int> accountIds)
         {
-            return _transactionService.GetTransactionsByAccountIdsForTwoMonths(accountIds);
+            return await _transactionService.GetTransactionsByAccountIdsForTwoMonthsAsync(accountIds);
         }
 
         // api/transaction/currency-rates

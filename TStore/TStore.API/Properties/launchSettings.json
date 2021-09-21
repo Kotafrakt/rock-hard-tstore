@@ -36,7 +36,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "TSTORE_CONNECTION_STRING": "Data Source=(localdb)\\ProjectsV13;Initial Catalog=TransactionStore.Db;",
+        "TSTORE_CONNECTION_STRING": "Data Source=(local);Persist Security Info=False;User ID=sa;Password=password;",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }

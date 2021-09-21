@@ -77,7 +77,7 @@ namespace TransactionStore.DAL.Repositories
                 .ToList();
         }
 
-        public List<TransactionDto> GetTransactionsByAccountIdsForTwoMonths(List<int> accountIds)
+        public async Task<List<TransactionDto>> GetTransactionsByAccountIdsForTwoMonthsAsync(List<int> accountIds)
         {
             var dt = new DataTable();
             dt.Columns.Add("accountIds");
@@ -87,11 +87,11 @@ namespace TransactionStore.DAL.Repositories
                 dt.Rows.Add(lead);
             }
 
-            return _connection.Query<TransactionDto>(
+            return (await _connection.QueryAsync<TransactionDto>(
                     _transactionSelectByAccountIdsForTwoMonths,
                     new { @tblIds = dt.AsTableValuedParameter("[dbo].[TransactionsByLeadType]") },
                     commandType: CommandType.StoredProcedure
-                )
+                ))
                 .ToList();
         }
     }
