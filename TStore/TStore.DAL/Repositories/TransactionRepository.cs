@@ -16,6 +16,7 @@ namespace TransactionStore.DAL.Repositories
         private const string _transactionTransfer = "dbo.Transaction_Transfer";
         private const string _transactionSelectByPeriod = "dbo.Transaction_SelectByPeriod";
         private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
+        private const string _transactionSelectByAccountIdsForTwoMonths = "dbo.Transaction_SelectByAccountIdsForTwoMonths";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
         public async Task<long> AddDepositeOrWithdrawAsync(TransactionDto dto)
@@ -73,6 +74,24 @@ namespace TransactionStore.DAL.Repositories
                     commandType: CommandType.StoredProcedure,
                     commandTimeout: 300
                 ))
+                .ToList();
+        }
+
+        public List<TransactionDto> GetTransactionsByAccountIdsForTwoMonths(List<int> accountIds)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("accountIds");
+
+            foreach (var lead in accountIds)
+            {
+                dt.Rows.Add(lead);
+            }
+
+            return _connection.Query<TransactionDto>(
+                    _transactionSelectByAccountIdsForTwoMonths,
+                    new { @tblIds = dt.AsTableValuedParameter("[dbo].[TransactionsByLeadType]") },
+                    commandType: CommandType.StoredProcedure
+                )
                 .ToList();
         }
     }
