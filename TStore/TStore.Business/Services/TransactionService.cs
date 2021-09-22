@@ -14,6 +14,7 @@ namespace TransactionStore.Business.Services
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IConverterService _converterService;
+        private readonly string _baseCurrency = "RUB";
 
         public TransactionService(ITransactionRepository transactionRepository, IConverterService converterService)
         {
@@ -23,6 +24,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<long> AddDepositAsync(TransactionDto dto)
         {
+            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString().ToString(), dto.Amount);
             var transactionId = await _transactionRepository.AddDepositAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
@@ -30,6 +32,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
+            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString().ToString(), dto.Amount);
             dto.Date=DateTime.Now;
             var transactionId = await _transactionRepository.AddWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
@@ -38,6 +41,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<List<long>> AddTransferAsync(TransferDto dto)
         {
+            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString().ToString(), dto.Amount);
             dto.Date = DateTime.Now;
             dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
             var transactionIds = await _transactionRepository.AddTransferAsync(dto);
