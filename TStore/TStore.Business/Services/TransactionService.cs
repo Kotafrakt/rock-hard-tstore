@@ -22,14 +22,14 @@ namespace TransactionStore.Business.Services
 
         public async Task<long> AddDepositAsync(TransactionDto dto)
         {
-            long transactionId = await _transactionRepository.AddDepositAsync(dto);
+            var transactionId = await _transactionRepository.AddDepositAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
         }
 
         public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
-            long transactionId = await _transactionRepository.AddWithdrawAsync(dto);
+            var transactionId = await _transactionRepository.AddWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
         }

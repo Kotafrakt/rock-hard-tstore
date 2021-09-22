@@ -19,7 +19,7 @@ namespace TransactionStore.Business
                 return;
             }
 
-            int count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize
+            var count = TransactionsExtensions.Dictionary[userName].Count >= TransactionsExtensions.MaxSize
                 ? TransactionsExtensions.MaxSize : TransactionsExtensions.Dictionary[userName].Count;
 
             transactions = TransactionsExtensions.Dictionary[userName].GetRange(0, count);

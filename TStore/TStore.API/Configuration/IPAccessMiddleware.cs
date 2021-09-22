@@ -22,7 +22,7 @@ namespace TransactionStore.API.Configuration
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var ipAddress = httpContext.Connection.RemoteIpAddress;
-            string whiteListIPAddress = _options.AllowedIpAddress;
+            var whiteListIPAddress = _options.AllowedIpAddress;
 
             if (ipAddress.ToString() != whiteListIPAddress)
             {
