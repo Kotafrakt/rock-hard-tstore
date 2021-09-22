@@ -97,7 +97,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(RatesExchangeModel), StatusCodes.Status200OK)]
         public RatesExchangeModel GetCurrencyRates()
         {
-            return _currencyRatesService.RatesModel;
+            return _currencyRatesService.LoadCurrencyRates();
         }
     }
 }
