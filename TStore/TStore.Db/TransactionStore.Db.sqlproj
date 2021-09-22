@@ -61,6 +61,7 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredProcedures\Transaction" />
+    <Folder Include="Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
@@ -69,5 +70,7 @@
     <Build Include="StoredProcedures\Transaction\Transaction_Withdraw.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_Transfer.sql" />
     <Build Include="StoredProcedures\Transaction\Transaction_Deposit.sql" />
+    <Build Include="StoredProcedures\Transaction\Transaction_SelectByAccountIdsForTwoMonths.sql" />
+    <Build Include="Types\TransactionsByLeadType.sql" />
   </ItemGroup>
 </Project>

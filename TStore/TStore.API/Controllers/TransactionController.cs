@@ -82,6 +82,15 @@ namespace TransactionStore.API.Controllers
             return await _transactionService.GetTransactionsByPeriodAsync(dto, leadId);
         }
 
+        // api/transaction/by-period
+        [HttpPost("by-accountIds")]
+        [Description("Get transactions by accountIds for two months")]
+        [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
+        public async Task<string> GetTransactionsByAccountIdsForTwoMonths([FromBody] List<int> accountIds)
+        {
+            return await _transactionService.GetTransactionsByAccountIdsForTwoMonthsAsync(accountIds);
+        }
+
         // api/transaction/currency-rates
         [HttpGet("currency-rates")]
         [Description("Get current currency rates")]
