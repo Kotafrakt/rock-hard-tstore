@@ -37,7 +37,6 @@ namespace TransactionStore.DAL.Repositories
 
         public Task<long> AddWithdrawAsync(TransactionDto dto)
         {
-            SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
             return _connection.QuerySingleOrDefaultAsync<long>(
                 _transactionWithdraw,
                 new
