@@ -14,11 +14,11 @@ namespace TransactionStore.Business.Tests
         {
             if (currency == "USD")
             {
-                return new List<decimal> 
+                return new List<decimal>
                 {
                     Decimal.Round((rub / usd * amount), 3) ,
                     Decimal.Round((eur / usd * amount), 3) ,
-                    Decimal.Round((jpy / usd * amount), 3) 
+                    Decimal.Round((jpy / usd * amount), 3)
                 };
             }
             if (currency == "RUB")

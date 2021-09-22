@@ -2,14 +2,10 @@
 using Exchange;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using TransactionStore.API.Models;
-using TransactionStore.Business;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Models;
 
@@ -46,10 +42,10 @@ namespace TransactionStore.API.Controllers
         [HttpPost("withdraw")]
         [Description("Add withdraw")]
         [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
-        public ActionResult<long> AddWithdrawAsync([FromBody] TransactionInputModel inputModel)
+        public async Task<ActionResult<long>> AddWithdrawAsync([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var output = _transactionService.AddWithdrawAsync(dto);
+            var output = await _transactionService.AddWithdrawAsync(dto);
 
             return StatusCode(201, output);
         }

@@ -1,10 +1,10 @@
+using FluentAssertions;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Collections.Generic;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Repositories;
-using FluentAssertions;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace TransactionStore.Business.Tests
 {
@@ -84,7 +84,7 @@ namespace TransactionStore.Business.Tests
             var accountId = 1;
             var dtos = TransactionStoreData.GetListOfTransactions();
             var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
-            var jsonResultDtos= JsonConvert.SerializeObject(resultDtos);
+            var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
 
             _transactionRepoMock.Setup(x => x.GetTransactionsByAccountIdAsync(accountId)).ReturnsAsync(dtos);
 

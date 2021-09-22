@@ -6,7 +6,7 @@ using TransactionStore.Core;
 namespace TransactionStore.DAL.Repositories
 {
     public class BaseRepository
-    { 
+    {
         protected IDbConnection _connection;
 
         protected BaseRepository(IOptions<DatabaseSettings> options)

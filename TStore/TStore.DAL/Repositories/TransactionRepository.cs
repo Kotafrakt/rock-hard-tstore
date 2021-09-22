@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using TransactionStore.Core;
@@ -30,19 +29,16 @@ namespace TransactionStore.DAL.Repositories
                 {
                     dto.AccountId,
                     dto.Amount,
-                    dto.Currency,
-                    dto.Date
+                    dto.Currency
                 },
                 commandType: CommandType.StoredProcedure
                 );
         }
 
-        public long AddWithdrawAsync(TransactionDto dto)
+        public Task<long> AddWithdrawAsync(TransactionDto dto)
         {
-            SqlMapper.AddTypeMap(typeof(DateTime), System.Data.DbType.DateTime2);
-            var date = dto.Date.ToString(format);
-            var date2 = DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
-            return _connection.QuerySingleOrDefault<long>(
+            SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
+            return _connection.QuerySingleOrDefaultAsync<long>(
                 _transactionWithdraw,
                 new
                 {
@@ -85,18 +81,18 @@ namespace TransactionStore.DAL.Repositories
 
         public async Task<List<TransactionDto>> GetTransactionsByPeriodAsync(DateTime from, DateTime to, int? accountId)
         {
-                return (await _connection.QueryAsync<TransactionDto>(
-                        _transactionSelectByPeriod,
-                        new
-                        {
+            return (await _connection.QueryAsync<TransactionDto>(
+                    _transactionSelectByPeriod,
+                    new
+                    {
                         from,
                         to,
                         accountId
                     },
-                    commandType: CommandType.StoredProcedure,
-                    commandTimeout: 300
-                ))
-                .ToList();
+                commandType: CommandType.StoredProcedure,
+                commandTimeout: 300
+            ))
+            .ToList();
         }
     }
 }

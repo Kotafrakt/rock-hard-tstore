@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Serilog;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TransactionStore.Core.Enums;
 using TransactionStore.DAL.Models;
 using TransactionStore.DAL.Repositories;
-using System.Linq;
-using Newtonsoft.Json;
-using Serilog;
-using System.Threading.Tasks;
 
 namespace TransactionStore.Business.Services
 {
@@ -28,9 +27,9 @@ namespace TransactionStore.Business.Services
             return transactionId;
         }
 
-        public long AddWithdrawAsync(TransactionDto dto)
+        public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
-            long transactionId = _transactionRepository.AddWithdrawAsync(dto);
+            long transactionId = await _transactionRepository.AddWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
         }
@@ -66,7 +65,7 @@ namespace TransactionStore.Business.Services
                         RecipientCurrency = group[0].Amount > 0 ? group[0].Currency : group[1].Currency
                     }));
 
-            var output= result.OrderBy(t => t.Date).ToList();
+            var output = result.OrderBy(t => t.Date).ToList();
             Log.Information("Get all transaction by Id = {0}", accountId);
             return JsonConvert.SerializeObject(output);
         }
@@ -79,7 +78,7 @@ namespace TransactionStore.Business.Services
                 transactions = await GetTransactionsDtoAsync(dto);
 
                 transactions.SetListToDictionary(leadId);
-                
+
                 Transactions.GetPart(leadId, out transactions);
             }
             else
