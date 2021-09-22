@@ -1,11 +1,10 @@
+using Exchange;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using TransactionStore.Business.Services;
-using FluentAssertions;
 using System.Collections.Generic;
+using TransactionStore.Business.Services;
 using TStore.Business.Exceptions;
-using TransactionStore.Business.Helpers;
-using Exchange;
 
 namespace TransactionStore.Business.Tests
 {
@@ -52,15 +51,15 @@ namespace TransactionStore.Business.Tests
             var amount = 10m;
             var currencies = new List<string>() { "USD", "RUB", "EUR", "JPY" };
             currencies.Remove(currency);
-            var expectedAmounts  = ConverterData.GetValidListOfRecipientAmount(currency, amount);
+            var expectedAmounts = ConverterData.GetValidListOfRecipientAmount(currency, amount);
 
             //When
-            List<decimal> actualAmounts = new ();
+            List<decimal> actualAmounts = new();
             foreach (var recipientCurrency in currencies)
             {
                 actualAmounts.Add(_sut.ConvertAmount(currency, recipientCurrency, amount));
             }
-               
+
             //Than
             actualAmounts.Should().BeEquivalentTo(expectedAmounts);
         }

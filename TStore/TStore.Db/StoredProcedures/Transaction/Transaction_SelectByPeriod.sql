@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE dbo.Transaction_SelectByPeriod
-  @From        datetime2,
+  @From       datetime2,
   @To         datetime2,
-  @AccountId      int = NULL
+  @AccountId  int = NULL
 AS
 BEGIN
   SELECT

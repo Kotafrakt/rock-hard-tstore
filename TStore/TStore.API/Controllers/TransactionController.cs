@@ -2,14 +2,10 @@
 using Exchange;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using TransactionStore.API.Models;
-using TransactionStore.Business;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Models;
 

@@ -1,10 +1,10 @@
+using FluentAssertions;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Collections.Generic;
 using TransactionStore.Business.Services;
 using TransactionStore.DAL.Repositories;
-using FluentAssertions;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace TransactionStore.Business.Tests
 {
@@ -31,14 +31,14 @@ namespace TransactionStore.Business.Tests
             //Given
             var dto = TransactionStoreData.GetDeposit();
 
-            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).ReturnsAsync(dto.Id);
+            _transactionRepoMock.Setup(x => x.AddDepositAsync(dto)).ReturnsAsync(dto.Id);
 
             //When
             var actual = _sut.AddDepositAsync(dto).Result;
 
             //Than
             dto.Id.Should().Be(actual);
-            _transactionRepoMock.Verify(x => x.AddDepositeOrWithdrawAsync(dto), Times.Once);
+            _transactionRepoMock.Verify(x => x.AddDepositAsync(dto), Times.Once);
         }
 
         [Test]
@@ -47,14 +47,14 @@ namespace TransactionStore.Business.Tests
             //Given
             var dto = TransactionStoreData.GetWithdraw();
 
-            _transactionRepoMock.Setup(x => x.AddDepositeOrWithdrawAsync(dto)).ReturnsAsync(dto.Id);
+            _transactionRepoMock.Setup(x => x.AddDepositAsync(dto)).ReturnsAsync(dto.Id);
 
             //When
             var actual = _sut.AddWithdrawAsync(dto).Result;
 
             //Than
             dto.Id.Should().Be(actual);
-            _transactionRepoMock.Verify(x => x.AddDepositeOrWithdrawAsync(dto), Times.Once);
+            _transactionRepoMock.Verify(x => x.AddDepositAsync(dto), Times.Once);
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace TransactionStore.Business.Tests
             var accountId = 1;
             var dtos = TransactionStoreData.GetListOfTransactions();
             var resultDtos = TransactionStoreData.GetSameListOfTransactionsWithTransfersByAccountIdEqualOne();
-            var jsonResultDtos= JsonConvert.SerializeObject(resultDtos);
+            var jsonResultDtos = JsonConvert.SerializeObject(resultDtos);
 
             _transactionRepoMock.Setup(x => x.GetTransactionsByAccountIdAsync(accountId)).ReturnsAsync(dtos);
 

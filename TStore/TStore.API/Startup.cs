@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using TransactionStore.API.Configuration;
 using TransactionStore.API.Extensions;
 using TransactionStore.Core;
-using TransactionStore.API.Configuration;
-using Serilog;
 
 namespace TransactionStore.API
 {

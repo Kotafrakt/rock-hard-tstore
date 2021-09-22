@@ -31,8 +31,18 @@ namespace TransactionStore.Business.Tests
 
         public static TransferDto GetTransfer()
         {
-            return new TransferDto { Id = 3, AccountId = 3, Amount = -100m, Currency = Currency.USD, Date = date3, TransactionType = TransactionType.Transfer,
-                RecipientAccountId = 4, RecipientAmount = recipientAmount, RecipientCurrency = Currency.RUB};
+            return new TransferDto
+            {
+                Id = 3,
+                AccountId = 3,
+                Amount = -100m,
+                Currency = Currency.USD,
+                Date = date3,
+                TransactionType = TransactionType.Transfer,
+                RecipientAccountId = 4,
+                RecipientAmount = recipientAmount,
+                RecipientCurrency = Currency.RUB
+            };
         }
 
         public static List<TransactionDto> GetListOfTransactions()

@@ -12,25 +12,43 @@ namespace TransactionStore.DAL.Repositories
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private const string _transactionDepositOrWithdraw = "dbo.Transaction_DepositOrWithdraw";
+        private const string _transactionDeposit = "dbo.Transaction_Deposit";
+        private const string _transactionWithdraw = "dbo.Transaction_Withdraw";
         private const string _transactionTransfer = "dbo.Transaction_Transfer";
         private const string _transactionSelectByPeriod = "dbo.Transaction_SelectByPeriod";
         private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
+        private const string format = "yyyy-MM-dd HH:mm:ss:fffffff";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
-        public async Task<long> AddDepositeOrWithdrawAsync(TransactionDto dto)
+
+        public async Task<long> AddDepositAsync(TransactionDto dto)
         {
             return await _connection.QuerySingleOrDefaultAsync<long>(
-                _transactionDepositOrWithdraw,
+                _transactionDeposit,
                 new
                 {
                     dto.AccountId,
-                    dto.TransactionType,
                     dto.Amount,
                     dto.Currency
                 },
                 commandType: CommandType.StoredProcedure
                 );
+        }
+
+        public Task<long> AddWithdrawAsync(TransactionDto dto)
+        {
+            SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
+            return _connection.QuerySingleOrDefaultAsync<long>(
+                _transactionWithdraw,
+                new
+                {
+                    dto.AccountId,
+                    dto.Amount,
+                    dto.Currency,
+                    dto.Date
+                },
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         public async Task<(long, long)> AddTransferAsync(TransferDto dto)
@@ -45,6 +63,7 @@ namespace TransactionStore.DAL.Repositories
                     dto.RecipientAmount,
                     dto.Currency,
                     dto.RecipientCurrency,
+                    dto.Date
                 },
                 commandType: CommandType.StoredProcedure
                 );
@@ -62,18 +81,18 @@ namespace TransactionStore.DAL.Repositories
 
         public async Task<List<TransactionDto>> GetTransactionsByPeriodAsync(DateTime from, DateTime to, int? accountId)
         {
-                return (await _connection.QueryAsync<TransactionDto>(
-                        _transactionSelectByPeriod,
-                        new
-                        {
+            return (await _connection.QueryAsync<TransactionDto>(
+                    _transactionSelectByPeriod,
+                    new
+                    {
                         from,
                         to,
                         accountId
                     },
-                    commandType: CommandType.StoredProcedure,
-                    commandTimeout: 300
-                ))
-                .ToList();
+                commandType: CommandType.StoredProcedure,
+                commandTimeout: 300
+            ))
+            .ToList();
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.IO;
-using Exchange;
+﻿using Exchange;
+using System.IO;
 using TransactionStore.Business.Helpers;
-using TStore.Business.Exceptions;
 
 namespace TransactionStore.Business.Services
 {
@@ -19,8 +18,8 @@ namespace TransactionStore.Business.Services
 
         public RatesExchangeModel LoadCurrencyRates()
         {
-            if(RatesModel == default)
-            RatesModel =  CurrencyRatesHelper.ReadCurrencyRates(_fullPath);
+            if (RatesModel == default)
+                RatesModel = CurrencyRatesHelper.ReadCurrencyRates(_fullPath);
             return RatesModel;
         }
 

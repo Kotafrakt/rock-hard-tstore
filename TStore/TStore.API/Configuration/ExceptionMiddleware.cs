@@ -45,7 +45,7 @@ namespace TransactionStore.API.Configuration
             {
                 var exc = new CurrencyRatesNotFoundException("There are no current Currency Rates");
                 Log.Error($"error: {exc.Message} targetsite:{ex.TargetSite}"); ;
-                await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound); 
+                await HandleCurrencyRatesNotFoundExceptionMessageAsync(context, exc, _messageCurrencyRatesNotFound);
             }
             catch (DirectoryNotFoundException ex)
             {
@@ -61,7 +61,7 @@ namespace TransactionStore.API.Configuration
             catch (Exception ex)
             {
                 Log.Error($"error: {ex.Message} targetsite:{ex.TargetSite}");
-                await HandleExceptionMessageAsync(context, ex);  
+                await HandleExceptionMessageAsync(context, ex);
             }
         }
 

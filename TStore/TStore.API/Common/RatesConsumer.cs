@@ -1,5 +1,5 @@
-﻿using MassTransit;
-using Exchange;
+﻿using Exchange;
+using MassTransit;
 using System.Threading.Tasks;
 using TransactionStore.Business.Services;
 
