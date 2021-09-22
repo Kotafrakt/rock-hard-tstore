@@ -46,10 +46,10 @@ namespace TransactionStore.API.Controllers
         [HttpPost("withdraw")]
         [Description("Add withdraw")]
         [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
-        public async Task<ActionResult<long>> AddWithdrawAsync([FromBody] TransactionInputModel inputModel)
+        public ActionResult<long> AddWithdrawAsync([FromBody] TransactionInputModel inputModel)
         {
             var dto = _mapper.Map<TransactionDto>(inputModel);
-            var output = await _transactionService.AddWithdrawAsync(dto);
+            var output = _transactionService.AddWithdrawAsync(dto);
 
             return StatusCode(201, output);
         }
