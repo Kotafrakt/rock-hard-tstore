@@ -18,6 +18,7 @@ namespace TransactionStore.Business.Helpers
                     throw new Exception(string.Format(ServiceMessages.CannotCreateDirectoryMessage, json, filePath));
                 }
             }
+
             if (!WriteFile(filePath, json))
             {
                 throw new Exception(string.Format(ServiceMessages.CannotWriteFileMessage, json, filePath));

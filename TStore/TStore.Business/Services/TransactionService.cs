@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
+            dto.Date=DateTime.Now;
             var transactionId = await _transactionRepository.AddWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
@@ -36,11 +38,10 @@ namespace TransactionStore.Business.Services
 
         public async Task<List<long>> AddTransferAsync(TransferDto dto)
         {
+            dto.Date = DateTime.Now;
             dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
             var transactionIds = await _transactionRepository.AddTransferAsync(dto);
-            var result = new List<long>();
-            result.Add(transactionIds.Item1);
-            result.Add(transactionIds.Item2);
+            var result = new List<long> {transactionIds.Item1, transactionIds.Item2};
             Log.Information("Add {0} {1} {2} from account with Id {3} to account with Id{4} {5} {6}",
                 dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId, dto.RecipientAccountId, dto.RecipientAmount, dto.RecipientCurrency);
             return result;

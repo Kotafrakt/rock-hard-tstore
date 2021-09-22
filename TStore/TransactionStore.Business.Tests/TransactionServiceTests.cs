@@ -13,7 +13,7 @@ namespace TransactionStore.Business.Tests
         private TransactionService _sut;
         private Mock<ITransactionRepository> _transactionRepoMock;
         private Mock<ICurrencyRatesService> _currencyRatesServiceMock;
-        private Mock<IConverterService> _converterRatesServicMock;
+        private Mock<IConverterService> _converterRatesServiceMock;
 
 
         [SetUp]
@@ -21,8 +21,8 @@ namespace TransactionStore.Business.Tests
         {
             _transactionRepoMock = new Mock<ITransactionRepository>();
             _currencyRatesServiceMock = new Mock<ICurrencyRatesService>();
-            _converterRatesServicMock = new Mock<IConverterService>();
-            _sut = new TransactionService(_transactionRepoMock.Object, _converterRatesServicMock.Object);
+            _converterRatesServiceMock = new Mock<IConverterService>();
+            _sut = new TransactionService(_transactionRepoMock.Object, _converterRatesServiceMock.Object);
         }
 
         [Test]

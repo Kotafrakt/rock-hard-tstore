@@ -17,7 +17,6 @@ namespace TransactionStore.DAL.Repositories
         private const string _transactionTransfer = "dbo.Transaction_Transfer";
         private const string _transactionSelectByPeriod = "dbo.Transaction_SelectByPeriod";
         private const string _transactionSelectByAccountId = "dbo.Transaction_SelectByAccountId";
-        private const string format = "yyyy-MM-dd HH:mm:ss:fffffff";
 
         public TransactionRepository(IOptions<DatabaseSettings> options) : base(options) { }
 

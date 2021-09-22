@@ -17,5 +17,5 @@ BEGIN
 		INSERT INTO [dbo].[Transaction] (AccountId, TransactionType, [Date], Amount, Currency)
 		VALUES (@AccountId, @TransactionType_Withdraw, getdate(), @Amount, @Currency)
 	END
-SELECT @@IDENTITY
+SELECT ISNULL (@@IDENTITY,0)
 END
