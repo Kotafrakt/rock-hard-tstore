@@ -16,7 +16,7 @@ namespace TransactionStore.API.Common
             if (value is string)
                 return value.ToString().Length > 0;
             if (value is DateTime)
-                return (DateTime)value > DateTime.MinValue;
+                return (DateTime)value >= DateTime.MinValue;
             if (value is Currency)
                 return (Currency)value >= Currency.RUB && (Currency)value <= Currency.JPY;
             return false;
