@@ -32,8 +32,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<long> AddWithdrawAsync(TransactionDto dto)
         {
-            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString().ToString(), dto.Amount);
-            dto.Date=DateTime.Now;
+            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString(), dto.Amount);
             var transactionId = await _transactionRepository.AddWithdrawAsync(dto);
             Log.Information("Add {0} {1} {2} to account with Id {3}", dto.TransactionType, dto.Amount, dto.Currency, dto.AccountId);
             return transactionId;
@@ -41,8 +40,7 @@ namespace TransactionStore.Business.Services
 
         public async Task<List<long>> AddTransferAsync(TransferDto dto)
         {
-            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString().ToString(), dto.Amount);
-            dto.Date = DateTime.Now;
+            dto.Amount = _converterService.ConvertAmount(_baseCurrency, dto.Currency.ToString(), dto.Amount);
             dto.RecipientAmount = _converterService.ConvertAmount(dto.Currency.ToString(), dto.RecipientCurrency.ToString(), dto.Amount);
             var transactionIds = await _transactionRepository.AddTransferAsync(dto);
             var result = new List<long> {transactionIds.Item1, transactionIds.Item2};

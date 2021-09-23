@@ -11,7 +11,7 @@ namespace TransactionStore.API.Models
         public decimal Amount { get; set; }
         [CustomRequired(ErrorMessage = AccountIdRequired)]
         public int AccountId { get; set; }
-        [CustomRequired(ErrorMessage = CurrencyRequired)]
+        //[CustomRequired(ErrorMessage = CurrencyRequired)]
         public Currency Currency { get; set; }
         public DateTime Date { get; set; }
     }
